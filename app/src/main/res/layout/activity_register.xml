@@ -15,16 +15,16 @@
         android:layout_height="75dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="30dp"
         android:contentDescription="logo"
         app:srcCompat="@drawable/pngwing" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/name"
         android:layout_width="250dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/editText4"
-        android:layout_alignStart="@+id/editText3"
+        android:layout_above="@+id/email"
+        android:layout_alignStart="@+id/address"
         android:layout_marginBottom="35dp"
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_action_name"
@@ -34,40 +34,40 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/email"
         android:layout_width="250dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/editText3"
-        android:layout_alignStart="@+id/editText3"
+        android:layout_above="@+id/address"
+        android:layout_alignStart="@+id/address"
         android:layout_marginStart="0dp"
         android:layout_marginBottom="35dp"
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_action_email"
         android:ems="10"
         android:hint="Email"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/address"
         android:layout_width="250dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/editText"
-        android:layout_alignStart="@+id/editText"
+        android:layout_above="@+id/mobile"
+        android:layout_alignStart="@+id/mobile"
         android:layout_marginStart="0dp"
         android:layout_marginBottom="35dp"
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_action_location"
         android:ems="10"
         android:hint="Address"
-        android:inputType="textPersonName"
+        android:inputType="textPostalAddress"
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/mobile"
         android:layout_width="250dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/editText2"
+        android:layout_above="@+id/password"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
         android:background="#11000000"
@@ -78,13 +78,29 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/c_password"
         android:layout_width="250dp"
         android:layout_height="40dp"
-        android:layout_alignStart="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignBottom="@+id/btn_Next"
+        android:layout_alignStart="@+id/mobile"
+        android:layout_alignLeft="@+id/mobile"
+        android:layout_alignBottom="@+id/btn_register"
         android:layout_marginBottom="80dp"
+        android:background="#11000000"
+        android:drawableLeft="@drawable/ic_action_pass"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/c_password"
+        android:layout_alignStart="@+id/mobile"
+        android:layout_alignLeft="@+id/mobile"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginBottom="35dp"
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_action_pass"
         android:ems="10"
@@ -97,14 +113,13 @@
         app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp"
-        android:id="@+id/btn_Next"
+        android:id="@+id/btn_register"
         android:onClick="register"
         android:layout_marginBottom="31dp"
-        android:layout_above="@+id/textView2"
+        android:layout_above="@+id/login"
         android:layout_centerHorizontal="true">
 
         <RelativeLayout
-            android:id="@+id/register"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -116,11 +131,24 @@
                 android:text="Register"
                 android:textColor="#fff"
                 android:textSize="18sp" />
+
+            <ProgressBar
+                android:id="@+id/loading"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toStartOf="@+id/textView"
+                android:visibility="gone"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/linearLayout"

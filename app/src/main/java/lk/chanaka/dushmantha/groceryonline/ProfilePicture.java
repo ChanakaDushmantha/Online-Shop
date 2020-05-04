@@ -45,11 +45,16 @@ public class ProfilePicture extends AppCompatActivity {
     private CardView btnNext;
     private String url = "http://10.0.2.2:8000/api/updateImage";
     private ProgressDialog progressDialog;
+    SessionManager sessionManager;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_picture);
+
+        sessionManager = new SessionManager(this);
+        token = sessionManager.getToken();
 
         ImageButton ibPick = findViewById(R.id.btn_pick);
         civProfile = findViewById(R.id.profile_image);
@@ -121,7 +126,7 @@ public class ProfilePicture extends AppCompatActivity {
                         progressDialog.show();
                         AndroidNetworking.upload(url)
                                 .addMultipartFile("image",imageFile)
-                                .addHeaders("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU4ODI1MjE3NSwiZXhwIjoxNTg4MjU1Nzc1LCJuYmYiOjE1ODgyNTIxNzUsImp0aSI6IktoRmhBaEhrelNFRU1saXUiLCJzdWIiOjMsImRhdGEiOnsiZW1haWwiOiJ2aWhhbmdhM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsInVzZXJfdHlwZSI6InVzZXIifX0.JbeXWBlk3Qvha05thxY41qvfsC5ShjXI7SzZ6F1Fido")
+                                .addHeaders("Authorization", "Bearer "+token)
                                 //.addMultipartParameter("key","value")
                                 .setTag("profile pic")
                                 .setPriority(Priority.HIGH)
@@ -145,6 +150,9 @@ public class ProfilePicture extends AppCompatActivity {
                                             String message = jsonObject.getString("message");
                                             if(success.equals("true")){
                                                 Toast.makeText(ProfilePicture.this, message  , Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(ProfilePicture.this, Itemlist.class);
+                                                startActivity(intent);
+                                                finish();
                                             }
                                             else {
                                                 Toast.makeText(ProfilePicture.this, "Unable to upload image: "+message, Toast.LENGTH_SHORT).show();
@@ -174,6 +182,8 @@ public class ProfilePicture extends AppCompatActivity {
         }
     }
 
-    public void registerActivity(View view) {
+    public void skip(View view) {
+        Intent intent = new Intent(ProfilePicture.this, Itemlist.class);
+        startActivity(intent);
     }
 }

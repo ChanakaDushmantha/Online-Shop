@@ -38,7 +38,7 @@
         app:cardElevation="10dp"
         android:id="@+id/btn_register"
         android:layout_marginBottom="31dp"
-        android:layout_above="@+id/login"
+        android:layout_above="@+id/skip"
         android:layout_centerHorizontal="true">
 
         <RelativeLayout
@@ -57,13 +57,13 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/login"
+        android:id="@+id/skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="6dp"
-        android:onClick="registerActivity"
+        android:layout_marginBottom="7dp"
+        android:onClick="skip"
         android:text="Skip"
         android:textColor="#fff"
         android:textSize="15sp" />

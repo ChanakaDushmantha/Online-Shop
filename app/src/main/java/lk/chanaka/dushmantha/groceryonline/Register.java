@@ -6,7 +6,6 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -31,11 +30,14 @@ public class Register extends AppCompatActivity {
     private ProgressBar loading;
     private CardView btn_register;
     private static String URL_REGIST = "http://10.0.2.2:8000/api/register";//should use 10.0.2.2 for local host, laravel 10.0.2.2:8000
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        sessionManager = new SessionManager(this);
 
         loading = findViewById(R.id.loading);
         name = findViewById(R.id.name);
@@ -49,7 +51,13 @@ public class Register extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
+
                 Regist();
+                /*Intent intent = new Intent(Register.this, ProfilePicture.class);
+                startActivity(intent);*/
             }
         });
 
@@ -57,7 +65,7 @@ public class Register extends AppCompatActivity {
 
     private void Regist(){
         loading.setVisibility(View.VISIBLE);
-        btn_register.setVisibility(View.GONE);
+        btn_register.setVisibility(View.INVISIBLE);
 
         final String name = this.name.getText().toString().trim();
         final String email = this.email.getText().toString().trim();
@@ -72,16 +80,22 @@ public class Register extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String success =  jsonObject.getString("success");
+                            String token = jsonObject.getString("data");
 
                             if(success.equals("true")){
                                 Toast.makeText(Register.this, "Register Success!", Toast.LENGTH_SHORT).show();
+                                sessionManager.createSession(name, email, token);
+
+                                Intent intent = new Intent(Register.this, ProfilePicture.class);
+                                startActivity(intent);
+                                finish();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(Register.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
 
-                            //loading.setVisibility(View.GONE);
-                            //btn_register.setVisibility(View.VISIBLE);
+                            loading.setVisibility(View.GONE);
+                            btn_register.setVisibility(View.VISIBLE);
                         }
                     }
                 },
@@ -90,8 +104,8 @@ public class Register extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(Register.this, "Register Error 2 ! "+error.toString(), Toast.LENGTH_LONG).show();
                         System.out.println(error.toString());
-                        //loading.setVisibility(View.GONE);
-                        //btn_register.setVisibility(View.VISIBLE);
+                        loading.setVisibility(View.GONE);
+                        btn_register.setVisibility(View.VISIBLE);
 
                     }
                 })
@@ -111,13 +125,12 @@ public class Register extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    /*public void register(View view) {
-        Intent intent = new Intent(this, ProfilePicture.class);
-        startActivity(intent);
-    }*/
+    public void register(View view) {
+        //
+    }
 
     public void loginActivity(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 }

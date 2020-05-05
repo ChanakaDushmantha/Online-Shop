@@ -69,43 +69,48 @@ public class ProfilePicture extends AppCompatActivity {
         ibPick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dexter.withActivity(ProfilePicture.this)
-                        .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        .withListener(new PermissionListener() {
-                            @Override
-                            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                                // start picker to get image for cropping and then use the image in cropping activity
-                                CropImage.activity()
-                                        .setGuidelines(CropImageView.Guidelines.ON)
-                                        .start(ProfilePicture.this);
-                            }
-
-                            @Override
-                            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                                if(permissionDeniedResponse.isPermanentlyDenied()){
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfilePicture.this);
-                                    builder.setTitle("Permission Required")
-                                            .setMessage("Permission to access your device storage is required to pick profile image. Please go to settings to enable permission to access storage")
-                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    Intent intent = new Intent();
-                                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                                    intent.setData(Uri.fromParts("package", getPackageName(), null));
-                                                    startActivityForResult(intent, 51);
-                                                }
-                                            })
-                                            .setNegativeButton("Cancel", null)
-                                            .show();
+                if (!(new NetworkConnection(ProfilePicture.this).isNetworkConnected())) {
+                    Toast.makeText(ProfilePicture.this, "Internet Connection Error", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Dexter.withActivity(ProfilePicture.this)
+                            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            .withListener(new PermissionListener() {
+                                @Override
+                                public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                                    // start picker to get image for cropping and then use the image in cropping activity
+                                    CropImage.activity()
+                                            .setGuidelines(CropImageView.Guidelines.ON)
+                                            .start(ProfilePicture.this);
                                 }
-                            }
 
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                                permissionToken.continuePermissionRequest();
-                            }
-                        })
-                        .check();
+                                @Override
+                                public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                                    if (permissionDeniedResponse.isPermanentlyDenied()) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ProfilePicture.this);
+                                        builder.setTitle("Permission Required")
+                                                .setMessage("Permission to access your device storage is required to pick profile image. Please go to settings to enable permission to access storage")
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        Intent intent = new Intent();
+                                                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                                        intent.setData(Uri.fromParts("package", getPackageName(), null));
+                                                        startActivityForResult(intent, 51);
+                                                    }
+                                                })
+                                                .setNegativeButton("Cancel", null)
+                                                .show();
+                                    }
+                                }
+
+                                @Override
+                                public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                                    permissionToken.continuePermissionRequest();
+                                }
+                            })
+                            .check();
+                }
             }
         });
     }

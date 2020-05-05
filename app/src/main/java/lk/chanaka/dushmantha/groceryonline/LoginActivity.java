@@ -3,8 +3,10 @@ package lk.chanaka.dushmantha.groceryonline;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.UriMatcher;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         sessionManager = new SessionManager(this);
-        //sessionManager.checkLogin();
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -50,7 +51,13 @@ public class LoginActivity extends AppCompatActivity {
                 final String mEmail = email.getText().toString().trim();
                 final String mPassword = password.getText().toString().trim();
 
-                if(mEmail.isEmpty()){
+
+
+                if(!(new NetworkConnection( LoginActivity.this).isNetworkConnected())){
+                    Toast.makeText(LoginActivity.this, "Internet Connection Error", Toast.LENGTH_LONG).show();
+                    //System.out.println("no net");
+                }
+                else if(mEmail.isEmpty()){
                     email.setError("Please insert email");
                 }
                 else if(mPassword.isEmpty()){
@@ -112,6 +119,11 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Register.class);
         startActivity(intent);
     }
+    public boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+
 }
 
 

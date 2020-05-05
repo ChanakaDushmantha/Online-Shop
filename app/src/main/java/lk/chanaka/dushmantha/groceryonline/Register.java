@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -17,6 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +35,7 @@ public class Register extends AppCompatActivity {
     private CardView btn_register;
     private static String URL_REGIST = "http://10.0.2.2:8000/api/register";//should use 10.0.2.2 for local host, laravel 10.0.2.2:8000
     SessionManager sessionManager;
+    private AwesomeValidation awesomeValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         sessionManager = new SessionManager(this);
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         loading = findViewById(R.id.loading);
         name = findViewById(R.id.name);
@@ -48,14 +54,24 @@ public class Register extends AppCompatActivity {
         c_password = findViewById(R.id.c_password);
         btn_register = findViewById(R.id.btn_register);
 
+        //adding validation to edittexts
+        String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d]).{6,}";
+        awesomeValidation.addValidation(this, R.id.name, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
+        awesomeValidation.addValidation(this, R.id.email, Patterns.EMAIL_ADDRESS, R.string.emailerror);
+        awesomeValidation.addValidation(this, R.id.address, RegexTemplate.NOT_EMPTY, R.string.addresserror);
+        awesomeValidation.addValidation(this, R.id.mobile, "^[0]{1}[0-9]{9}$", R.string.mobileerror);
+        awesomeValidation.addValidation(this, R.id.password, regexPassword, R.string.passworderror);
+        awesomeValidation.addValidation(this, R.id.c_password, R.id.password, R.string.err_password_confirmation);
+
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
-
-                Regist();
+                if(!(new NetworkConnection( Register.this).isNetworkConnected())){
+                    Toast.makeText(Register.this, "Internet Connection Error", Toast.LENGTH_LONG).show();
+                }
+                else if (awesomeValidation.validate()) {
+                    Regist();
+                }
                 /*Intent intent = new Intent(Register.this, ProfilePicture.class);
                 startActivity(intent);*/
             }

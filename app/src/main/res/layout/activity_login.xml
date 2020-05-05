@@ -116,4 +116,13 @@
             android:layout_marginLeft="15dp"
             app:srcCompat="@drawable/facebook" />
     </LinearLayout>
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/register"
+        android:layout_marginBottom="31dp"
+        android:visibility="gone" />
 </RelativeLayout>

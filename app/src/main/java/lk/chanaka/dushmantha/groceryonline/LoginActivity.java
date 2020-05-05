@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -30,6 +31,7 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText email, password;
+    private ProgressBar loading;
     private CardView btn_login;
     private static String URL_LOGIN;
     private String HOST;
@@ -44,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         HOST = new GetServiceURL().getHost();
         URL_LOGIN = HOST+"/api/login";
 
+        loading = findViewById(R.id.loading);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         btn_login = findViewById(R.id.btn_login);
@@ -67,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
                     password.setError("Please insert password");
                 }
                 else{
+                    loading.setVisibility(View.VISIBLE);
+                    btn_login.setVisibility(View.INVISIBLE);
                     Login(mEmail, mPassword);
                     //System.out.println(mEmail);
                     //System.out.println(mPassword);
@@ -83,11 +88,13 @@ public class LoginActivity extends AppCompatActivity {
                         try{
                             JSONObject jsonObject = new JSONObject(response);
                             String success = jsonObject.getString("success");
-                            String token = jsonObject.getString("data");
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            String token = data.getString("token");
+                            String myName = data.getString("name");
 
                             if(success.equals("true")){
                                 Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
-                                sessionManager.createSession("MyName", email, token);
+                                sessionManager.createSession(myName, email, token);
                                 Intent intent = new Intent(LoginActivity.this, Itemlist.class);
                                 startActivity(intent);
                                 finish();
@@ -95,6 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(LoginActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            loading.setVisibility(View.GONE);
+                            btn_login.setVisibility(View.VISIBLE);
                         }
                     }
                 },
@@ -103,6 +112,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         //Toast.makeText(LoginActivity.this, "Register Error 2 ! "+error.toString(), Toast.LENGTH_LONG).show();
                         Toast.makeText(LoginActivity.this, "Invalid email or password!", Toast.LENGTH_SHORT).show();
+                        loading.setVisibility(View.GONE);
+                        btn_login.setVisibility(View.VISIBLE);
                     }
         })
         {
@@ -121,10 +132,6 @@ public class LoginActivity extends AppCompatActivity {
     public void registerActivity(View view) {
         Intent intent = new Intent(this, Register.class);
         startActivity(intent);
-    }
-    public boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
     }
 
 }

@@ -43,15 +43,19 @@ public class ProfilePicture extends AppCompatActivity {
 
     private CircleImageView civProfile;
     private CardView btnNext;
-    private String url = "http://10.0.2.2:8000/api/updateImage";
+    private String URL_PP;
     private ProgressDialog progressDialog;
     SessionManager sessionManager;
     private String token;
+    private String HOST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_picture);
+
+        HOST = new GetServiceURL().getHost();
+        URL_PP = HOST+"/api/updateImage";
 
         sessionManager = new SessionManager(this);
         token = sessionManager.getToken();
@@ -129,7 +133,7 @@ public class ProfilePicture extends AppCompatActivity {
                     public void onClick(View v) {
                         File imageFile = new File(resultUri.getPath());
                         progressDialog.show();
-                        AndroidNetworking.upload(url)
+                        AndroidNetworking.upload(URL_PP)
                                 .addMultipartFile("image",imageFile)
                                 .addHeaders("Authorization", "Bearer "+token)
                                 //.addMultipartParameter("key","value")

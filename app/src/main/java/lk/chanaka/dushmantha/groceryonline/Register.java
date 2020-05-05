@@ -33,9 +33,10 @@ public class Register extends AppCompatActivity {
     private EditText name, email, address, mobile, password, c_password;
     private ProgressBar loading;
     private CardView btn_register;
-    private static String URL_REGIST = "http://10.0.2.2:8000/api/register";//should use 10.0.2.2 for local host, laravel 10.0.2.2:8000
+    private static String URL_REGIST;
     SessionManager sessionManager;
     private AwesomeValidation awesomeValidation;
+    private String HOST;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class Register extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        HOST = new GetServiceURL().getHost();
+        URL_REGIST = HOST+"/api/register";
 
         loading = findViewById(R.id.loading);
         name = findViewById(R.id.name);
@@ -54,7 +57,7 @@ public class Register extends AppCompatActivity {
         c_password = findViewById(R.id.c_password);
         btn_register = findViewById(R.id.btn_register);
 
-        //adding validation to edittexts
+        //adding validation to edit texts
         String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d]).{6,}";
         awesomeValidation.addValidation(this, R.id.name, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
         awesomeValidation.addValidation(this, R.id.email, Patterns.EMAIL_ADDRESS, R.string.emailerror);

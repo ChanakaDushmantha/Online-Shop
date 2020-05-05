@@ -31,7 +31,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText email, password;
     private CardView btn_login;
-    private static String URL_LOGIN = "http://10.0.2.2:8000/api/login";
+    private static String URL_LOGIN;
+    private String HOST;
     SessionManager sessionManager;
 
     @Override
@@ -40,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         sessionManager = new SessionManager(this);
+        HOST = new GetServiceURL().getHost();
+        URL_LOGIN = HOST+"/api/login";
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);

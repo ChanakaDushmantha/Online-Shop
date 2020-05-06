@@ -33,6 +33,10 @@ public class Itemlist extends AppCompatActivity {
         HashMap<String, String> user = sessionManager.getUserDetail();
         String mName = user.get(sessionManager.NAME);
         String mEmail = user.get(sessionManager.EMAIL);
+        //String mToken = user.get(sessionManager.TOKEN);
+        //String idd = user.get(sessionManager.SHOPID);
+
+        //System.out.println(idd);
 
         name.setText(mName);
         email.setText(mEmail);

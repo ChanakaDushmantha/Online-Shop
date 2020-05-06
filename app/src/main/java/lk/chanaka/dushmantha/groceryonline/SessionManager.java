@@ -18,6 +18,7 @@ public class SessionManager {
     public static final String NAME = "NAME";
     public static final String EMAIL = "EMAIL";
     public static final String TOKEN = "TOKEN";
+    public static final String SHOPID = "SHOPID";
 
     public SessionManager(Context context) {
         this.context = context;
@@ -31,6 +32,13 @@ public class SessionManager {
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
         editor.putString(TOKEN, token);
+        editor.apply();
+
+    }
+
+    public void addShop(int id){
+        String shopId = String.valueOf(id);
+        editor.putString(SHOPID, shopId);
         editor.apply();
 
     }
@@ -59,6 +67,7 @@ public class SessionManager {
         user.put(NAME, sharedPreferences.getString(NAME, null));
         user.put(EMAIL, sharedPreferences.getString(EMAIL, null));
         user.put(TOKEN, sharedPreferences.getString(TOKEN, null));
+        user.put(SHOPID, sharedPreferences.getString(SHOPID, null));
 
         return user;
     }

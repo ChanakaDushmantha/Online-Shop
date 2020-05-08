@@ -33,10 +33,10 @@ public class Register extends AppCompatActivity {
     private EditText name, email, address, mobile, password, c_password;
     private ProgressBar loading;
     private CardView btn_register;
-    private static String URL_REGIST;
+    private static String URL ;
     SessionManager sessionManager;
     private AwesomeValidation awesomeValidation;
-    private String HOST;
+    private String host;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +45,10 @@ public class Register extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-        HOST = new GetServiceURL().getHost();
-        URL_REGIST = HOST+"/api/register";
 
+        host = ((MyApp) this.getApplication()).getServiceURL();
+        URL = host+"/register";
+        
         loading = findViewById(R.id.loading);
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
@@ -92,7 +93,7 @@ public class Register extends AppCompatActivity {
         final String mobile = this.mobile.getText().toString().trim();
         final String password = this.password.getText().toString().trim();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_REGIST,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

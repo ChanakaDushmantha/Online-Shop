@@ -1,10 +1,15 @@
 package lk.chanaka.dushmantha.groceryonline;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.google.common.collect.Lists;
+
 import java.util.HashMap;
+
+import lk.chanaka.dushmantha.groceryonline.Items.List;
 
 public class SessionManager {
 
@@ -40,7 +45,11 @@ public class SessionManager {
         String shopId = String.valueOf(id);
         editor.putString(SHOPID, shopId);
         editor.apply();
+    }
 
+    public String getShopId(){
+        String shopid = sharedPreferences.getString(SHOPID, null);
+        return shopid;
     }
 
     public boolean isLogin(){
@@ -52,7 +61,8 @@ public class SessionManager {
         if (!this.isLogin()){
             Intent i = new Intent(context, LoginActivity.class);
             context.startActivity(i);
-            ((Itemlist) context).finish();
+            Activity activity = (Activity) context;
+            activity.finish();
         }
     }
 
@@ -78,7 +88,8 @@ public class SessionManager {
         editor.commit();
         Intent i = new Intent(context, LoginActivity.class);
         context.startActivity(i);
-        ((Itemlist) context).finish();
+        Activity activity = (Activity) context;
+        activity.finish();
 
     }
 

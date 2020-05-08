@@ -30,13 +30,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import lk.chanaka.dushmantha.groceryonline.Items.List;
+
 public class Shops extends AppCompatActivity {
 
     private ProgressBar loading;
     private CardView btn_next;
     private ListView shoplist;
-    private static String URL_Shop;
-    private String HOST;
+    private static String URL = "/getAllShop";
+    private String host;
     private String token;
     private int shopId = -1;
     SessionManager sessionManager;
@@ -49,8 +51,9 @@ public class Shops extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         token = sessionManager.getToken();
-        HOST = new GetServiceURL().getHost();
-        URL_Shop = HOST+"/api/getAllShop";
+
+        host = ((MyApp) this.getApplication()).getServiceURL();
+        URL = host+URL;
 
         loading = findViewById(R.id.loading);
         btn_next = findViewById(R.id.btn_next);
@@ -62,7 +65,7 @@ public class Shops extends AppCompatActivity {
             Toast.makeText(this, "Internet Connection Error", Toast.LENGTH_LONG).show();
         }
         else{
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_Shop,
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -72,7 +75,7 @@ public class Shops extends AppCompatActivity {
                                 JSONArray data = jsonObject.getJSONArray("data");
 
                                 if(success.equals("true")){
-                                    Toast.makeText(Shops.this, "Shop Success!", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(Shops.this, "Shop Success!", Toast.LENGTH_SHORT).show();
 
                                     createList(data);
                                     loading.setVisibility(View.GONE);
@@ -87,7 +90,7 @@ public class Shops extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(Shops.this, "Register Error 2 ! "+error.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(Shops.this, "Response Error ! "+error.toString(), Toast.LENGTH_LONG).show();
                         }
                     })
             {
@@ -119,7 +122,7 @@ public class Shops extends AppCompatActivity {
                 else{
                     //System.out.println(shopId);
                     sessionManager.addShop(shopId);
-                    Intent intent = new Intent(Shops.this, Itemlist.class);
+                    Intent intent = new Intent(Shops.this, List.class);
                     startActivity(intent);
                     finish();
                 }

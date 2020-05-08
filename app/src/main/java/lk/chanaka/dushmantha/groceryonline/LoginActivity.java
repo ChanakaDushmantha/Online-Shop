@@ -33,8 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText email, password;
     private ProgressBar loading;
     private CardView btn_login;
-    private static String URL_LOGIN;
-    private String HOST;
+    private static String URL;
+    private String host;
     SessionManager sessionManager;
 
     @Override
@@ -43,8 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         sessionManager = new SessionManager(this);
-        HOST = new GetServiceURL().getHost();
-        URL_LOGIN = HOST+"/api/login";
+        host = ((MyApp) this.getApplication()).getServiceURL();
+        URL = host+"/login";
+        //URL = HOST+"/api/login";
 
         loading = findViewById(R.id.loading);
         email = findViewById(R.id.email);
@@ -56,8 +57,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String mEmail = email.getText().toString().trim();
                 final String mPassword = password.getText().toString().trim();
-
-
 
                 if(!(new NetworkConnection( LoginActivity.this).isNetworkConnected())){
                     Toast.makeText(LoginActivity.this, "Internet Connection Error", Toast.LENGTH_LONG).show();
@@ -81,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void Login(final String email, final String password) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_LOGIN,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

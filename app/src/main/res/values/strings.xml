@@ -6,4 +6,15 @@
     <string name="mobileerror">Enter a valid mobile</string>
     <string name="passworderror">The password must contain at least 6 character containing, at least one uppercase letter and one number</string>
     <string name="err_password_confirmation">The password must match with password field</string>
+
+    <string name="search_your_recipes">Search Your Recipes…</string>
+    <string name="meal_categories">Meal Categories</string>
+    <string name="category">Category</string>
+    <string name="price">Price</string>
+    <string name="description">Description</string>
+    <string name="dot_loading">...</string>
+    <string name="quantity">Quantity</string>
+    <string name="buy">Buy it now</string>
+    <string name="cart">Add to Cart</string>
+    <string name="favorite">Favorite</string>
 </resources>

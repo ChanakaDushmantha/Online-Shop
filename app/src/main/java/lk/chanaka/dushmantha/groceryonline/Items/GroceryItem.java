@@ -1,7 +1,5 @@
 package lk.chanaka.dushmantha.groceryonline.Items;
 
-import com.google.errorprone.annotations.Var;
-
 public class GroceryItem {
     private String id;
     private String name;

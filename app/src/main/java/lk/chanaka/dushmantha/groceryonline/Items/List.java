@@ -93,6 +93,7 @@ public class List extends AppCompatActivity {
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         adapter = new Adapter(getApplicationContext(),groceryItems);
                         recyclerView.setAdapter(adapter);
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -161,9 +162,6 @@ public class List extends AppCompatActivity {
                 return true;
             }
         });
-
-
-
         return  true;
     }
 
@@ -174,7 +172,6 @@ public class List extends AppCompatActivity {
         if(id == R.id.search_view){
             return  true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

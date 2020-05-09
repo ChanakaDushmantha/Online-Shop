@@ -1,6 +1,7 @@
 package lk.chanaka.dushmantha.groceryonline.Items;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import lk.chanaka.dushmantha.groceryonline.LoginActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
+import lk.chanaka.dushmantha.groceryonline.Shops;
 
 class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filterable {
     LayoutInflater inflater;
@@ -125,7 +128,11 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filter
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Do Something With this Click", Toast.LENGTH_SHORT).show();
+                    int i = getAdapterPosition();
+
+                    Toast.makeText(v.getContext(), "Do Something With this Click" + i, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(inflater.getContext(), Item.class);
+                    inflater.getContext().startActivity(intent);
                 }
             });
         }

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class Itemlist extends AppCompatActivity {
+public class Itemlist extends AppCompatActivity {// temp class
 
     private TextView name, email;
     private Button btn_logout;

@@ -157,7 +157,7 @@ public class List extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                //usersAdapter.getFilter().filter(newText);
+                adapter.getFilter().filter(newText);
                 return true;
             }
         });

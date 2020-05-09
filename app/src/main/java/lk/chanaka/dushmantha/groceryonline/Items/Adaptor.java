@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,17 +17,20 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import lk.chanaka.dushmantha.groceryonline.R;
 
-class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filterable {
     LayoutInflater inflater;
     java.util.List<GroceryItem> groceryItems;
+    private List<GroceryItem> getGroceryItemListFiltered;
 
     public Adapter(Context ctx, List<GroceryItem> groceryItems){
         this.inflater = LayoutInflater.from(ctx);
         this.groceryItems = groceryItems;
+        this.getGroceryItemListFiltered = groceryItems;
     }
 
     @NonNull
@@ -59,6 +64,47 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return groceryItems.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+
+        Filter filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                FilterResults filterResults = new FilterResults();
+
+                if(charSequence == null | charSequence.length() == 0){
+                    filterResults.count = getGroceryItemListFiltered.size();
+                    filterResults.values = getGroceryItemListFiltered;
+
+                }else{
+                    String searchChr = charSequence.toString().toLowerCase();
+
+                    List<GroceryItem> resultData = new ArrayList<>();
+
+                    for(GroceryItem Grocery_Item: getGroceryItemListFiltered){
+                        if(Grocery_Item.getName().toLowerCase().contains(searchChr)){
+                            resultData.add(Grocery_Item);
+                        }
+                    }
+                    filterResults.count = resultData.size();
+                    filterResults.values = resultData;
+
+                }
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+                groceryItems = (List<GroceryItem>) filterResults.values;
+                notifyDataSetChanged();
+
+            }
+        };
+        return filter;
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{

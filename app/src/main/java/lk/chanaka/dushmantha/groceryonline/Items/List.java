@@ -1,11 +1,16 @@
 package lk.chanaka.dushmantha.groceryonline.Items;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -37,6 +42,7 @@ public class List extends AppCompatActivity {
     private SessionManager sessionManager;
     private String token;
     Adapter adapter;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,11 @@ public class List extends AppCompatActivity {
         URL = host+"/getAllItem/"+shopid;
 
         recyclerView = findViewById(R.id.itemList2);
+        toolbar = findViewById(R.id.toolbar);
+
+        this.setSupportActionBar(toolbar);
+        this.getSupportActionBar().setTitle("");
+
         groceryItems = new ArrayList<>();
         extractSongs();
     }
@@ -125,5 +136,45 @@ public class List extends AppCompatActivity {
 
     public void logout(View view) {
         sessionManager.logout();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.search_view);
+
+        SearchView searchView = (SearchView) menuItem.getActionView();
+
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                //usersAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+
+
+
+        return  true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.search_view){
+            return  true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

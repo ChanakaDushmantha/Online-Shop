@@ -2,6 +2,7 @@ package lk.chanaka.dushmantha.groceryonline.Items;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import lk.chanaka.dushmantha.groceryonline.LoginActivity;
+import lk.chanaka.dushmantha.groceryonline.ItemDetails.Item;
 import lk.chanaka.dushmantha.groceryonline.R;
-import lk.chanaka.dushmantha.groceryonline.Shops;
 
 class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filterable {
     LayoutInflater inflater;
@@ -128,10 +126,12 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filter
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int i = getAdapterPosition();
+                    int position = getAdapterPosition();
+                    String id = groceryItems.get(position).getId();
 
-                    Toast.makeText(v.getContext(), "Do Something With this Click" + i, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Do Something With this Click" + id, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(inflater.getContext(), Item.class);
+                    intent.putExtra("ID", id);
                     inflater.getContext().startActivity(intent);
                 }
             });

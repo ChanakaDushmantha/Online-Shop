@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".Items.Item"
+        <activity android:name=".ItemDetails.Item"
             android:parentActivityName=".Items.List"/>
         <activity
             android:name=".Items.List"

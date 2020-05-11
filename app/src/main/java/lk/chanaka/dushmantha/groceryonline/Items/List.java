@@ -65,10 +65,10 @@ public class List extends AppCompatActivity {
         this.getSupportActionBar().setTitle("");
 
         groceryItems = new ArrayList<>();
-        extractSongs();
+        extractItems();
     }
 
-    private void extractSongs() {
+    private void extractItems() {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
@@ -121,6 +121,7 @@ public class List extends AppCompatActivity {
                 JSONObject detailsObject = data.getJSONObject(i);
 
                 GroceryItem groceryItem = new GroceryItem();
+                groceryItem.setId(detailsObject.getString("id").toString());
                 groceryItem.setName(detailsObject.getString("name").toString());
                 groceryItem.setDescription(detailsObject.getString("description".toString()));
                 groceryItem.setPrice(detailsObject.getString("price").toString());

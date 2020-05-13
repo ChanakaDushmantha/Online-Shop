@@ -16,8 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".ItemDetails.Item"
-            android:parentActivityName=".Items.List"/>
+        <activity
+            android:name=".ItemQuntity.QuantityActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ItemDetails.Item" />
         <activity
             android:name=".Items.List"
             android:windowSoftInputMode="adjustPan">
@@ -33,7 +36,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Itemlist"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProfilePicture"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -45,7 +48,7 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

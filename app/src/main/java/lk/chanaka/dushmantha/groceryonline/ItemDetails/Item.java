@@ -1,7 +1,6 @@
 package lk.chanaka.dushmantha.groceryonline.ItemDetails;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.ViewCompat;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,27 +17,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
+import lk.chanaka.dushmantha.groceryonline.ItemQuntity.QuantityActivity;
 
 
 public class Item extends AppCompatActivity implements ItemView {
@@ -84,7 +71,6 @@ public class Item extends AppCompatActivity implements ItemView {
         setupActionBar();
         ItemPresenter presenter = new ItemPresenter(this, Item.this);
         presenter.getItemById(ItemId);
-
     }
 
     private void setupActionBar() {
@@ -193,9 +179,12 @@ public class Item extends AppCompatActivity implements ItemView {
             //
         });
 
-        buy.setOnClickListener(v -> {
-            //
-        });
+
+    }
+
+    public void buy(View view) {
+        Intent i = new Intent(Item.this, QuantityActivity.class);
+        startActivity(i);
     }
 }
 /*"data": {

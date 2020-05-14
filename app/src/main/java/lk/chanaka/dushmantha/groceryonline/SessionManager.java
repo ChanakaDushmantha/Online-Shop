@@ -22,6 +22,7 @@ public class SessionManager {
     private static final String LOGIN = "IS_LOGIN";
     public static final String NAME = "NAME";
     public static final String EMAIL = "EMAIL";
+    public static final String ADDRESS = "ADDRESS";
     public static final String TOKEN = "TOKEN";
     public static final String SHOPID = "SHOPID";
 
@@ -31,11 +32,12 @@ public class SessionManager {
         editor = sharedPreferences.edit();
     }
 
-    public void createSession(String name, String email, String token){
+    public void createSession(String name, String email, String address, String token){
 
         editor.putBoolean(LOGIN, true);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
+        editor.putString(ADDRESS, address);
         editor.putString(TOKEN, token);
         editor.apply();
 
@@ -50,6 +52,11 @@ public class SessionManager {
     public String getShopId(){
         String shopid = sharedPreferences.getString(SHOPID, null);
         return shopid;
+    }
+
+    public String getAddress(){
+        String ads = sharedPreferences.getString(ADDRESS, null);
+        return ads;
     }
 
     public boolean isLogin(){

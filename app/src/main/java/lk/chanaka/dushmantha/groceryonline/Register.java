@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
-    private EditText name, email, address, mobile, password, c_password;
+    private EditText name, email, address, mobile, password;
     private ProgressBar loading;
     private CardView btn_register;
     private static String URL ;
@@ -55,7 +55,6 @@ public class Register extends AppCompatActivity {
         address = findViewById(R.id.address);
         mobile = findViewById(R.id.mobile);
         password = findViewById(R.id.password);
-        c_password = findViewById(R.id.c_password);
         btn_register = findViewById(R.id.btn_register);
 
         //adding validation to edit texts
@@ -104,7 +103,7 @@ public class Register extends AppCompatActivity {
 
                             if(success.equals("true")){
                                 Toast.makeText(Register.this, "Register Success!", Toast.LENGTH_SHORT).show();
-                                sessionManager.createSession(name, email, token);
+                                sessionManager.createSession(name, email, address, token);
 
                                 Intent intent = new Intent(Register.this, ProfilePicture.class);
                                 startActivity(intent);

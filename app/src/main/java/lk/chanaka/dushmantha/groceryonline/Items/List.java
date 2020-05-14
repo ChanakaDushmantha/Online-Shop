@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +40,7 @@ public class List extends AppCompatActivity {
     private String host;
     private SessionManager sessionManager;
     private String token;
-    Adapter adapter;
+    lk.chanaka.dushmantha.groceryonline.Items.Adapter adapter;
     Toolbar toolbar;
 
     @Override

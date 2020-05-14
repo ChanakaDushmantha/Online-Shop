@@ -13,7 +13,7 @@
     <string name="price">Price</string>
     <string name="description">Description</string>
     <string name="dot_loading">...</string>
-    <string name="quantity">Volume</string>
+    <string name="quantity">Available</string>
     <string name="buy">Buy it now</string>
     <string name="cart">Add to Cart</string>
     <string name="favorite">Favorite</string>

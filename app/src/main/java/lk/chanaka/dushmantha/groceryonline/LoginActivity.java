@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             if(success.equals("true")){
                                 Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
-                                sessionManager.createSession(myName, email, token);
+                                sessionManager.createSession(myName, email, "myaddress", token);
                                 Intent intent = new Intent(LoginActivity.this, Shops.class);
                                 startActivity(intent);
                                 finish();

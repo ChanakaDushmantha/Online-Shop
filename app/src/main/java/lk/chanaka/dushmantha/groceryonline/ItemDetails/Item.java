@@ -38,6 +38,7 @@ public class Item extends AppCompatActivity implements ItemView {
     TextView quantity, price, description, tag, value;
     CollapsingToolbarLayout collapsingToolbarLayout;
     ProgressBar progressBar;
+    JSONObject object;
     private SessionManager sessionManager;
 
     @Override
@@ -142,15 +143,18 @@ public class Item extends AppCompatActivity implements ItemView {
         String txtdescription = "";
         String txtprice = "";
         String txtquantity = "";
+        String txtquantityType = "";
         String txtdiscount = "";
         String image_url = null;
         JSONObject item_category;
         String txtcatName = "";
         try {
+            object = item;
             txtname = item.getString("name");
             txtdescription = item.getString("description");
             txtprice = item.getString("price");
             txtquantity = item.getString("quantity");
+            txtquantityType = item.getString("quantity_type");
             txtdiscount = item.getString("discount");
             image_url = item.getString("image_url");
             item_category = item.getJSONObject("item_category");
@@ -168,6 +172,8 @@ public class Item extends AppCompatActivity implements ItemView {
 
         tag.append("\n \u2022 Category -");
         value.append("\n " + txtcatName);
+        tag.append("\n \u2022 Selling Type -");
+        value.append("\n " + txtquantityType);
 
         if (!txtdiscount.equals("null")) {
             tag.append("\n \u2022 Discount -");
@@ -184,6 +190,7 @@ public class Item extends AppCompatActivity implements ItemView {
 
     public void buy(View view) {
         Intent i = new Intent(Item.this, QuantityActivity.class);
+        i.putExtra("ITEM",object.toString());
         startActivity(i);
     }
 }

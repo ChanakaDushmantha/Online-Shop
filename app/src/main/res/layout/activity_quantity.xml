@@ -80,7 +80,7 @@
                                 app:srcCompat="@drawable/ic_action_image" />
 
                             <TextView
-                                android:id="@+id/itemTitle1"
+                                android:id="@+id/itemTitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
@@ -99,7 +99,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="Item description"
                                 app:layout_constraintStart_toEndOf="@+id/coverImage"
-                                app:layout_constraintTop_toBottomOf="@+id/itemTitle1" />
+                                app:layout_constraintTop_toBottomOf="@+id/itemTitle" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
@@ -151,28 +151,29 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="@+id/textView2"
                             app:layout_constraintStart_toEndOf="@+id/textView2"
                             app:layout_constraintTop_toTopOf="@+id/textView2" />
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/available"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
                             android:text="10"
-                            app:layout_constraintBottom_toBottomOf="@+id/number_picker"
-                            app:layout_constraintStart_toEndOf="@+id/number_picker"
-                            app:layout_constraintTop_toTopOf="@+id/number_picker" />
+                            app:layout_constraintEnd_toStartOf="@+id/textView4"
+                            app:layout_constraintTop_toTopOf="@+id/textView4" />
 
                         <TextView
                             android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
                             android:text="available"
-                            app:layout_constraintStart_toEndOf="@+id/textView3"
-                            app:layout_constraintTop_toTopOf="@+id/textView3" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/textView5"
@@ -203,7 +204,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
                         <TextView
-                            android:id="@+id/textView8"
+                            android:id="@+id/price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="70dp"
@@ -212,22 +213,22 @@
                             app:layout_constraintTop_toTopOf="@+id/textView5" />
 
                         <TextView
-                            android:id="@+id/textView9"
+                            android:id="@+id/discount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="3.00"
-                            app:layout_constraintStart_toStartOf="@+id/textView8"
-                            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                            app:layout_constraintStart_toStartOf="@+id/price"
+                            app:layout_constraintTop_toBottomOf="@+id/price" />
 
                         <TextView
-                            android:id="@+id/textView10"
+                            android:id="@+id/total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="28.00"
-                            app:layout_constraintStart_toStartOf="@+id/textView9"
-                            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                            app:layout_constraintStart_toStartOf="@+id/discount"
+                            app:layout_constraintTop_toBottomOf="@+id/discount" />
 
                         <TextView
                             android:id="@+id/textView11"
@@ -235,8 +236,20 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:text="RS."
-                            app:layout_constraintEnd_toStartOf="@+id/textView10"
-                            app:layout_constraintTop_toTopOf="@+id/textView10" />
+                            app:layout_constraintEnd_toStartOf="@+id/total"
+                            app:layout_constraintTop_toTopOf="@+id/total" />
+
+                        <EditText
+                            android:id="@+id/typetxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:ems="5"
+                            android:visibility="invisible"
+                            android:inputType="text"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                            app:layout_constraintStart_toEndOf="@+id/textView2"
+                            app:layout_constraintTop_toTopOf="@+id/textView2" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -271,30 +284,41 @@
                             android:orientation="horizontal">
 
                             <RadioGroup
+                                android:id="@+id/radioGroup"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
                                 <RadioButton
-                                    android:id="@+id/radioButton"
+                                    android:id="@+id/radio1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="#009688"
+                                    android:checked="true"
+                                    android:text="No Delivery" />
+
+                                <RadioButton
+                                    android:id="@+id/radio2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:buttonTint="#009688"
                                     android:text="No73, Kandy." />
 
                                 <RadioButton
-                                    android:id="@+id/radioButton2"
+                                    android:id="@+id/radio3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:buttonTint="#009688"
                                     android:text="Custom" />
 
                                 <EditText
-                                    android:id="@+id/editText3"
+                                    android:id="@+id/address"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="35dp"
                                     android:ems="5"
-                                    android:hint="Address"
-                                    android:inputType="textPostalAddress" />
+                                    android:hint="Type your delivery address"
+                                    android:inputType="textPostalAddress"
+                                    android:visibility="gone" />
                             </RadioGroup>
                         </LinearLayout>
                     </LinearLayout>
@@ -325,6 +349,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
+                        android:onClick="placeOrder"
                         android:layout_weight="1"
                         app:cardBackgroundColor="#D0FFDB"
                         app:cardCornerRadius="10dp"

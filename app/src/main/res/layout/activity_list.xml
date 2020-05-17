@@ -31,12 +31,17 @@
         </androidx.appcompat.widget.Toolbar>
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_weight="8"
         android:layout_width="match_parent"
         android:padding="10dp"
         android:background="@drawable/list_bg"
         android:layout_height="0dp">
+
+        <include android:id="@+id/shimmerItem"
+        layout="@layout/custom_item_shimmer" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemList2"
             android:layout_width="match_parent"

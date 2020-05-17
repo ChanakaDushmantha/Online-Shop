@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +43,7 @@ public class List extends AppCompatActivity {
     private String token;
     lk.chanaka.dushmantha.groceryonline.Items.Adapter adapter;
     Toolbar toolbar;
+    View shimmerItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class List extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.itemList2);
         toolbar = findViewById(R.id.toolbar);
+        shimmerItem = findViewById(R.id.shimmerItem);
 
         this.setSupportActionBar(toolbar);
         this.getSupportActionBar().setTitle("");
@@ -82,7 +85,7 @@ public class List extends AppCompatActivity {
                                 //Toast.makeText(List.this, "list Success!", Toast.LENGTH_SHORT).show();
 
                                 setAdaptor(data);
-
+                                shimmerItem.setVisibility(View.GONE);
                             }
                         }
                         catch (JSONException e) {

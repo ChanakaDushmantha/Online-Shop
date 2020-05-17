@@ -90,10 +90,11 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject data = jsonObject.getJSONObject("data");
                             String token = data.getString("token");
                             String myName = data.getString("name");
+                            String myAddress = data.getString("address");
 
                             if(success.equals("true")){
                                 Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
-                                sessionManager.createSession(myName, email, "myaddress", token);
+                                sessionManager.createSession(myName, email, myAddress, token);
                                 Intent intent = new Intent(LoginActivity.this, Shops.class);
                                 startActivity(intent);
                                 finish();

@@ -53,6 +53,7 @@ public class QuantityActivity extends AppCompatActivity {
         totalTV = findViewById(R.id.total);
         typeQty = findViewById(R.id.typetxt);
         myAddress = findViewById(R.id.radio2);
+        numberPicker = findViewById(R.id.number_picker);
 
         SetToolbar();
         setItem();
@@ -142,7 +143,7 @@ public class QuantityActivity extends AppCompatActivity {
         totalTV.setText(t);
 
         if(txtquantityType.equals("piece")){
-            numberPicker = findViewById(R.id.number_picker);
+
             numberPicker.setVisibility(View.VISIBLE);
             numberPicker.setMax(Integer.parseInt(txtquantity));
             numberPicker.setMin(1);

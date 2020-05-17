@@ -129,7 +129,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filter
                     int position = getAdapterPosition();
                     String id = groceryItems.get(position).getId();
 
-                    Toast.makeText(v.getContext(), "Do Something With this Click" + id, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(v.getContext(), "Do Something With this Click" + id, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(inflater.getContext(), Item.class);
                     intent.putExtra("ID", id);
                     inflater.getContext().startActivity(intent);

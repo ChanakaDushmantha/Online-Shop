@@ -27,7 +27,7 @@ import lk.chanaka.dushmantha.groceryonline.SessionManager;
 public class QuantityActivity extends AppCompatActivity {
 
     RadioGroup radioGroup;
-    EditText address, typeQty;
+    EditText address, qty1, qty2;
     JSONObject item;
     TextView itemTitle, itemDec, available, priceTV, discountTV, totalTV;
     ImageView coverImage;
@@ -51,7 +51,8 @@ public class QuantityActivity extends AppCompatActivity {
         priceTV = findViewById(R.id.price);
         discountTV = findViewById(R.id.discount);
         totalTV = findViewById(R.id.total);
-        typeQty = findViewById(R.id.typetxt);
+        qty1 = findViewById(R.id.quantity1);
+        qty2 = findViewById(R.id.quantity2);
         myAddress = findViewById(R.id.radio2);
         numberPicker = findViewById(R.id.number_picker);
 
@@ -151,7 +152,8 @@ public class QuantityActivity extends AppCompatActivity {
             type = true;
         }
         else {
-            typeQty.setVisibility(View.VISIBLE);
+            qty1.setVisibility(View.VISIBLE);
+            qty2.setVisibility(View.VISIBLE);
             type = false;
         }
     }
@@ -168,12 +170,14 @@ public class QuantityActivity extends AppCompatActivity {
     }
 
     public void placeOrder(View view) {
-        String qty;
+        System.out.println("ok");
+        String qty01, qty02;
         if(type){
-            qty = String.valueOf(numberPicker.getValue());
+            qty01 = String.valueOf(numberPicker.getValue());
         }
         else {
-            qty = typeQty.getText().toString();
+            qty01 = qty1.getText().toString();
+            qty02 = qty2.getText().toString();
         }
         RadioButton checked = findViewById(radioGroup.getCheckedRadioButtonId());
         String checkedtxt = checked.getText().toString();
@@ -184,6 +188,6 @@ public class QuantityActivity extends AppCompatActivity {
             ads = checkedtxt;
         }
         PostOrder presenter = new PostOrder(QuantityActivity.this);
-        presenter.postOrderbyId(id,qty,ads);
+        presenter.postOrderbyId(id,qty01,ads);//qty02
     }
 }

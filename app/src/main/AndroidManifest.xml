@@ -16,11 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".OrderList.OrdersActivity"></activity>
         <activity
             android:name=".ItemQuntity.QuantityActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".ItemDetails.Item" />
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ItemDetails.Item" />
         <activity
             android:name=".Items.List"
             android:windowSoftInputMode="adjustPan">

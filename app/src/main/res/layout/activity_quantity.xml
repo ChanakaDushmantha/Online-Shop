@@ -180,7 +180,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="50dp"
                             android:text="@string/price"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/number_picker" />
@@ -240,16 +240,48 @@
                             app:layout_constraintTop_toTopOf="@+id/total" />
 
                         <EditText
-                            android:id="@+id/typetxt"
+                            android:id="@+id/quantity1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:ems="5"
+                            android:textSize="10sp"
                             android:visibility="invisible"
                             android:inputType="text"
                             app:layout_constraintBottom_toBottomOf="@+id/textView2"
                             app:layout_constraintStart_toEndOf="@+id/textView2"
                             app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+                        <EditText
+                            android:id="@+id/quantity2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:inputType="text"
+                            android:textSize="10sp"
+                            android:visibility="invisible"
+                            app:layout_constraintStart_toStartOf="@+id/quantity1"
+                            app:layout_constraintTop_toBottomOf="@+id/quantity1" />
+
+                        <TextView
+                            android:id="@+id/unit1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="Kg"
+                            app:layout_constraintBottom_toBottomOf="@+id/quantity1"
+                            app:layout_constraintStart_toEndOf="@+id/quantity1"
+                            app:layout_constraintTop_toTopOf="@+id/quantity1" />
+
+                        <TextView
+                            android:id="@+id/unit2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="g"
+                            app:layout_constraintBottom_toBottomOf="@+id/quantity2"
+                            app:layout_constraintStart_toEndOf="@+id/quantity2"
+                            app:layout_constraintTop_toTopOf="@+id/quantity2" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -349,7 +381,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:onClick="placeOrder"
                         android:layout_weight="1"
                         app:cardBackgroundColor="#D0FFDB"
                         app:cardCornerRadius="10dp"
@@ -358,6 +389,7 @@
 
                         <TextView
                             android:id="@+id/source"
+                            android:onClick="placeOrder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="?attr/selectableItemBackground"

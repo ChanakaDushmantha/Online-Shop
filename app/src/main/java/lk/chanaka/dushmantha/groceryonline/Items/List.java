@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.Menu;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lk.chanaka.dushmantha.groceryonline.MyApp;
+import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
@@ -176,5 +178,10 @@ public class List extends AppCompatActivity {
             return  true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void order(View view) {
+        Intent intent = new Intent(List.this, OrdersActivity.class);
+        startActivity(intent);
     }
 }

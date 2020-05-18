@@ -39,7 +39,7 @@ public class PostOrder {
         SessionManager sessionManager = new SessionManager(context);
         token = sessionManager.getToken();
         host = ((MyApp) context.getApplicationContext()).getServiceURL();
-        URL = host+"/getItemById/";
+        URL = host+"/addToOrder";
         System.out.println(URL);
 
 
@@ -52,7 +52,7 @@ public class PostOrder {
                             String success =  jsonObject.getString("success");
 
                             if(success.equals("true")){
-                                Toast.makeText(context, "Register Success!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Order Success!", Toast.LENGTH_SHORT).show();
 
                                 /*Intent intent = new Intent(Register.this, ProfilePicture.class);
                                 startActivity(intent);
@@ -84,9 +84,9 @@ public class PostOrder {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id", ItemId);
-                params.put("quantity", quantity);
-                params.put("address", address);
+                params.put("cart_items[0][item_id]", ItemId);
+                params.put("cart_items[0][quantity]", quantity);
+                params.put("delivery_address", address);
                 return params;
             }
         };

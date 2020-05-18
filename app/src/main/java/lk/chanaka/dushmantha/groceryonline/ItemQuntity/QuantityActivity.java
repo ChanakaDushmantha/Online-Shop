@@ -29,7 +29,7 @@ public class QuantityActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     EditText address, qty1, qty2;
     JSONObject item;
-    TextView itemTitle, itemDec, available, priceTV, discountTV, totalTV;
+    TextView itemTitle, itemDec, available, availableNm, priceTV, discountTV, totalTV;
     ImageView coverImage;
     double price, discount, total;
     NumberPicker numberPicker;
@@ -48,6 +48,7 @@ public class QuantityActivity extends AppCompatActivity {
         itemDec = findViewById(R.id.itemDec);
         coverImage = findViewById(R.id.coverImage);
         available = findViewById(R.id.available);
+        availableNm = findViewById(R.id.availableNm);
         priceTV = findViewById(R.id.price);
         discountTV = findViewById(R.id.discount);
         totalTV = findViewById(R.id.total);
@@ -126,7 +127,13 @@ public class QuantityActivity extends AppCompatActivity {
 
         itemTitle.setText(txtname);
         itemDec.setText(txtdescription);
-        available.setText(txtquantity);
+        if((Integer.parseInt(txtquantity))<1){
+            availableNm.setText("Sold out");
+            availableNm.setTextColor(getResources().getColor(R.color.highlight));
+        }else{
+            available.setText(txtquantity);
+        }
+
         priceTV.setText(txtprice);
         if (!txtdiscount.equals("null")) {
             discountTV.setText(txtdiscount);
@@ -138,17 +145,24 @@ public class QuantityActivity extends AppCompatActivity {
         }
         Picasso.get().load(image_url).into(coverImage);
         price = Double.parseDouble(txtprice);
-
         total = price-discount;
         String t = String.valueOf(total);
         totalTV.setText(t);
 
         if(txtquantityType.equals("piece")){
-
             numberPicker.setVisibility(View.VISIBLE);
-            numberPicker.setMax(Integer.parseInt(txtquantity));
-            numberPicker.setMin(1);
-            numberPicker.setValue(1);
+
+            if((Integer.parseInt(txtquantity))<1){
+                numberPicker.setActionEnabled(ActionEnum.INCREMENT, false);
+                numberPicker.setActionEnabled(ActionEnum.DECREMENT, false);
+                numberPicker.setValue(0);
+            }else{
+                numberPicker.setMax(Integer.parseInt(txtquantity));
+                numberPicker.setValue(1);
+                numberPicker.setMin(1);
+
+            }
+
             type = true;
         }
         else {

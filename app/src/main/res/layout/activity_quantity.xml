@@ -161,12 +161,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:text="10"
-                            app:layout_constraintEnd_toStartOf="@+id/textView4"
-                            app:layout_constraintTop_toTopOf="@+id/textView4" />
+                            android:text=""
+                            app:layout_constraintEnd_toStartOf="@+id/availableNm"
+                            app:layout_constraintTop_toTopOf="@+id/availableNm" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/availableNm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"

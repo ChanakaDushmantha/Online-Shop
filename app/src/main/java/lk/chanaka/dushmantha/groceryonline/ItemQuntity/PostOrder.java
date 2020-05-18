@@ -1,5 +1,6 @@
 package lk.chanaka.dushmantha.groceryonline.ItemQuntity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lk.chanaka.dushmantha.groceryonline.MyApp;
+import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 public class PostOrder {
@@ -54,9 +56,10 @@ public class PostOrder {
                             if(success.equals("true")){
                                 Toast.makeText(context, "Order Success!", Toast.LENGTH_SHORT).show();
 
-                                /*Intent intent = new Intent(Register.this, ProfilePicture.class);
-                                startActivity(intent);
-                                finish();*/
+                                Intent intent = new Intent(context, OrdersActivity.class);
+                                context.startActivity(intent);
+                                Activity activity = (Activity) context;
+                                activity.finish();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

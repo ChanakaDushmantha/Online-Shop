@@ -166,7 +166,13 @@ public class Item extends AppCompatActivity implements ItemView {
 
         Picasso.get().load(image_url).into(itemThumb);
         collapsingToolbarLayout.setTitle(txtname);
-        quantity.setText(txtquantity);
+        if((Integer.parseInt(txtquantity))<1){
+            quantity.setText("Sold out");
+            quantity.setTextColor(getResources().getColor(R.color.highlight));
+        }else{
+            quantity.setText(txtquantity);
+        }
+        //quantity.setText(txtquantity);
         price.setText("RS. "+txtprice);
         description.setText(txtdescription);
 

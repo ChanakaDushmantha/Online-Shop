@@ -5,10 +5,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -27,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import lk.chanaka.dushmantha.groceryonline.ItemDetails.Item;
+import lk.chanaka.dushmantha.groceryonline.Items.List;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
@@ -36,6 +40,7 @@ public class OrdersActivity extends AppCompatActivity {
     private String host, token, URL;
     SessionManager sessionManager;
     ArrayList<OrderItem> orderItems;
+    private ImageView emptycart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class OrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_orders);
         SetToolbar();
         recyclerView = findViewById(R.id.OrderList);
+        emptycart = findViewById(R.id.emptycart);
 
         host = ((MyApp) this.getApplication()).getServiceURL();
 
@@ -67,8 +73,12 @@ public class OrdersActivity extends AppCompatActivity {
                             JSONArray data = jsonObject.getJSONArray("data");
 
                             if(success.equals("true")){
-                                //Toast.makeText(List.this, "list Success!", Toast.LENGTH_SHORT).show();
-                                setAdaptor(data);
+                                if(data.length()==0){
+                                    emptycart.setVisibility(View.VISIBLE);
+                                    Toast.makeText(OrdersActivity.this, "Order list Empty!", Toast.LENGTH_LONG).show();
+                                }else{
+                                    setAdaptor(data);
+                                }
                             }
                         }
                         catch (JSONException e) {
@@ -131,7 +141,9 @@ public class OrdersActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                //onBackPressed();
+                Intent intent = new Intent(OrdersActivity.this, List.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

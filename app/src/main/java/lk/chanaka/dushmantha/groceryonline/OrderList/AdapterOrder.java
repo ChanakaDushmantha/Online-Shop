@@ -40,7 +40,6 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
 
         String status = orderItems.get(position).getStatus();
         holder.status.setText(status);
-        holder.status.setTextColor(inflater.getContext().getResources().getColor(R.color.shimmerBackground));
         switch (status){
             case "pending":{
                 holder.coverImage.setImageResource(R.drawable.ic_action_pending);

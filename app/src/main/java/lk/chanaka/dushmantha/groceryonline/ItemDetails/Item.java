@@ -154,7 +154,7 @@ public class Item extends AppCompatActivity implements ItemView {
             txtdescription = item.getString("description");
             txtprice = item.getString("price");
             txtquantity = item.getString("quantity");
-            txtquantityType = item.getString("quantity_type");
+            txtquantityType = item.getString("quantity_type.name");
             txtdiscount = item.getString("discount");
             image_url = item.getString("image_url");
             item_category = item.getJSONObject("item_category");
@@ -200,21 +200,31 @@ public class Item extends AppCompatActivity implements ItemView {
         startActivity(i);
     }
 }
-/*"data": {
+/*{
+    "success": true,
+    "message": "Item Found",
+    "data": {
         "id": 1,
         "name": "sugar",
         "description": "white sugar",
-        "category_id": 1,
-        "shop_id": 1,
         "price": "100.00",
-        "quantity": "10kg",
-        "quantity_type": "loose",
-        "discount": "12.20",
-        "image_url": "http://10.0.2.2:8000/storage/common_media/9fffd41617b79e11764ed0b4c18257e0.jpg",
+        "quantity": "100750",
+        "discount": null,
+        "category_id": 1,
+        "quantity_type_id": 2,
+        "shop_id": 1,
+        "image_url": "http://10.0.2.2:8000ADGGHGHF456asdfre",
         "created_at": "2020-03-05 00:00:00",
-        "updated_at": "2020-05-08 06:24:03",
+        "updated_at": "2020-03-05 00:00:00",
         "item_category": {
-        "id": 1,
-        "name": "Sugar"
+            "id": 1,
+            "name": "Sugar"
+        },
+        "quantity_type": {
+            "id": 2,
+            "name": "loose",
+            "unit1": "Kg",
+            "unit2": "g"
         }
-        }*/
+    }
+}*/

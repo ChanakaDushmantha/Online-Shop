@@ -17,4 +17,12 @@
     <string name="buy">Buy it now</string>
     <string name="cart">Add to Cart</string>
     <string name="favorite">Favorite</string>
+
+    <string name="noConnectionError">No internet connection</string>
+    <string name="timeoutError">Very slow internet connection</string>
+    <string name="authFailureError">An expired login session</string>
+    <string name="authFailureErrorLogin">Invalid email or password!</string>
+    <string name="serverError">Server is down or is unable to process the request</string>
+    <string name="networkError">nNtwork error while performing the request</string>
+    <string name="parseError">Client not able to parse(read) the response</string>
 </resources>

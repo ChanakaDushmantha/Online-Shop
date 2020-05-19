@@ -14,9 +14,14 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -61,10 +66,10 @@ public class Shops extends AppCompatActivity {
 
         loading.setVisibility(View.VISIBLE);
 
-        if(!(new NetworkConnection( this).isNetworkConnected())){
+        /*if(!(new NetworkConnection( this).isNetworkConnected())){
             Toast.makeText(this, "Internet Connection Error", Toast.LENGTH_LONG).show();
         }
-        else{
+        else{*/
             StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                     new Response.Listener<String>() {
                         @Override
@@ -90,7 +95,21 @@ public class Shops extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(Shops.this, "Response Error ! "+error.toString(), Toast.LENGTH_LONG).show();
+                            String errorMsg = "Error";
+                            if (error instanceof NoConnectionError) {
+                                errorMsg = getString(R.string.noConnectionError);
+                            } else if (error instanceof TimeoutError) {
+                                errorMsg = getString(R.string.timeoutError);
+                            } else if (error instanceof AuthFailureError) {
+                                errorMsg = getString(R.string.authFailureError);
+                            } else if (error instanceof ServerError) {
+                                errorMsg = getString(R.string.serverError);
+                            } else if (error instanceof NetworkError) {
+                                errorMsg = getString(R.string.networkError);
+                            } else if (error instanceof ParseError) {
+                                errorMsg = getString(R.string.parseError);
+                            }
+                            Toast.makeText(Shops.this, errorMsg, Toast.LENGTH_LONG).show();
                         }
                     })
             {
@@ -104,7 +123,7 @@ public class Shops extends AppCompatActivity {
             };
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
-        }
+        //}
 
         shoplist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

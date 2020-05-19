@@ -14,9 +14,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -93,8 +98,21 @@ public class OrdersActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Log.d("tag", "onErrorResponse: " + error.getMessage());
-                Toast.makeText(OrdersActivity.this, "Response Error ! "+error.toString(), Toast.LENGTH_LONG).show();
+                String errorMsg = "Error";
+                if (error instanceof NoConnectionError) {
+                    errorMsg = getString(R.string.noConnectionError);
+                } else if (error instanceof TimeoutError) {
+                    errorMsg = getString(R.string.timeoutError);
+                } else if (error instanceof AuthFailureError) {
+                    errorMsg = getString(R.string.authFailureError);
+                } else if (error instanceof ServerError) {
+                    errorMsg = getString(R.string.serverError);
+                } else if (error instanceof NetworkError) {
+                    errorMsg = getString(R.string.networkError);
+                } else if (error instanceof ParseError) {
+                    errorMsg = getString(R.string.parseError);
+                }
+                Toast.makeText(OrdersActivity.this, errorMsg, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override

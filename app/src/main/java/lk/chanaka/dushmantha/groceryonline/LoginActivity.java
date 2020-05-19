@@ -15,9 +15,14 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -58,11 +63,11 @@ public class LoginActivity extends AppCompatActivity {
                 final String mEmail = email.getText().toString().trim();
                 final String mPassword = password.getText().toString().trim();
 
-                if(!(new NetworkConnection( LoginActivity.this).isNetworkConnected())){
+                /*if(!(new NetworkConnection( LoginActivity.this).isNetworkConnected())){
                     Toast.makeText(LoginActivity.this, "Internet Connection Error", Toast.LENGTH_LONG).show();
                     //System.out.println("no net");
                 }
-                else if(mEmail.isEmpty()){
+                else*/ if(mEmail.isEmpty()){
                     email.setError("Please insert email");
                 }
                 else if(mPassword.isEmpty()){
@@ -110,8 +115,27 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //Toast.makeText(LoginActivity.this, "Register Error 2 ! "+error.toString(), Toast.LENGTH_LONG).show();
-                        Toast.makeText(LoginActivity.this, "Invalid email or password!", Toast.LENGTH_SHORT).show();
+                        String errorMsg = "Error";
+                        if (error instanceof NoConnectionError) {
+                            //This indicates that the request has there is no connection
+                            errorMsg = getString(R.string.noConnectionError);
+                        } else if (error instanceof TimeoutError) {
+                            //This indicates that the request has time out
+                            errorMsg = getString(R.string.timeoutError);
+                        } else if (error instanceof AuthFailureError) {
+                            //Error indicating that there was an Authentication Failure while performing the request
+                            errorMsg = getString(R.string.authFailureErrorLogin);
+                        } else if (error instanceof ServerError) {
+                            //Indicates that the server responded with a error response
+                            errorMsg = getString(R.string.serverError);
+                        } else if (error instanceof NetworkError) {
+                            //Indicates that there was network error while performing the request
+                            errorMsg = getString(R.string.networkError);
+                        } else if (error instanceof ParseError) {
+                            // Indicates that the server response could not be parsed
+                            errorMsg = getString(R.string.parseError);
+                        }
+                        Toast.makeText(LoginActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                         loading.setVisibility(View.GONE);
                         btn_login.setVisibility(View.VISIBLE);
                     }

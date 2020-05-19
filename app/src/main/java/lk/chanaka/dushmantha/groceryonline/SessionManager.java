@@ -39,6 +39,7 @@ public class SessionManager {
         editor.putString(EMAIL, email);
         editor.putString(ADDRESS, address);
         editor.putString(TOKEN, token);
+        editor.putString(SHOPID, "1");
         editor.apply();
 
     }

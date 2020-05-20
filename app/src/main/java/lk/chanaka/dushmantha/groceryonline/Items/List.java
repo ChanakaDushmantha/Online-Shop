@@ -143,11 +143,11 @@ public class List extends AppCompatActivity {
                 JSONObject detailsObject = data.getJSONObject(i);
 
                 GroceryItem groceryItem = new GroceryItem();
-                groceryItem.setId(detailsObject.getString("id").toString());
-                groceryItem.setName(detailsObject.getString("name").toString());
-                groceryItem.setDescription(detailsObject.getString("description".toString()));
-                groceryItem.setPrice(detailsObject.getString("price").toString());
-                groceryItem.setDiscount(detailsObject.getString("discount".toString()));
+                groceryItem.setId(detailsObject.getString("id"));
+                groceryItem.setName(detailsObject.getString("name"));
+                groceryItem.setDescription(detailsObject.getString("description"));
+                groceryItem.setPrice(detailsObject.getString("price"));
+                groceryItem.setDiscount(detailsObject.getString("discount"));
                 groceryItem.setImage_url(detailsObject.getString("image_url"));
                 groceryItems.add(groceryItem);
 
@@ -157,6 +157,26 @@ public class List extends AppCompatActivity {
             }
         }
     }
+    /*{
+            "id": 1,
+            "name": "sugar",
+            "description": "white sugar",
+            "price": "100.00",
+            "quantity": "100750",
+            "discount": "13.00",
+            "category_id": 1,
+            "quantity_type_id": 2,
+            "shop_id": 1,
+            "image_url": "http://10.0.2.2:8000/storage/common_media/c07d684946ecde21367ecac04837b362.jpg",
+            "created_at": "2020-03-05 00:00:00",
+            "updated_at": "2020-05-19 18:31:16",
+            "quantity_type": {
+                "id": 2,
+                "name": "loose",
+                "unit1": "Kg",
+                "unit2": "g"
+            }
+        }*/
 
     public void logout(View view) {
         sessionManager.logout();

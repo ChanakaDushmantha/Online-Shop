@@ -144,6 +144,7 @@ public class Item extends AppCompatActivity implements ItemView {
         String txtprice = "";
         String txtquantity = "";
         String txtquantityType = "";
+        JSONObject quantityType;
         String txtdiscount = "";
         String image_url = null;
         JSONObject item_category;
@@ -154,7 +155,8 @@ public class Item extends AppCompatActivity implements ItemView {
             txtdescription = item.getString("description");
             txtprice = item.getString("price");
             txtquantity = item.getString("quantity");
-            txtquantityType = item.getString("quantity_type.name");
+            quantityType = item.getJSONObject("quantity_type");
+            txtquantityType = quantityType.getString("name");
             txtdiscount = item.getString("discount");
             image_url = item.getString("image_url");
             item_category = item.getJSONObject("item_category");
@@ -166,13 +168,13 @@ public class Item extends AppCompatActivity implements ItemView {
 
         Picasso.get().load(image_url).into(itemThumb);
         collapsingToolbarLayout.setTitle(txtname);
-        if((Integer.parseInt(txtquantity))<1){
+        /*if((Integer.parseInt(txtquantity))<1){
             quantity.setText("Sold out");
             quantity.setTextColor(getResources().getColor(R.color.highlight));
         }else{
             quantity.setText(txtquantity);
-        }
-        //quantity.setText(txtquantity);
+        }*/
+        quantity.setText(txtquantity);
         price.setText("RS. "+txtprice);
         description.setText(txtdescription);
 

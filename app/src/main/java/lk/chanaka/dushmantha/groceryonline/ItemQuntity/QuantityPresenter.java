@@ -31,25 +31,80 @@ import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
-public class PostOrder {
-    private View view;
-    private String URL;
+public class QuantityPresenter {
+    private QuantityActivity view;
     private String token;
     private Context context;
     private String host;
 
-    public PostOrder( Context context) {
-        //this.view = view;
-        this.context = context;
-    }
-    public void postOrderbyId(String ItemId, String quantity, String address){
 
+    QuantityPresenter(QuantityActivity view, Context context) {
+        this.view = view;
+        this.context = context;
         SessionManager sessionManager = new SessionManager(context);
         token = sessionManager.getToken();
         host = ((MyApp) context.getApplicationContext()).getServiceURL();
-        URL = host+"/addToOrder";
-        System.out.println(URL);
+    }
+    void getUnitbyId(String typeId){
+        String URL = host+"/getQuantityType/"+typeId;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+                            String message = jsonObject.getString("message");
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            String unit1 = data.getString("unit1");
+                            String unit2 = data.getString("unit2");
 
+                            if(success.equals("true")){
+                                view.unit1.setText(unit1);
+                                view.unit2.setText(unit2);
+                            }
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMsg = "Error";
+                if (error instanceof NoConnectionError) {
+                    errorMsg = context.getString(R.string.noConnectionError);
+                } else if (error instanceof TimeoutError) {
+                    errorMsg = context.getString(R.string.timeoutError);
+                } else if (error instanceof AuthFailureError) {
+                    errorMsg = context.getString(R.string.authFailureError);
+                } else if (error instanceof ServerError) {
+                    errorMsg = context.getString(R.string.serverError);
+                } else if (error instanceof NetworkError) {
+                    errorMsg = context.getString(R.string.networkError);
+                } else if (error instanceof ParseError) {
+                    errorMsg = context.getString(R.string.parseError);
+                }
+                Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + token);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    void postOrderbyId(String ItemId, String quantity,
+                              String quantity1, String quantity2,
+                              String address){
+
+
+        String URL = host+"/addToOrder";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>() {
@@ -69,8 +124,6 @@ public class PostOrder {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
-
                         }
                     }
                 },
@@ -107,6 +160,8 @@ public class PostOrder {
                 Map<String, String> params = new HashMap<>();
                 params.put("cart_items[0][item_id]", ItemId);
                 params.put("cart_items[0][quantity]", quantity);
+                params.put("cart_items[0][quantity1]", quantity1);
+                params.put("cart_items[0][quantity2]", quantity2);
                 params.put("delivery_address", address);
                 return params;
             }

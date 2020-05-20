@@ -29,7 +29,7 @@ public class QuantityActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     EditText address, qty1, qty2;
     JSONObject item;
-    TextView itemTitle, itemDec, available, availableNm, priceTV, discountTV, totalTV;
+    TextView itemTitle, itemDec, available, availableNm, priceTV, discountTV, totalTV, unit1, unit2;
     ImageView coverImage;
     double price, discount, total;
     NumberPicker numberPicker;
@@ -54,6 +54,8 @@ public class QuantityActivity extends AppCompatActivity {
         totalTV = findViewById(R.id.total);
         qty1 = findViewById(R.id.quantity1);
         qty2 = findViewById(R.id.quantity2);
+        unit1 = findViewById(R.id.unit1);
+        unit2 = findViewById(R.id.unit2);
         myAddress = findViewById(R.id.radio2);
         numberPicker = findViewById(R.id.number_picker);
 
@@ -110,6 +112,8 @@ public class QuantityActivity extends AppCompatActivity {
         String txtquantity = "";
         String txtdiscount = "";
         String txtquantityType = "";
+        String txtquantityId = "";
+        JSONObject quantityType;
         String image_url = null;
         try {
             id = item.getString("id");
@@ -117,7 +121,9 @@ public class QuantityActivity extends AppCompatActivity {
             txtdescription = item.getString("description");
             txtprice = item.getString("price");
             txtquantity = item.getString("quantity");
-            txtquantityType = item.getString("quantity_type");
+            quantityType = item.getJSONObject("quantity_type");
+            txtquantityType = quantityType.getString("name");
+            txtquantityId = quantityType.getString("id");
             txtdiscount = item.getString("discount");
             image_url = item.getString("image_url");
 
@@ -125,15 +131,17 @@ public class QuantityActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        itemTitle.setText(txtname);
-        itemDec.setText(txtdescription);
-        if((Integer.parseInt(txtquantity))<1){
+
+        /*if((Integer.parseInt(txtquantity))<1){
             availableNm.setText("Sold out");
             availableNm.setTextColor(getResources().getColor(R.color.highlight));
         }else{
             available.setText(txtquantity);
-        }
+        }*/
 
+        itemTitle.setText(txtname);
+        itemDec.setText(txtdescription);
+        available.setText(txtquantity);
         priceTV.setText(txtprice);
         if (!txtdiscount.equals("null")) {
             discountTV.setText(txtdiscount);
@@ -149,6 +157,8 @@ public class QuantityActivity extends AppCompatActivity {
         String t = String.valueOf(total);
         totalTV.setText(t);
 
+
+
         if(txtquantityType.equals("piece")){
             numberPicker.setVisibility(View.VISIBLE);
 
@@ -160,12 +170,12 @@ public class QuantityActivity extends AppCompatActivity {
                 numberPicker.setMax(Integer.parseInt(txtquantity));
                 numberPicker.setValue(1);
                 numberPicker.setMin(1);
-
             }
-
             type = true;
         }
         else {
+            QuantityPresenter presenter = new QuantityPresenter( this,QuantityActivity.this);
+            presenter.getUnitbyId(txtquantityId);
             qty1.setVisibility(View.VISIBLE);
             qty2.setVisibility(View.VISIBLE);
             type = false;
@@ -184,15 +194,17 @@ public class QuantityActivity extends AppCompatActivity {
     }
 
     public void placeOrder(View view) {
-        System.out.println("ok");
-        String qty01, qty02;
+        String qty0 = "";
+        String qty01 = "";
+        String qty02 = "";
         if(type){
-            qty01 = String.valueOf(numberPicker.getValue());
+            qty0 = String.valueOf(numberPicker.getValue());
         }
         else {
             qty01 = qty1.getText().toString();
             qty02 = qty2.getText().toString();
         }
+
         RadioButton checked = findViewById(radioGroup.getCheckedRadioButtonId());
         String checkedtxt = checked.getText().toString();
         String ads;
@@ -201,7 +213,19 @@ public class QuantityActivity extends AppCompatActivity {
         }else{
             ads = checkedtxt;
         }
-        PostOrder presenter = new PostOrder(QuantityActivity.this);
-        presenter.postOrderbyId(id,qty01,ads);//qty02
+        if(!type) {
+            if(!qty01.isEmpty()||!qty02.isEmpty()){
+                QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
+                post.postOrderbyId(id, qty0, qty01, qty02, ads);
+            }
+            else{
+                qty1.setError("Please value");
+            }
+        }
+        else{
+            QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
+            post.postOrderbyId(id, qty0, qty01, qty02, ads);
+        }
+
     }
 }

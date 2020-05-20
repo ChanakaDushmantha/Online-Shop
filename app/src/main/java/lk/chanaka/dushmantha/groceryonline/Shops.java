@@ -81,14 +81,13 @@ public class Shops extends AppCompatActivity {
 
                                 if(success.equals("true")){
                                     //Toast.makeText(Shops.this, "Shop Success!", Toast.LENGTH_SHORT).show();
-
                                     createList(data);
                                     loading.setVisibility(View.GONE);
 
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Toast.makeText(Shops.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(Shops.this, "Response type error "+e.toString(), Toast.LENGTH_LONG).show();
                             }
                         }
                     },
@@ -163,6 +162,5 @@ public class Shops extends AppCompatActivity {
         listAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_single_choice,array);
         shoplist.setAdapter(listAdapter);
         shoplist.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
     }
 }

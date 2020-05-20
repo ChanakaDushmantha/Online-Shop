@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.view.View;
 
-public class NetworkConnection {
+public class NetworkConnection { //temp class
 
     public Context context;
 

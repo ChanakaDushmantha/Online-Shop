@@ -1,17 +1,17 @@
-package lk.chanaka.dushmantha.groceryonline.OrderList;
+package lk.chanaka.dushmantha.groceryonline.OrderItems;
+
+import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -34,19 +34,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import lk.chanaka.dushmantha.groceryonline.ItemDetails.Item;
-import lk.chanaka.dushmantha.groceryonline.Items.List;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
+import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
-public class OrdersActivity extends AppCompatActivity {
+public class OrderItemsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private String host, token, URL;
     SessionManager sessionManager;
-    ArrayList<OrderItem> orderItems;
+    ArrayList<CartItem> cartItems;
     private ImageView emptycart;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +58,17 @@ public class OrdersActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
         token = sessionManager.getToken();
-        String shopid = sessionManager.getShopId();
-        URL = host+"/getAllOrders/"+shopid;
-        orderItems = new ArrayList<>();
-        extractItems();
+        //String shopid = sessionManager.getShopId();
 
+        Intent intent = getIntent();
+        String orderId = intent.getStringExtra("ID");
+
+        URL = host+"/getOrderById/"+orderId;
+        System.out.println(URL);
+        cartItems = new ArrayList<>();
+        extractItems();
     }
+
     private void extractItems() {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
@@ -75,23 +78,21 @@ public class OrdersActivity extends AppCompatActivity {
                         try{
                             JSONObject jsonObject = new JSONObject(response);
                             String success = jsonObject.getString("success");
-                            JSONArray data = jsonObject.getJSONArray("data");
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            JSONArray cart = data.getJSONArray("cart");
 
                             if(success.equals("true")){
-                                if(data.length()==0){
-                                    emptycart.setVisibility(View.VISIBLE);
-                                    Toast.makeText(OrdersActivity.this, "Order list Empty!", Toast.LENGTH_LONG).show();
-                                }else{
-                                    setAdaptor(data);
-                                }
+
+                                setAdaptor(cart);
+
                             }
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(OrdersActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(OrderItemsActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        AdapterOrder adapter = new AdapterOrder(getApplicationContext(),orderItems, host, token);
+                        AdapterCart adapter = new AdapterCart(getApplicationContext(), cartItems, host, token);
                         recyclerView.setAdapter(adapter);
 
                     }
@@ -112,7 +113,7 @@ public class OrdersActivity extends AppCompatActivity {
                 } else if (error instanceof ParseError) {
                     errorMsg = getString(R.string.parseError);
                 }
-                Toast.makeText(OrdersActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                Toast.makeText(OrderItemsActivity.this, errorMsg, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -133,13 +134,29 @@ public class OrdersActivity extends AppCompatActivity {
             try {
                 JSONObject detailsObject = data.getJSONObject(i);
 
-                OrderItem orderItem = new OrderItem();
-                orderItem.setId(detailsObject.getString("id").toString());
-                orderItem.setStatus(detailsObject.getString("status").toString());
-                orderItem.setDelivery_address(detailsObject.getString("delivery_address".toString()));
-                orderItem.setTotal_amount(detailsObject.getString("total_amount").toString());
-                orderItem.setAt(detailsObject.getString("created_at".toString()));
-                orderItems.add(orderItem);
+                CartItem cartItem = new CartItem();
+                cartItem.setId(detailsObject.getString("id"));
+                cartItem.setOrder_id(detailsObject.getString("order_id"));
+                cartItem.setItem_id(detailsObject.getString("item_id"));
+                cartItem.setName(detailsObject.getString("name"));
+                cartItem.setDescription(detailsObject.getString("description"));
+                cartItem.setImage_url(detailsObject.getString("image_url"));
+                cartItem.setPrice(detailsObject.getString("price"));
+                cartItem.setDiscount(detailsObject.getString("discount"));
+                cartItem.setQuantity(detailsObject.getString("quantity"));
+                cartItems.add(cartItem);
+                System.out.println(detailsObject);
+                /*"id": 15,
+                "order_id": 12,
+                "price": "55.00",
+                "discount": null,
+                "item_id": 2,
+                "quantity": "1",
+                "created_at": "2020-06-26 09:38:00",
+                "updated_at": "2020-06-26 09:38:00",
+                "name": "sunlight",
+                "description": "sunlight 65g",
+                "image_url": "http://10.0.2.2:8000ADGGHGHF456asdfre456789"*/
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -160,12 +177,11 @@ public class OrdersActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 //onBackPressed();
-                Intent intent = new Intent(OrdersActivity.this, List.class);
+                Intent intent = new Intent(this, OrdersActivity.class);
                 startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

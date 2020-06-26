@@ -194,11 +194,10 @@ public class QuantityActivity extends AppCompatActivity {
     }
 
     public void placeOrder(View view) {
-        String qty0 = "";
         String qty01 = "";
         String qty02 = "";
         if(type){
-            qty0 = String.valueOf(numberPicker.getValue());
+            qty01 = String.valueOf(numberPicker.getValue());
         }
         else {
             qty01 = qty1.getText().toString();
@@ -216,7 +215,7 @@ public class QuantityActivity extends AppCompatActivity {
         if(!type) {
             if(!qty01.isEmpty()||!qty02.isEmpty()){
                 QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
-                post.postOrderbyId(id, qty0, qty01, qty02, ads);
+                post.postOrderbyId(id, qty01, qty02, ads);
             }
             else{
                 qty1.setError("Please value");
@@ -224,7 +223,7 @@ public class QuantityActivity extends AppCompatActivity {
         }
         else{
             QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
-            post.postOrderbyId(id, qty0, qty01, qty02, ads);
+            post.postOrderbyId(id, qty01, qty02, ads);
         }
 
     }

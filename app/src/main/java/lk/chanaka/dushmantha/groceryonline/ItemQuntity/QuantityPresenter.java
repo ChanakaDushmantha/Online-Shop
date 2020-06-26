@@ -99,7 +99,7 @@ public class QuantityPresenter {
         queue.add(stringRequest);
     }
 
-    void postOrderbyId(String ItemId, String quantity,
+    void postOrderbyId(String ItemId,
                               String quantity1, String quantity2,
                               String address){
 
@@ -159,7 +159,6 @@ public class QuantityPresenter {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("cart_items[0][item_id]", ItemId);
-                params.put("cart_items[0][quantity]", quantity);
                 params.put("cart_items[0][quantity1]", quantity1);
                 params.put("cart_items[0][quantity2]", quantity2);
                 params.put("delivery_address", address);

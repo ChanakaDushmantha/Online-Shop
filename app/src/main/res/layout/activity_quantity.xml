@@ -297,6 +297,7 @@
                     app:cardUseCompatPadding="true">
 
                     <LinearLayout
+                        android:id="@+id/delInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -374,7 +375,23 @@
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:cardUseCompatPadding="true">
-
+                        <TextView
+                            android:id="@+id/placeCart"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:visibility="gone"
+                            android:onClick="cart"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Place to Cart"
+                            android:padding="14dp"
+                            android:textSize="16sp"
+                            android:textColor="#EC2D2D"
+                            android:gravity="center_vertical"
+                            android:drawablePadding="10dp"
+                            android:drawableLeft="@drawable/ic_shopping_cart"
+                            android:drawableStart="@drawable/ic_shopping_cart" />
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -389,7 +406,7 @@
                         app:cardUseCompatPadding="true">
 
                         <TextView
-                            android:id="@+id/source"
+                            android:id="@+id/placeOrder"
                             android:onClick="placeOrder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

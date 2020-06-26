@@ -1,6 +1,6 @@
 package lk.chanaka.dushmantha.groceryonline.OrderItems;
 
-public class CartItem {
+public class OrderItem {
     private String id;
     private String order_id;
     private String item_id;

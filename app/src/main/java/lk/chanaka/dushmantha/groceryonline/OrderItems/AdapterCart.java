@@ -7,45 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import lk.chanaka.dushmantha.groceryonline.ItemDetails.Item;
-import lk.chanaka.dushmantha.groceryonline.OrderList.OrderItem;
 import lk.chanaka.dushmantha.groceryonline.R;
 
 
 public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
     private LayoutInflater inflater;
-    private List<CartItem> cartItems;
+    private List<OrderItem> orderItems;
     private String host, token;
 
-    AdapterCart(Context ctx, List<CartItem> cartItems, String host, String token){
+    AdapterCart(Context ctx, List<OrderItem> orderItems, String host, String token){
         this.inflater = LayoutInflater.from(ctx);
-        this.cartItems = cartItems;
+        this.orderItems = orderItems;
         this.host = host;
         this.token = token;
     }
@@ -59,21 +40,21 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AdapterCart.ViewHolder holder, int position) {
-        holder.itemTitle.setText(cartItems.get(position).getName());
-        holder.itemDec.setText(cartItems.get(position).getDescription());
-        holder.price.setText(cartItems.get(position).getPrice());
-        String d = cartItems.get(position).getDiscount();
+        holder.itemTitle.setText(orderItems.get(position).getName());
+        holder.itemDec.setText(orderItems.get(position).getDescription());
+        holder.price.setText(orderItems.get(position).getPrice());
+        String d = orderItems.get(position).getDiscount();
         if(!d.equals("null")){
-            holder.discount.setText(cartItems.get(position).getDiscount());
+            holder.discount.setText(orderItems.get(position).getDiscount());
         }
-        holder.tvQuantity.setText(cartItems.get(position).getQuantity());
-        Picasso.get().load(cartItems.get(position).getImage_url()).into(holder.coverImage);
-        holder.itemId = cartItems.get(position).getItem_id();
+        holder.tvQuantity.setText(orderItems.get(position).getQuantity());
+        Picasso.get().load(orderItems.get(position).getImage_url()).into(holder.coverImage);
+        holder.itemId = orderItems.get(position).getItem_id();
     }
 
     @Override
     public int getItemCount() {
-        return cartItems.size();
+        return orderItems.size();
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{

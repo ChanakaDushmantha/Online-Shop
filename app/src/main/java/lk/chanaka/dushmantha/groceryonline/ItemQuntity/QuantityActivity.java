@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +22,10 @@ import com.travijuu.numberpicker.library.NumberPicker;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import lk.chanaka.dushmantha.groceryonline.Cart.Cart;
+import lk.chanaka.dushmantha.groceryonline.Cart.CartItem;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
@@ -100,6 +105,10 @@ public class QuantityActivity extends AppCompatActivity {
     private void setItem(){
 
         String Item = this.getIntent().getStringExtra("ITEM");
+        boolean cart = this.getIntent().getBooleanExtra("CART", false);
+        if(cart){
+            cartApply();
+        }
         try {
             item = new JSONObject(Item);
         } catch (JSONException e) {
@@ -182,6 +191,12 @@ public class QuantityActivity extends AppCompatActivity {
         }
     }
 
+    private void cartApply() {
+        findViewById(R.id.placeCart).setVisibility(View.VISIBLE);
+        findViewById(R.id.placeOrder).setVisibility(View.GONE);
+        findViewById(R.id.delInfo).setVisibility(View.INVISIBLE);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -224,6 +239,47 @@ public class QuantityActivity extends AppCompatActivity {
         else{
             QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
             post.postOrderbyId(id, qty01, qty02, ads);
+        }
+
+    }
+
+    public void cart(View view) {
+        String qty01 = "";
+        String qty02 = "";
+        if(type){
+            qty01 = String.valueOf(numberPicker.getValue());
+        }
+        else {
+            qty01 = qty1.getText().toString();
+            qty02 = qty2.getText().toString();
+        }
+
+        RadioButton checked = findViewById(radioGroup.getCheckedRadioButtonId());
+        String checkedtxt = checked.getText().toString();
+        String ads;
+        if(checkedtxt.equals("Custom")){
+            ads = address.getText().toString();
+        }else{
+            ads = checkedtxt;
+        }
+        if(!type) {
+            if(!qty01.isEmpty()||!qty02.isEmpty()){
+                /*QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
+                post.postOrderbyId(id, qty01, qty02, ads);*/
+                CartItem cartItem = new CartItem(this);
+                cartItem.addCart(id, qty01, qty02);
+                cartItem.SavePreference();
+            }
+            else{
+                qty1.setError("Please value");
+            }
+        }
+        else{
+            /*QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
+            post.postOrderbyId(id, qty01, qty02, ads);*/
+            CartItem cartItem = new CartItem(this);
+            cartItem.addCart(id, qty01, qty02);
+            cartItem.SavePreference();
         }
 
     }

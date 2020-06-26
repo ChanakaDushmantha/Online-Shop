@@ -44,7 +44,6 @@ public class ItemPresenter {
         token = sessionManager.getToken();
         host = ((MyApp) context.getApplicationContext()).getServiceURL();
         URL = host+"/getItemById/"+id;
-        System.out.println(URL);
 
         view.showLoading();
         RequestQueue queue = Volley.newRequestQueue(context);

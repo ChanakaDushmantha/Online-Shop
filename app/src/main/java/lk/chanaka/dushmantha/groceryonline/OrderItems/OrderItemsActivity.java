@@ -3,7 +3,6 @@ package lk.chanaka.dushmantha.groceryonline.OrderItems;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,7 +42,7 @@ public class OrderItemsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private String host, token, URL;
     SessionManager sessionManager;
-    ArrayList<CartItem> cartItems;
+    ArrayList<OrderItem> orderItems;
     private ImageView emptycart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class OrderItemsActivity extends AppCompatActivity {
 
         URL = host+"/getOrderById/"+orderId;
         System.out.println(URL);
-        cartItems = new ArrayList<>();
+        orderItems = new ArrayList<>();
         extractItems();
     }
 
@@ -92,7 +91,7 @@ public class OrderItemsActivity extends AppCompatActivity {
                             Toast.makeText(OrderItemsActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        AdapterCart adapter = new AdapterCart(getApplicationContext(), cartItems, host, token);
+                        AdapterCart adapter = new AdapterCart(getApplicationContext(), orderItems, host, token);
                         recyclerView.setAdapter(adapter);
 
                     }
@@ -134,17 +133,17 @@ public class OrderItemsActivity extends AppCompatActivity {
             try {
                 JSONObject detailsObject = data.getJSONObject(i);
 
-                CartItem cartItem = new CartItem();
-                cartItem.setId(detailsObject.getString("id"));
-                cartItem.setOrder_id(detailsObject.getString("order_id"));
-                cartItem.setItem_id(detailsObject.getString("item_id"));
-                cartItem.setName(detailsObject.getString("name"));
-                cartItem.setDescription(detailsObject.getString("description"));
-                cartItem.setImage_url(detailsObject.getString("image_url"));
-                cartItem.setPrice(detailsObject.getString("price"));
-                cartItem.setDiscount(detailsObject.getString("discount"));
-                cartItem.setQuantity(detailsObject.getString("quantity"));
-                cartItems.add(cartItem);
+                OrderItem orderItem = new OrderItem();
+                orderItem.setId(detailsObject.getString("id"));
+                orderItem.setOrder_id(detailsObject.getString("order_id"));
+                orderItem.setItem_id(detailsObject.getString("item_id"));
+                orderItem.setName(detailsObject.getString("name"));
+                orderItem.setDescription(detailsObject.getString("description"));
+                orderItem.setImage_url(detailsObject.getString("image_url"));
+                orderItem.setPrice(detailsObject.getString("price"));
+                orderItem.setDiscount(detailsObject.getString("discount"));
+                orderItem.setQuantity(detailsObject.getString("quantity"));
+                orderItems.add(orderItem);
                 System.out.println(detailsObject);
                 /*"id": 15,
                 "order_id": 12,

@@ -188,17 +188,18 @@ public class Item extends AppCompatActivity implements ItemView {
             value.append("\n RS." + txtdiscount);
         }
         setupActionBar();
-
-        cart.setOnClickListener(v -> {
-            //
-        });
-
-
     }
 
     public void buy(View view) {
         Intent i = new Intent(Item.this, QuantityActivity.class);
         i.putExtra("ITEM",object.toString());
+        startActivity(i);
+    }
+
+    public void cart(View view) {
+        Intent i = new Intent(Item.this, QuantityActivity.class);
+        i.putExtra("ITEM",object.toString());
+        i.putExtra("CART", true);
         startActivity(i);
     }
 }

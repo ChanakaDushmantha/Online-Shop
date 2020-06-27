@@ -63,7 +63,6 @@ public class OrderItemsActivity extends AppCompatActivity {
         String orderId = intent.getStringExtra("ID");
 
         URL = host+"/getOrderById/"+orderId;
-        System.out.println(URL);
         orderItems = new ArrayList<>();
         extractItems();
     }
@@ -91,7 +90,7 @@ public class OrderItemsActivity extends AppCompatActivity {
                             Toast.makeText(OrderItemsActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        AdapterCart adapter = new AdapterCart(getApplicationContext(), orderItems, host, token);
+                        AdapterOrderItem adapter = new AdapterOrderItem(getApplicationContext(), orderItems, host, token);
                         recyclerView.setAdapter(adapter);
 
                     }

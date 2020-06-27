@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import lk.chanaka.dushmantha.groceryonline.Cart.CartActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
@@ -220,6 +221,11 @@ public class List extends AppCompatActivity {
 
     public void order(View view) {
         Intent intent = new Intent(List.this, OrdersActivity.class);
+        startActivity(intent);
+    }
+
+    public void cart(View view) {
+        Intent intent = new Intent(List.this, CartActivity.class);
         startActivity(intent);
     }
 }

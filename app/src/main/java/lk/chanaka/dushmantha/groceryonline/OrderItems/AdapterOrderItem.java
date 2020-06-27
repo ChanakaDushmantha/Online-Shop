@@ -19,12 +19,12 @@ import lk.chanaka.dushmantha.groceryonline.ItemDetails.Item;
 import lk.chanaka.dushmantha.groceryonline.R;
 
 
-public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
+public class AdapterOrderItem extends RecyclerView.Adapter<AdapterOrderItem.ViewHolder> {
     private LayoutInflater inflater;
     private List<OrderItem> orderItems;
     private String host, token;
 
-    AdapterCart(Context ctx, List<OrderItem> orderItems, String host, String token){
+    AdapterOrderItem(Context ctx, List<OrderItem> orderItems, String host, String token){
         this.inflater = LayoutInflater.from(ctx);
         this.orderItems = orderItems;
         this.host = host;
@@ -33,13 +33,13 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
 
     @NonNull
     @Override
-    public AdapterCart.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterOrderItem.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.custom_ordereditem,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterCart.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterOrderItem.ViewHolder holder, int position) {
         holder.itemTitle.setText(orderItems.get(position).getName());
         holder.itemDec.setText(orderItems.get(position).getDescription());
         holder.price.setText(orderItems.get(position).getPrice());

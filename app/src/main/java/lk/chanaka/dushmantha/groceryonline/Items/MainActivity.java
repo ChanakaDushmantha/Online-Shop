@@ -198,18 +198,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    public void logout(View view) {
+    /*public void logout(View view) {
         sessionManager.logout();
     }
     public void order(View view) {
         Intent intent = new Intent(this, OrdersActivity.class);
         startActivity(intent);
     }
-
     public void cart(View view) {
         Intent intent = new Intent(this, CartActivity.class);
         startActivity(intent);
-    }
+    }*/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

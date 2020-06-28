@@ -44,10 +44,15 @@ public class OrderItemsActivity extends AppCompatActivity {
     SessionManager sessionManager;
     ArrayList<OrderItem> orderItems;
     private ImageView emptycart;
+    private String orderId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
+
+        Intent intent = getIntent();
+        orderId = intent.getStringExtra("ID");
+
         SetToolbar();
         recyclerView = findViewById(R.id.OrderList);
         emptycart = findViewById(R.id.emptycart);
@@ -58,9 +63,6 @@ public class OrderItemsActivity extends AppCompatActivity {
         sessionManager.checkLogin();
         token = sessionManager.getToken();
         //String shopid = sessionManager.getShopId();
-
-        Intent intent = getIntent();
-        String orderId = intent.getStringExtra("ID");
 
         URL = host+"/getOrderById/"+orderId;
         orderItems = new ArrayList<>();
@@ -166,7 +168,7 @@ public class OrderItemsActivity extends AppCompatActivity {
     private void SetToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("");
+        this.getSupportActionBar().setTitle("ORDER ID "+orderId);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
     }

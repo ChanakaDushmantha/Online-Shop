@@ -127,7 +127,7 @@ public class ProfilePicture extends AppCompatActivity {
                 final Uri resultUri = result.getUri();
                 civProfile.setImageURI(resultUri);
                 btnNext.setCardBackgroundColor(0xFFD81B60);
-                System.out.println(resultUri);
+                //System.out.println(resultUri);
                 btnNext.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

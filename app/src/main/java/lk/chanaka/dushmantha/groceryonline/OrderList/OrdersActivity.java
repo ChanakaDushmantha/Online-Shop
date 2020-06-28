@@ -152,7 +152,7 @@ public class OrdersActivity extends AppCompatActivity {
     private void SetToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("");
+        this.getSupportActionBar().setTitle("ORDERS");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
     }

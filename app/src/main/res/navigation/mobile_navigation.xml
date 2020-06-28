@@ -53,4 +53,8 @@
         android:id="@+id/shops"
         android:name="lk.chanaka.dushmantha.groceryonline.Shops"
         android:label="Shops" />
+    <activity
+        android:id="@+id/cartActivity"
+        android:name="lk.chanaka.dushmantha.groceryonline.Cart.CartActivity"
+        android:label="CartActivity" />
 </navigation>

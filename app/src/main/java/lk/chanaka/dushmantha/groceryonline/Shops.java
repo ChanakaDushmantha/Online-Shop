@@ -36,13 +36,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lk.chanaka.dushmantha.groceryonline.Items.List;
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 
 public class Shops extends AppCompatActivity {
 
     private ProgressBar loading;
     private CardView btn_next;
     private ListView shoplist;
-    private static String URL = "/getAllShop";
+    private static String URL = "";
     private String host;
     private String token;
     private int shopId = -1;
@@ -58,7 +59,7 @@ public class Shops extends AppCompatActivity {
         token = sessionManager.getToken();
 
         host = ((MyApp) this.getApplication()).getServiceURL();
-        URL = host+URL;
+        URL = host+"/getAllShop";
 
         loading = findViewById(R.id.loading);
         btn_next = findViewById(R.id.btn_next);
@@ -140,7 +141,7 @@ public class Shops extends AppCompatActivity {
                 else{
                     //System.out.println(shopId);
                     sessionManager.addShop(shopId);
-                    Intent intent = new Intent(Shops.this, List.class);
+                    Intent intent = new Intent(Shops.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }

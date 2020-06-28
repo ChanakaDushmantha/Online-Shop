@@ -36,6 +36,7 @@ import java.util.Map;
 
 import lk.chanaka.dushmantha.groceryonline.ItemDetails.Item;
 import lk.chanaka.dushmantha.groceryonline.Items.List;
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
@@ -160,7 +161,7 @@ public class OrdersActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 //onBackPressed();
-                Intent intent = new Intent(OrdersActivity.this, List.class);
+                Intent intent = new Intent(OrdersActivity.this, MainActivity.class);
                 startActivity(intent);
                 return true;
             default:

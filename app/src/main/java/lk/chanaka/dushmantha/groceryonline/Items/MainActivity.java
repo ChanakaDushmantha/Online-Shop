@@ -1,19 +1,7 @@
 package lk.chanaka.dushmantha.groceryonline.Items;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -27,6 +15,30 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.Menu;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +54,7 @@ import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
-public class List extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     java.util.List<GroceryItem> groceryItems;
     private static String URL;
@@ -50,36 +62,62 @@ public class List extends AppCompatActivity {
     private SessionManager sessionManager;
     private String token;
     lk.chanaka.dushmantha.groceryonline.Items.Adapter adapter;
-    Toolbar toolbar;
     View shimmerItem;
+
+    private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        /*FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });*/
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
+                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                .setDrawerLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
 
-        this.setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("");
-
+        navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                sessionManager.logout();
+                return false;
+            }
+        });
         host = ((MyApp) this.getApplication()).getServiceURL();
 
 
-        sessionManager = new SessionManager(List.this);
+        sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
         token = sessionManager.getToken();
         String shopid = sessionManager.getShopId();
         URL = host+"/getAllItem/"+shopid;
 
         recyclerView = findViewById(R.id.itemList2);
-        toolbar = findViewById(R.id.toolbar);
         shimmerItem = findViewById(R.id.shimmerItem);
 
 
 
         groceryItems = new ArrayList<>();
         extractItems();
-    }
 
+    }
     private void extractItems() {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
@@ -100,7 +138,7 @@ public class List extends AppCompatActivity {
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(List.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         adapter = new Adapter(getApplicationContext(),groceryItems);
@@ -108,35 +146,35 @@ public class List extends AppCompatActivity {
 
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String errorMsg = "Error";
-                        if (error instanceof NoConnectionError) {
-                            errorMsg = getString(R.string.noConnectionError);
-                        } else if (error instanceof TimeoutError) {
-                            errorMsg = getString(R.string.timeoutError);
-                        } else if (error instanceof AuthFailureError) {
-                            errorMsg = getString(R.string.authFailureError);
-                        } else if (error instanceof ServerError) {
-                            errorMsg = getString(R.string.serverError);
-                        } else if (error instanceof NetworkError) {
-                            errorMsg = getString(R.string.networkError);
-                        } else if (error instanceof ParseError) {
-                            errorMsg = getString(R.string.parseError);
-                        }
-                        Toast.makeText(List.this, errorMsg, Toast.LENGTH_LONG).show();
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("Authorization", "Bearer " + token);
-                        //System.out.println(token);
-                        return params;
-                    }
-                };
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMsg = "Error";
+                if (error instanceof NoConnectionError) {
+                    errorMsg = getString(R.string.noConnectionError);
+                } else if (error instanceof TimeoutError) {
+                    errorMsg = getString(R.string.timeoutError);
+                } else if (error instanceof AuthFailureError) {
+                    errorMsg = getString(R.string.authFailureError);
+                } else if (error instanceof ServerError) {
+                    errorMsg = getString(R.string.serverError);
+                } else if (error instanceof NetworkError) {
+                    errorMsg = getString(R.string.networkError);
+                } else if (error instanceof ParseError) {
+                    errorMsg = getString(R.string.parseError);
+                }
+                Toast.makeText(MainActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + token);
+                //System.out.println(token);
+                return params;
+            }
+        };
 
-                queue.add(stringRequest);
+        queue.add(stringRequest);
 
     }
     private void setAdaptor(JSONArray data){
@@ -160,33 +198,21 @@ public class List extends AppCompatActivity {
             }
         }
     }
-    /*{
-            "id": 1,
-            "name": "sugar",
-            "description": "white sugar",
-            "price": "100.00",
-            "quantity": "100750",
-            "discount": "13.00",
-            "category_id": 1,
-            "quantity_type_id": 2,
-            "shop_id": 1,
-            "image_url": "http://10.0.2.2:8000/storage/common_media/c07d684946ecde21367ecac04837b362.jpg",
-            "created_at": "2020-03-05 00:00:00",
-            "updated_at": "2020-05-19 18:31:16",
-            "quantity_type": {
-                "id": 2,
-                "name": "loose",
-                "unit1": "Kg",
-                "unit2": "g"
-            }
-        }*/
-
     public void logout(View view) {
         sessionManager.logout();
     }
+    public void order(View view) {
+        Intent intent = new Intent(this, OrdersActivity.class);
+        startActivity(intent);
+    }
 
+    public void cart(View view) {
+        Intent intent = new Intent(this, CartActivity.class);
+        startActivity(intent);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search_view);
@@ -208,9 +234,15 @@ public class List extends AppCompatActivity {
                 return true;
             }
         });
-        return  true;
+        return true;
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -221,13 +253,4 @@ public class List extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void order(View view) {
-        Intent intent = new Intent(List.this, OrdersActivity.class);
-        startActivity(intent);
-    }
-
-    public void cart(View view) {
-        Intent intent = new Intent(List.this, CartActivity.class);
-        startActivity(intent);
-    }
 }

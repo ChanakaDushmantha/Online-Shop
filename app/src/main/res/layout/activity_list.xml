@@ -10,7 +10,7 @@
     android:layout_height="match_parent"
     tools:context=".Items.List">
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_weight="0.85"
         android:layout_width="match_parent"
         android:layout_height="0dp">
@@ -29,7 +29,7 @@
                 android:layout_gravity="center"
                 />
         </androidx.appcompat.widget.Toolbar>
-    </LinearLayout>
+    </LinearLayout>-->
 
 
     <LinearLayout

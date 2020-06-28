@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -51,7 +52,9 @@ import java.util.Map;
 import lk.chanaka.dushmantha.groceryonline.Cart.CartActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
+import lk.chanaka.dushmantha.groceryonline.ProfilePicture;
 import lk.chanaka.dushmantha.groceryonline.R;
+import lk.chanaka.dushmantha.groceryonline.Register;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        host = ((MyApp) this.getApplication()).getServiceURL();
+        sessionManager = new SessionManager(this);
+        sessionManager.checkLogin();
+        token = sessionManager.getToken();
+
         /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                R.id.nav_tools, R.id.nav_user, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -100,12 +109,30 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        host = ((MyApp) this.getApplication()).getServiceURL();
+
+        ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.nav_profilePic);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProfilePicture.class);
+                intent.putExtra("UPDATE", true);
+                startActivity(intent);
+            }
+        });
+
+        navigationView.getMenu().findItem(R.id.nav_user).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(MainActivity.this, Register.class);
+                intent.putExtra("UPDATE", true);
+                intent.putExtra("TOKEN", token);
+                startActivity(intent);
+                return false;
+            }
+        });
 
 
-        sessionManager = new SessionManager(this);
-        sessionManager.checkLogin();
-        token = sessionManager.getToken();
+
         String shopid = sessionManager.getShopId();
         URL = host+"/getAllItem/"+shopid;
 

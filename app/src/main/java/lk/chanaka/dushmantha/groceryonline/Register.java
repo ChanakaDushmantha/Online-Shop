@@ -2,6 +2,7 @@ package lk.chanaka.dushmantha.groceryonline;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -27,6 +29,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,6 +45,8 @@ public class Register extends AppCompatActivity {
     SessionManager sessionManager;
     private AwesomeValidation awesomeValidation;
     private String host;
+    private String token;
+    private boolean update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +54,22 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         sessionManager = new SessionManager(this);
-        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-
+        token = sessionManager.getToken();
         host = ((MyApp) this.getApplication()).getServiceURL();
         URL = host+"/register";
-        
+        Intent i = getIntent();
+        update = i.getBooleanExtra("UPDATE", false);
+        if(update){
+            URL = "";
+            URL = host + "/updateUser";
+            TextView t = findViewById(R.id.tvSubmit);
+            t.setText("Update");
+            findViewById(R.id.login).setVisibility(View.INVISIBLE);
+            extractData(i.getStringExtra("TOKEN"));
+        }
+
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+
         loading = findViewById(R.id.loading);
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
@@ -87,6 +103,81 @@ public class Register extends AppCompatActivity {
 
     }
 
+    private void extractData(String token) {
+
+        String URLuserProofile = host + "/userProfile";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLuserProofile,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+                            JSONObject data = jsonObject.getJSONObject("data");
+
+                            if(success.equals("true")){
+                                setData(data);
+                            }
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(Register.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMsg = "Error";
+                if (error instanceof NoConnectionError) {
+                    errorMsg = getString(R.string.noConnectionError);
+                } else if (error instanceof TimeoutError) {
+                    errorMsg = getString(R.string.timeoutError);
+                } else if (error instanceof AuthFailureError) {
+                    errorMsg = getString(R.string.authFailureError);
+                } else if (error instanceof ServerError) {
+                    errorMsg = getString(R.string.serverError);
+                } else if (error instanceof NetworkError) {
+                    errorMsg = getString(R.string.networkError);
+                } else if (error instanceof ParseError) {
+                    errorMsg = getString(R.string.parseError);
+                }
+                Toast.makeText(Register.this, errorMsg, Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + token);
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
+    private void setData(JSONObject data) {
+        try {
+            this.name.setText(data.getString("name"));
+            this.email.setText(data.getString("email"));
+            this.address.setText(data.getString("address"));
+            this.mobile.setText(data.getString("contact_no"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+                /*"id": 3,
+        "shop_id": null,
+        "name": "Vihanga",
+        "email": "vihanga@gmail.com",
+        "address": "dfnjhjkfgjhjslf",
+        "contact_no": "0710390283",
+        "user_type": "user",
+        "image_url": "http://10.0.2.2:8000ADGGHGHF456asdfre",
+        "email_verified_at": null,
+        "created_at": "2020-03-05 00:00:00",
+        "updated_at": "2020-03-05 00:00:00"*/
+    }
+
     private void Regist(){
         loading.setVisibility(View.VISIBLE);
         btn_register.setVisibility(View.INVISIBLE);
@@ -104,15 +195,26 @@ public class Register extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String success =  jsonObject.getString("success");
-                            String token = jsonObject.getString("data");
+                            String newtoken = jsonObject.getString("data");
 
                             if(success.equals("true")){
                                 Toast.makeText(Register.this, "Register Success!", Toast.LENGTH_SHORT).show();
-                                sessionManager.createSession(name, email, address, token);
 
-                                Intent intent = new Intent(Register.this, ProfilePicture.class);
-                                startActivity(intent);
-                                finish();
+                                if(update){
+                                    sessionManager.createSession(name, email, address, token);
+                                    Intent intent = new Intent(Register.this, ProfilePicture.class);
+                                    intent.putExtra("UPDATE", true);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                                else{
+                                    sessionManager.createSession(name, email, address, newtoken);
+                                    Intent intent = new Intent(Register.this, ProfilePicture.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -145,8 +247,15 @@ public class Register extends AppCompatActivity {
                         btn_register.setVisibility(View.VISIBLE);
 
                     }
-                })
-        {
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + token);
+                return params;
+            }
+
+
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -158,6 +267,7 @@ public class Register extends AppCompatActivity {
                 return params;
             }
         };
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }

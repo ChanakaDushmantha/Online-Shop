@@ -3,6 +3,7 @@ package lk.chanaka.dushmantha.groceryonline;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -16,6 +17,18 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -29,15 +42,22 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
+import lk.chanaka.dushmantha.groceryonline.OrderItems.AdapterOrderItem;
+import lk.chanaka.dushmantha.groceryonline.OrderItems.OrderItemsActivity;
 
 public class ProfilePicture extends AppCompatActivity {
 
@@ -59,6 +79,12 @@ public class ProfilePicture extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         token = sessionManager.getToken();
+
+        Intent i = getIntent();
+        if(i.getBooleanExtra("UPDATE", false)){
+            extractData();
+        }
+
 
         ImageButton ibPick = findViewById(R.id.btn_pick);
         civProfile = findViewById(R.id.profile_image);
@@ -119,6 +145,68 @@ public class ProfilePicture extends AppCompatActivity {
         });
     }
 
+    private void extractData() {
+        String URLuserProofile = host + "/userProfile";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLuserProofile,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+                            JSONObject data = jsonObject.getJSONObject("data");
+
+                            if(success.equals("true")){
+                                setData(data);
+                            }
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(ProfilePicture.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMsg = "Error";
+                if (error instanceof NoConnectionError) {
+                    errorMsg = getString(R.string.noConnectionError);
+                } else if (error instanceof TimeoutError) {
+                    errorMsg = getString(R.string.timeoutError);
+                } else if (error instanceof AuthFailureError) {
+                    errorMsg = getString(R.string.authFailureError);
+                } else if (error instanceof ServerError) {
+                    errorMsg = getString(R.string.serverError);
+                } else if (error instanceof NetworkError) {
+                    errorMsg = getString(R.string.networkError);
+                } else if (error instanceof ParseError) {
+                    errorMsg = getString(R.string.parseError);
+                }
+                Toast.makeText(ProfilePicture.this, errorMsg, Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + token);
+                //System.out.println(token);
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
+    private void setData(JSONObject data) {
+        try {
+            Picasso.get().load(data.getString("image_url")).into(civProfile);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -127,7 +215,7 @@ public class ProfilePicture extends AppCompatActivity {
                 final Uri resultUri = result.getUri();
                 civProfile.setImageURI(resultUri);
                 btnNext.setCardBackgroundColor(0xFFD81B60);
-                //System.out.println(resultUri);
+                System.out.println(resultUri);
                 btnNext.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -159,7 +247,7 @@ public class ProfilePicture extends AppCompatActivity {
                                             String message = jsonObject.getString("message");
                                             if(success.equals("true")){
                                                 Toast.makeText(ProfilePicture.this, message  , Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ProfilePicture.this, Itemlist.class);
+                                                Intent intent = new Intent(ProfilePicture.this, MainActivity.class);
                                                 startActivity(intent);
                                                 finish();
                                             }
@@ -192,7 +280,8 @@ public class ProfilePicture extends AppCompatActivity {
     }
 
     public void skip(View view) {
-        Intent intent = new Intent(ProfilePicture.this, Itemlist.class);
+        Intent intent = new Intent(ProfilePicture.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }

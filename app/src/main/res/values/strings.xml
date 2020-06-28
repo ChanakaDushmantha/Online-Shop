@@ -36,7 +36,7 @@
     <string name="menu_home">FOODS</string>
     <string name="menu_gallery">ORDERS</string>
     <string name="menu_slideshow">CART</string>
-    <string name="menu_tools">SHOPS</string>
-    <string name="menu_share">Share</string>
+    <string name="menu_tools">Shop</string>
+    <string name="menu_share">User</string>
     <string name="menu_send">LOGOUT</string>
 </resources>

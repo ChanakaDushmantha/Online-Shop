@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private String token;
     lk.chanaka.dushmantha.groceryonline.Items.Adapter adapter;
     View shimmerItem;
+    NavigationView navigationView;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -101,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        setUserDeatails();
 
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -139,12 +143,18 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.itemList2);
         shimmerItem = findViewById(R.id.shimmerItem);
 
-
-
         groceryItems = new ArrayList<>();
         extractItems();
 
     }
+
+    private void setUserDeatails() {
+        TextView nav_name = navigationView.getHeaderView(0).findViewById(R.id.nav_name);
+        nav_name.setText(sessionManager.getName());
+        TextView nav_email = this.navigationView.getHeaderView(0).findViewById(R.id.nav_email);
+        nav_email.setText(sessionManager.getEmail());
+    }
+
     private void extractItems() {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,

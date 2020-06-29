@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.google.common.collect.Lists;
 
 import java.util.HashMap;
 
-import lk.chanaka.dushmantha.groceryonline.Items.List;
 
 public class SessionManager {
 
@@ -57,6 +55,16 @@ public class SessionManager {
 
     public String getAddress(){
         String ads = sharedPreferences.getString(ADDRESS, null);
+        return ads;
+    }
+
+    public String getName(){
+        String ads = sharedPreferences.getString(NAME, null);
+        return ads;
+    }
+
+    public String getEmail(){
+        String ads = sharedPreferences.getString(EMAIL, null);
         return ads;
     }
 

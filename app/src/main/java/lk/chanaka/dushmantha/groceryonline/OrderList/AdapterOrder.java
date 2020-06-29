@@ -77,6 +77,10 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
                 holder.coverImage.setImageResource(R.drawable.ic_action_completed);
                 holder.status.setTextColor(inflater.getContext().getResources().getColor(R.color.completed));
                 break;}
+            case "rejected":{
+                holder.coverImage.setImageResource(R.drawable.ic_action_rejected);
+                holder.status.setTextColor(inflater.getContext().getResources().getColor(R.color.rejected));
+                break;}
             default: {
                 holder.coverImage.setImageResource(R.drawable.ic_action_image);
                 break;}

@@ -49,9 +49,6 @@
             android:name=".Shops"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Itemlist"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ProfilePicture"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

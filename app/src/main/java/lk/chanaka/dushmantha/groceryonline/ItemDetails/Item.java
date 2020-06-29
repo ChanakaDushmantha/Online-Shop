@@ -174,7 +174,7 @@ public class Item extends AppCompatActivity implements ItemView {
         }else{
             quantity.setText(txtquantity);
         }*/
-        quantity.setText(txtquantity);
+        //quantity.setText(txtquantity);
         price.setText("RS. "+txtprice);
         description.setText(txtdescription);
 

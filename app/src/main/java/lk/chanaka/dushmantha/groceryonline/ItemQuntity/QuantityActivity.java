@@ -150,7 +150,7 @@ public class QuantityActivity extends AppCompatActivity {
 
         itemTitle.setText(txtname);
         itemDec.setText(txtdescription);
-        available.setText(txtquantity);
+        available.setText(txtquantity); //invisible textview
         priceTV.setText(txtprice);
         if (!txtdiscount.equals("null")) {
             discountTV.setText(txtdiscount);
@@ -176,7 +176,7 @@ public class QuantityActivity extends AppCompatActivity {
                 numberPicker.setActionEnabled(ActionEnum.DECREMENT, false);
                 numberPicker.setValue(0);
             }else{
-                numberPicker.setMax(Integer.parseInt(txtquantity));
+                //numberPicker.setMax(Integer.parseInt(txtquantity)); without check availability
                 numberPicker.setValue(1);
                 numberPicker.setMin(1);
             }

@@ -162,6 +162,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:text=""
+                            android:visibility="invisible"
                             app:layout_constraintEnd_toStartOf="@+id/availableNm"
                             app:layout_constraintTop_toTopOf="@+id/availableNm" />
 
@@ -172,6 +173,7 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
                             android:text="available"
+                            android:visibility="invisible"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -327,7 +329,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:buttonTint="#009688"
-                                    android:checked="true"
+                                    android:checked="false"
+                                    android:clickable="false"
                                     android:text="No Delivery" />
 
                                 <RadioButton
@@ -335,6 +338,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:buttonTint="#009688"
+                                    android:checked="true"
                                     android:text="No73, Kandy." />
 
                                 <RadioButton

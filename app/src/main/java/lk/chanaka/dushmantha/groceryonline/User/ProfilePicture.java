@@ -65,6 +65,7 @@ public class ProfilePicture extends AppCompatActivity {
     SessionManager sessionManager;
     private String token;
     private String host;
+    private boolean update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,8 @@ public class ProfilePicture extends AppCompatActivity {
         token = sessionManager.getToken();
 
         Intent i = getIntent();
-        if(i.getBooleanExtra("UPDATE", false)){
+        update = i.getBooleanExtra("UPDATE", false);
+        if(update){
             extractData();
         }
 
@@ -198,7 +200,11 @@ public class ProfilePicture extends AppCompatActivity {
 
     private void setData(JSONObject data) {
         try {
-            Picasso.get().load(data.getString("image_url")).into(civProfile);
+            String image = data.getString("image_url");
+            if(!image.equals("null")){
+                Picasso.get().load(image).into(civProfile);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -242,9 +248,17 @@ public class ProfilePicture extends AppCompatActivity {
                                             JSONObject jsonObject = new JSONObject(response);
                                             String success = jsonObject.getString("success");
                                             String message = jsonObject.getString("message");
+                                            String image_url = jsonObject.getString("data");
                                             if(success.equals("true")){
+                                                sessionManager.addImage(image_url);
                                                 Toast.makeText(ProfilePicture.this, message  , Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ProfilePicture.this, MainActivity.class);
+                                                Intent intent;
+                                                if(update){
+                                                    intent = new Intent(ProfilePicture.this, MainActivity.class);
+                                                }else{
+                                                    intent = new Intent(ProfilePicture.this, Shops.class);
+                                                }
+
                                                 startActivity(intent);
                                                 finish();
                                             }

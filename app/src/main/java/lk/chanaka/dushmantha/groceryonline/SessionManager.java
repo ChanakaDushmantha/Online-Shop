@@ -25,13 +25,13 @@ public class SessionManager {
     public static final String ADDRESS = "ADDRESS";
     public static final String TOKEN = "TOKEN";
     public static final String SHOPID = "SHOPID";
+    public static final String IMAGE = "IMAGE";
 
     public SessionManager(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = sharedPreferences.edit();
     }
-
     public void createSession(String name, String email, String address, String token){
 
         editor.putBoolean(LOGIN, true);
@@ -39,7 +39,20 @@ public class SessionManager {
         editor.putString(EMAIL, email);
         editor.putString(ADDRESS, address);
         editor.putString(TOKEN, token);
-        editor.putString(SHOPID, "1");
+        //editor.putString(SHOPID, "1");
+        editor.apply();
+
+    }
+
+    public void createSession(String name, String email, String address, String token, String image_url){
+
+        editor.putBoolean(LOGIN, true);
+        editor.putString(NAME, name);
+        editor.putString(EMAIL, email);
+        editor.putString(ADDRESS, address);
+        editor.putString(TOKEN, token);
+        editor.putString(IMAGE, image_url);
+        //editor.putString(SHOPID, "1");
         editor.apply();
 
     }
@@ -48,6 +61,16 @@ public class SessionManager {
         String shopId = String.valueOf(id);
         editor.putString(SHOPID, shopId);
         editor.apply();
+    }
+
+    public void addImage(String image){
+        editor.putString(IMAGE, image);
+        editor.apply();
+    }
+
+    public String getImage(){
+        String image = sharedPreferences.getString(IMAGE, null);
+        return image;
     }
 
     public String getShopId(){

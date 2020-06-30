@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.NetworkConnection;
 import lk.chanaka.dushmantha.groceryonline.R;
@@ -198,19 +199,20 @@ public class Register extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String success =  jsonObject.getString("success");
-                            String newtoken = jsonObject.getString("data");
 
                             if(success.equals("true")){
                                 Toast.makeText(Register.this, "Register Success!", Toast.LENGTH_SHORT).show();
 
                                 if(update){
                                     sessionManager.createSession(name, email, address, token);
-                                    Intent intent = new Intent(Register.this, ProfilePicture.class);
+                                    Intent intent = new Intent(Register.this, MainActivity.class);
                                     intent.putExtra("UPDATE", true);
                                     startActivity(intent);
                                     finish();
                                 }
                                 else{
+                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    String newtoken = data.getString("token");
                                     sessionManager.createSession(name, email, address, newtoken);
                                     Intent intent = new Intent(Register.this, ProfilePicture.class);
                                     startActivity(intent);

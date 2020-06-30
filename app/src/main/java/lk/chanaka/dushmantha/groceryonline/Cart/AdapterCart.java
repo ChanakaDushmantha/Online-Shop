@@ -97,7 +97,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
             deletebtn = itemView.findViewById(R.id.deletebtn);
 
             // handle onClick
-
+            deletebtn.setVisibility(View.VISIBLE);
             deletebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

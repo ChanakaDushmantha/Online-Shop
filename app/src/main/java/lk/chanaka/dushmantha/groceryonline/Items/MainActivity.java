@@ -27,6 +27,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     lk.chanaka.dushmantha.groceryonline.Items.Adapter adapter;
     View shimmerItem;
     NavigationView navigationView;
+    ImageView imageView;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -100,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        setUserDeatails();
+        imageView = navigationView.getHeaderView(0).findViewById(R.id.nav_profilePic);
+        setUserDetails();
 
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.nav_profilePic);
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,8 +134,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         String shopid = sessionManager.getShopId();
         URL = host+"/getAllItem/"+shopid;
 
@@ -144,11 +145,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setUserDeatails() {
+    private void setUserDetails() {
         TextView nav_name = navigationView.getHeaderView(0).findViewById(R.id.nav_name);
         nav_name.setText(sessionManager.getName());
         TextView nav_email = this.navigationView.getHeaderView(0).findViewById(R.id.nav_email);
         nav_email.setText(sessionManager.getEmail());
+        String image = "";
+        image = sessionManager.getImage();
+
+        if(image!=null){
+            Picasso.get().load(image).into(imageView);
+        }
     }
 
     private void extractItems() {

@@ -11,7 +11,10 @@ public class MyApp extends Application {
         super.onCreate();
         AndroidNetworking.initialize(getApplicationContext());
     }
-    private String host = "http://10.0.2.2:8000/api"; //should use 10.0.2.2 for local host, laravel 10.0.2.2:8000
+    private String host = "http://10.0.2.2:8000/api";
+    //https://groceryonlinesrilanka.000webhostapp.com/api
+    //
+    // should use 10.0.2.2 for local host, laravel 10.0.2.2:8000
 
     public String getServiceURL() {
         return host;

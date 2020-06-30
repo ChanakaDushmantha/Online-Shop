@@ -96,10 +96,11 @@ public class LoginActivity extends AppCompatActivity {
                             String token = data.getString("token");
                             String myName = data.getString("name");
                             String myAddress = data.getString("address");
+                            String image_url = data.getString("image_url");
 
                             if(success.equals("true")){
                                 Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
-                                sessionManager.createSession(myName, email, myAddress, token);
+                                sessionManager.createSession(myName, email, myAddress, token, image_url);
                                 Intent intent = new Intent(LoginActivity.this, Shops.class);
                                 startActivity(intent);
                                 finish();

@@ -15,8 +15,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -50,12 +48,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import lk.chanaka.dushmantha.groceryonline.Cart.CartActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
-import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
-import lk.chanaka.dushmantha.groceryonline.ProfilePicture;
+import lk.chanaka.dushmantha.groceryonline.User.ProfilePicture;
 import lk.chanaka.dushmantha.groceryonline.R;
-import lk.chanaka.dushmantha.groceryonline.Register;
+import lk.chanaka.dushmantha.groceryonline.User.Register;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 public class MainActivity extends AppCompatActivity {

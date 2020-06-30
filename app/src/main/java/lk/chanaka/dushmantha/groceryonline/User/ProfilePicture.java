@@ -1,9 +1,8 @@
-package lk.chanaka.dushmantha.groceryonline;
+package lk.chanaka.dushmantha.groceryonline.User;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,10 +30,8 @@ import com.android.volley.toolbox.Volley;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
-import com.androidnetworking.model.Progress;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -46,7 +42,6 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,8 +51,10 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
-import lk.chanaka.dushmantha.groceryonline.OrderItems.AdapterOrderItem;
-import lk.chanaka.dushmantha.groceryonline.OrderItems.OrderItemsActivity;
+import lk.chanaka.dushmantha.groceryonline.MyApp;
+import lk.chanaka.dushmantha.groceryonline.NetworkConnection;
+import lk.chanaka.dushmantha.groceryonline.R;
+import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 public class ProfilePicture extends AppCompatActivity {
 

@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
-import lk.chanaka.dushmantha.groceryonline.ItemQuntity.QuantityActivity;
+import lk.chanaka.dushmantha.groceryonline.ItemQuantity.QuantityActivity;
 
 
 public class Item extends AppCompatActivity implements ItemView {

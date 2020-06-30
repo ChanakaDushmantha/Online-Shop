@@ -1,8 +1,7 @@
-package lk.chanaka.dushmantha.groceryonline;
+package lk.chanaka.dushmantha.groceryonline.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,12 +28,16 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import lk.chanaka.dushmantha.groceryonline.MyApp;
+import lk.chanaka.dushmantha.groceryonline.NetworkConnection;
+import lk.chanaka.dushmantha.groceryonline.R;
+import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 public class Register extends AppCompatActivity {
 

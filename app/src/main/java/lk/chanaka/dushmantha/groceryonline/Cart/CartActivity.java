@@ -1,8 +1,10 @@
 package lk.chanaka.dushmantha.groceryonline.Cart;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,11 +40,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import lk.chanaka.dushmantha.groceryonline.Items.List;
+
+import lk.chanaka.dushmantha.groceryonline.ItemQuantity.QuantityActivity;
 import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.OrderItems.OrderItem;
-import lk.chanaka.dushmantha.groceryonline.OrderList.AdapterOrder;
 import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
@@ -48,7 +54,7 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private String host, token, URL;
     SessionManager sessionManager;
-    ArrayList<OrderItem> orderItems;
+    ArrayList<Cart> cartItems;
     private ImageView emptycart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +69,32 @@ public class CartActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
         token = sessionManager.getToken();
-        //String shopid = sessionManager.getShopId();
+        String shopid = sessionManager.getShopId();
 
-        Intent intent = getIntent();
-        String orderId = intent.getStringExtra("ID");
 
-        URL = host+"/getOrderById/"+orderId;
-        orderItems = new ArrayList<>();
+        URL = host+"/getAllCartItems/"+shopid;
+        cartItems = new ArrayList<>();
 
-        findViewById(R.id.lyCart).setVisibility(View.VISIBLE);
-        //extractItems();
+
+        extractItems();
+
+    }
+
+    private void placeOrder() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        DialogFragment dialogFragment = new ConfirmAddress();
+
+        Bundle args = new Bundle();
+        args.putString("address", sessionManager.getAddress());
+
+        dialogFragment.setArguments(args);
+        dialogFragment.show(ft, "dialog");
     }
 
     private void extractItems() {
@@ -89,9 +111,10 @@ public class CartActivity extends AppCompatActivity {
                             if(success.equals("true")){
                                 if(data.length()==0){
                                     emptycart.setVisibility(View.VISIBLE);
-                                    Toast.makeText(CartActivity.this, "Order list Empty!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(CartActivity.this, "Cart list Empty!", Toast.LENGTH_LONG).show();
                                 }else{
-                                    //setAdaptor(data);
+                                    setAdaptor(data);
+                                    findViewById(R.id.lyCart).setVisibility(View.VISIBLE);
                                 }
                             }
                         }
@@ -100,7 +123,7 @@ public class CartActivity extends AppCompatActivity {
                             Toast.makeText(CartActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        AdapterCart adapter = new AdapterCart(getApplicationContext(),orderItems, host, token);
+                        AdapterCart adapter = new AdapterCart(getApplicationContext(),cartItems, host, token);
                         recyclerView.setAdapter(adapter);
 
                     }
@@ -137,6 +160,56 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    private void setAdaptor(JSONArray data) {
+        for (int i = 0; i < data.length(); i++) {
+            try {
+                JSONObject detailsObject = data.getJSONObject(i);
+
+                Cart cart = new Cart();
+                cart.setId(detailsObject.getString("id").toString());
+                cart.setItem_id(detailsObject.getString("item_id").toString());
+                cart.setQuantity(detailsObject.getString("quantity").toString());
+
+                JSONObject item = detailsObject.getJSONObject("item");
+                cart.setName(item.getString("name".toString()));
+                cart.setDescription(item.getString("description").toString());
+                cart.setImage_url(item.getString("image_url".toString()));
+                cart.setPrice(item.getString("price").toString());
+                cart.setDiscount(item.getString("discount".toString()));
+                //cart.setTotal(item.getString("total_amount").toString());
+                cartItems.add(cart);
+                /*          "id": 1,
+            "order_id": null,
+            "price": null,
+            "discount": null,
+            "item_id": 2,
+            "user_id": 3,
+            "shop_id": 1,
+            "quantity": "3",
+            "created_at": "2020-06-30 10:27:28",
+            "updated_at": "2020-06-30 10:27:28",
+            "item": {
+                "id": 2,
+                "name": "sunlight",
+                "description": "sunlight 65g",
+                "price": "55.00",
+                "quantity": "10",
+                "discount": null,
+                "category_id": 2,
+                "quantity_type_id": 1,
+                "shop_id": 1,
+                "image_url": "http://10.0.2.2:8000ADGGHGHF456asdfre456789",
+                "created_at": "2020-03-05 00:00:00",
+                "updated_at": "2020-03-05 00:00:00"
+            }*/
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error 3"+e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void SetToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
@@ -155,5 +228,9 @@ public class CartActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void ok(View view) {
+        placeOrder();
     }
 }

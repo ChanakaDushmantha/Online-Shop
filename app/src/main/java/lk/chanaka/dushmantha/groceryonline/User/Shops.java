@@ -1,4 +1,4 @@
-package lk.chanaka.dushmantha.groceryonline;
+package lk.chanaka.dushmantha.groceryonline.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -25,7 +25,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,8 +34,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import lk.chanaka.dushmantha.groceryonline.Items.List;
 import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
+import lk.chanaka.dushmantha.groceryonline.MyApp;
+import lk.chanaka.dushmantha.groceryonline.R;
+import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 public class Shops extends AppCompatActivity {
 

@@ -29,35 +29,25 @@
         </activity>
         <activity android:name=".OrderList.OrdersActivity" />
         <activity
-            android:name=".ItemQuntity.QuantityActivity"
+            android:name=".ItemQuantity.QuantityActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ItemDetails.Item" />
         <activity
             android:name=".Items.List"
-            android:windowSoftInputMode="adjustPan">
-
-
-
-
-
-
-
-
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".Shops"
+            android:name=".User.Shops"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ProfilePicture"
+            android:name=".User.ProfilePicture"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Register"
-            android:parentActivityName=".LoginActivity"
+            android:name=".User.Register"
+            android:parentActivityName=".User.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".User.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

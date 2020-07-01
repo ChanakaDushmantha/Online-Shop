@@ -130,6 +130,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
                 public void onClick(View v) {
                     Intent intent = new Intent(inflater.getContext(), OrderItemsActivity.class);
                     intent.putExtra("ID", orderId.getText().toString());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     inflater.getContext().startActivity(intent);
                 }
             });

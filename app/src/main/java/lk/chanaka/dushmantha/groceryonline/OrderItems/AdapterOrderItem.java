@@ -82,6 +82,7 @@ public class AdapterOrderItem extends RecyclerView.Adapter<AdapterOrderItem.View
                 public void onClick(View v) {
                     Intent intent = new Intent(inflater.getContext(), Item.class);
                     intent.putExtra("ID", itemId);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     inflater.getContext().startActivity(intent);
                 }
             });

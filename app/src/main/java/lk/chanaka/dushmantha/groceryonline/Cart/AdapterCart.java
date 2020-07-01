@@ -67,7 +67,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
         }
         holder.tvQuantity.setText(cartItems.get(position).getQuantity());
         String i = cartItems.get(position).getImage_url();
-        System.out.println(i);
+        //System.out.println(i);
         if(!i.equals("null")){
             Picasso.get().load(i).into(holder.coverImage);
         }
@@ -120,6 +120,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
                 public void onClick(View v) {
                     Intent intent = new Intent(inflater.getContext(), Item.class);
                     intent.putExtra("ID", itemId);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     inflater.getContext().startActivity(intent);
                 }
             });

@@ -192,7 +192,7 @@ public class QuantityActivity extends AppCompatActivity {
     private void cartApply() {
         findViewById(R.id.placeCart).setVisibility(View.VISIBLE);
         findViewById(R.id.placeOrder).setVisibility(View.GONE);
-        findViewById(R.id.delInfo).setVisibility(View.INVISIBLE);
+        findViewById(R.id.delInfo).setVisibility(View.GONE);
     }
 
     @Override

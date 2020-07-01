@@ -291,7 +291,13 @@ public class ProfilePicture extends AppCompatActivity {
     }
 
     public void skip(View view) {
-        Intent intent = new Intent(ProfilePicture.this, MainActivity.class);
+        Intent intent ;
+        if(update){
+            intent = new Intent(ProfilePicture.this, MainActivity.class);
+        }else{
+            intent = new Intent(ProfilePicture.this, Shops.class);
+        }
+
         startActivity(intent);
         finish();
     }

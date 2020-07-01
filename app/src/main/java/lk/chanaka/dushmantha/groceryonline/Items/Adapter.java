@@ -47,7 +47,13 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filter
         String prc =  groceryItems.get(position).getPrice();
         holder.price.setText("Rs. "+prc);
         holder.discount.setText(getDiscount(position));
-        Picasso.get().load(groceryItems.get(position).getImage_url()).into(holder.coverImage);
+
+        String image = groceryItems.get(position).getImage_url();
+        //System.out.println(image);
+        if(!image.equals("null")){
+            Picasso.get().load(image).into(holder.coverImage);
+        }
+
     }
 
     private String getDiscount(int position) {

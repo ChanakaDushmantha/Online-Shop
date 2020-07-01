@@ -89,15 +89,23 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        String success = "";
+                        String token = "";
+                        String myName = "";
+                        String myAddress = "";
+                        String image_url = null;
                         try{
                             JSONObject jsonObject = new JSONObject(response);
-                            String success = jsonObject.getString("success");
+                             success = jsonObject.getString("success");
                             JSONObject data = jsonObject.getJSONObject("data");
-                            String token = data.getString("token");
-                            String myName = data.getString("name");
-                            String myAddress = data.getString("address");
-                            String image_url = data.getString("image_url");
-
+                             token = data.getString("token");
+                             myName = data.getString("name");
+                             myAddress = data.getString("address");
+                            try {
+                                image_url = data.getString("image_url");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             if(success.equals("true")){
                                 Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
                                 sessionManager.createSession(myName, email, myAddress, token, image_url);
@@ -105,12 +113,14 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(LoginActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                             loading.setVisibility(View.GONE);
                             btn_login.setVisibility(View.VISIBLE);
                         }
+
                     }
                 },
                 new Response.ErrorListener() {

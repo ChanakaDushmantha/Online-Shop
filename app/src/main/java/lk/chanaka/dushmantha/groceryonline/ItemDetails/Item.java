@@ -166,7 +166,11 @@ public class Item extends AppCompatActivity implements ItemView {
             e.printStackTrace();
         }
 
-        Picasso.get().load(image_url).into(itemThumb);
+        assert image_url != null;
+        if(!image_url.equals("null")){
+            Picasso.get().load(image_url).into(itemThumb);
+        }
+
         collapsingToolbarLayout.setTitle(txtname);
         /*if((Integer.parseInt(txtquantity))<1){
             quantity.setText("Sold out");

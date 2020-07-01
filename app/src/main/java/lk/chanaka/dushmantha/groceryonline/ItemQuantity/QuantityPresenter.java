@@ -34,12 +34,13 @@ public class QuantityPresenter {
     private String token;
     private Context context;
     private String host;
+    SessionManager sessionManager;
 
 
     QuantityPresenter(QuantityActivity view, Context context) {
         this.view = view;
         this.context = context;
-        SessionManager sessionManager = new SessionManager(context);
+        sessionManager = new SessionManager(context);
         token = sessionManager.getToken();
         host = ((MyApp) context.getApplicationContext()).getServiceURL();
     }
@@ -102,7 +103,7 @@ public class QuantityPresenter {
                               String address){
 
 
-        String URL = host+"/addToOrder";
+        String URL = host+"/addOneItemToOrder/"+sessionManager.getShopId();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>() {
@@ -156,9 +157,9 @@ public class QuantityPresenter {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("cart_items[0][item_id]", ItemId);
-                params.put("cart_items[0][quantity1]", quantity1);
-                params.put("cart_items[0][quantity2]", quantity2);
+                params.put("item_id", ItemId);
+                params.put("quantity1", quantity1);
+                params.put("quantity2", quantity2);
                 params.put("delivery_address", address);
                 return params;
             }

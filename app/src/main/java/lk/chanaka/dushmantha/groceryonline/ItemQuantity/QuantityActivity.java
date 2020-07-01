@@ -155,7 +155,10 @@ public class QuantityActivity extends AppCompatActivity {
             discountTV.setText("0.00");
             discount = 0.00;
         }
-        Picasso.get().load(image_url).into(coverImage);
+        assert image_url != null;
+        if(!image_url.equals("null")){
+            Picasso.get().load(image_url).into(coverImage);
+        }
         price = Double.parseDouble(txtprice);
         total = price-discount;
         String t = String.valueOf(total);

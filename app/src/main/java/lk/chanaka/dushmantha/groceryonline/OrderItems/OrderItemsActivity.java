@@ -145,7 +145,7 @@ public class OrderItemsActivity extends AppCompatActivity {
                 orderItem.setDiscount(detailsObject.getString("discount"));
                 orderItem.setQuantity(detailsObject.getString("quantity"));
                 orderItems.add(orderItem);
-                System.out.println(detailsObject);
+                //System.out.println(detailsObject);
                 /*"id": 15,
                 "order_id": 12,
                 "price": "55.00",

@@ -48,7 +48,10 @@ public class AdapterOrderItem extends RecyclerView.Adapter<AdapterOrderItem.View
             holder.discount.setText(orderItems.get(position).getDiscount());
         }
         holder.tvQuantity.setText(orderItems.get(position).getQuantity());
-        Picasso.get().load(orderItems.get(position).getImage_url()).into(holder.coverImage);
+        String image = orderItems.get(position).getImage_url();
+        if (!image.equals("null")) {
+            Picasso.get().load(image).into(holder.coverImage);
+        }
         holder.itemId = orderItems.get(position).getItem_id();
     }
 

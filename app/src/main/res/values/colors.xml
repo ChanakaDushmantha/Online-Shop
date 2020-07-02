@@ -11,4 +11,6 @@
     <color name="received">#2167C4</color>
     <color name="completed">#22A81C</color>
     <color name="rejected">#FF0000</color>
+    <color name="loginText">#F3F3F3</color>
+    <color name="loginHint">#F3F3F3</color>
 </resources>

@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                             if(success.equals("true")){
                                 Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
                                 sessionManager.createSession(myName, email, myAddress, token, image_url);
-                                Intent intent = new Intent(LoginActivity.this, Shops.class);
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -120,7 +121,6 @@ public class LoginActivity extends AppCompatActivity {
                             loading.setVisibility(View.GONE);
                             btn_login.setVisibility(View.VISIBLE);
                         }
-
                     }
                 },
                 new Response.ErrorListener() {

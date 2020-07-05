@@ -46,7 +46,7 @@ public class Shops extends AppCompatActivity {
     private ListView shoplist;
     private static String URL = "";
     private String host;
-    private String token;
+    //private String token;
     private int shopId = -1;
     SessionManager sessionManager;
     ListAdapter listAdapter;
@@ -57,7 +57,7 @@ public class Shops extends AppCompatActivity {
         setContentView(R.layout.activity_shops);
 
         sessionManager = new SessionManager(this);
-        token = sessionManager.getToken();
+        //token = sessionManager.getToken();
 
         host = ((MyApp) this.getApplication()).getServiceURL();
         URL = host+"/getAllShop";
@@ -113,15 +113,15 @@ public class Shops extends AppCompatActivity {
                             Toast.makeText(Shops.this, errorMsg, Toast.LENGTH_LONG).show();
                         }
                     })
-            {
+            /*{
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("Authorization", "Bearer "+token);
+                    //params.put("Authorization", "Bearer "+token);
                     //System.out.println(token);
                     return params;
                 }
-            };
+            }*/;
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
         //}

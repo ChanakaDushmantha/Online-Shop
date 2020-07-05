@@ -32,6 +32,7 @@ public class SessionManager {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = sharedPreferences.edit();
     }
+
     public void createSession(String name, String email, String address, String token){
 
         editor.putBoolean(LOGIN, true);
@@ -91,6 +92,9 @@ public class SessionManager {
     public String getEmail(){
         String ads = sharedPreferences.getString(EMAIL, null);
         return ads;
+    }
+    public boolean isShop(){
+        return getShopId() != null;
     }
 
     public boolean isLogin(){

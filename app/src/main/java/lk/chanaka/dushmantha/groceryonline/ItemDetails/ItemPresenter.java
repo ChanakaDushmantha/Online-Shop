@@ -30,7 +30,7 @@ import lk.chanaka.dushmantha.groceryonline.SessionManager;
 public class ItemPresenter {
     private ItemView view;
     private String URL;
-    private String token;
+    //private String token;
     private Context context;
     private String host;
 
@@ -41,7 +41,7 @@ public class ItemPresenter {
     public void getItemById(String id){
 
         SessionManager sessionManager = new SessionManager(context);
-        token = sessionManager.getToken();
+        //token = sessionManager.getToken();
         host = ((MyApp) context.getApplicationContext()).getServiceURL();
         URL = host+"/getItemById/"+id;
 
@@ -91,7 +91,7 @@ public class ItemPresenter {
                 view.hideLoading();
 
             }
-        }) {
+        }) /*{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -99,7 +99,7 @@ public class ItemPresenter {
                 //System.out.println(token);
                 return params;
             }
-        };
+        }*/;
         queue.add(stringRequest);
 
     }

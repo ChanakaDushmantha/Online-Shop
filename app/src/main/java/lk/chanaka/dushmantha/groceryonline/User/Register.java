@@ -64,6 +64,7 @@ public class Register extends AppCompatActivity {
         Intent i = getIntent();
         update = i.getBooleanExtra("UPDATE", false);
         if(update){
+            sessionManager.checkLogin();
             URL = "";
             URL = host + "/updateUser";
             TextView t = findViewById(R.id.tvSubmit);

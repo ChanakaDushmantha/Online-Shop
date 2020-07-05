@@ -36,6 +36,7 @@ public class QuantityActivity extends AppCompatActivity {
     RadioButton myAddress;
     private String id = "";
     private boolean type;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,8 @@ public class QuantityActivity extends AppCompatActivity {
         SetToolbar();
         setItem();
 
-        SessionManager sessionManager = new SessionManager(this);
+        sessionManager = new SessionManager(this);
+        sessionManager.checkLogin();
         String ads = sessionManager.getAddress();
         myAddress.setText(ads);
 
@@ -207,6 +209,7 @@ public class QuantityActivity extends AppCompatActivity {
     }
 
     public void placeOrder(View view) {
+        sessionManager.checkLogin();
         String qty01 = "";
         String qty02 = "";
         if(type){
@@ -242,6 +245,7 @@ public class QuantityActivity extends AppCompatActivity {
     }
 
     public void cart(View view) {
+        sessionManager.checkLogin();
         String qty01 = "";
         String qty02 = "";
         if(type){

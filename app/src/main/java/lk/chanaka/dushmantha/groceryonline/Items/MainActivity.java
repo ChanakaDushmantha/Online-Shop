@@ -54,6 +54,7 @@ import lk.chanaka.dushmantha.groceryonline.User.ProfilePicture;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.User.Register;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
+import lk.chanaka.dushmantha.groceryonline.User.Shops;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     private static String URL;
     private String host;
     private SessionManager sessionManager;
-    private String token;
     lk.chanaka.dushmantha.groceryonline.Items.Adapter adapter;
     View shimmerItem;
     NavigationView navigationView;
@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
         host = ((MyApp) this.getApplication()).getServiceURL();
         sessionManager = new SessionManager(this);
-        sessionManager.checkLogin();
-        token = sessionManager.getToken();
 
         /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -125,14 +123,19 @@ public class MainActivity extends AppCompatActivity {
 
         navigationView.getMenu().findItem(R.id.nav_user).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public boolean onMenuItemClick(MenuItem item){
                 Intent intent = new Intent(MainActivity.this, Register.class);
                 intent.putExtra("UPDATE", true);
-                intent.putExtra("TOKEN", token);
+                intent.putExtra("TOKEN", sessionManager.getToken());
                 startActivity(intent);
                 return false;
             }
         });
+
+        if(!sessionManager.isShop()){
+            startActivity(new Intent(MainActivity.this, Shops.class));
+            finish();
+        }
 
         String shopid = sessionManager.getShopId();
         URL = host+"/getAllItem/"+shopid;
@@ -204,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Toast.makeText(MainActivity.this, errorMsg, Toast.LENGTH_LONG).show();
             }
-        }) {
+        }) /*{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -212,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 //System.out.println(token);
                 return params;
             }
-        };
+        }*/;
 
         queue.add(stringRequest);
 

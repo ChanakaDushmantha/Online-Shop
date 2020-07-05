@@ -47,7 +47,6 @@ public class Item extends AppCompatActivity implements ItemView {
         setContentView(R.layout.activity_item);
 
         sessionManager = new SessionManager(this);
-        sessionManager.checkLogin();
 
         Intent intent = getIntent();
         String ItemId = intent.getStringExtra("ID");

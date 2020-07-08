@@ -1,13 +1,12 @@
 package lk.chanaka.dushmantha.groceryonline.ItemQuantity;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -23,7 +22,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.json.JSONException;
@@ -32,7 +30,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import lk.chanaka.dushmantha.groceryonline.Cart.ConfirmAddress;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;

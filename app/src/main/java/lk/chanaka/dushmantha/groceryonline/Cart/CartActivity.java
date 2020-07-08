@@ -96,7 +96,7 @@ public class CartActivity extends AppCompatActivity {
                             JSONArray carts = data.getJSONArray("carts");
 
                             if(success.equals("true")){
-                                if(data.length()==0){
+                                if(carts.length()==0){
                                     emptycart.setVisibility(View.VISIBLE);
                                     Toast.makeText(CartActivity.this, "Cart list Empty!", Toast.LENGTH_LONG).show();
                                 }else{

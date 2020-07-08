@@ -6,6 +6,33 @@ public class OrderItem {
     private String delivery_address;
     private String total_amount;
     private String at;
+    private String delivery_charge;
+    private String net_total;
+    private String coupon_off;
+
+    public String getDelivery_charge() {
+        return delivery_charge;
+    }
+
+    public void setDelivery_charge(String delivery_charge) {
+        this.delivery_charge = delivery_charge;
+    }
+
+    public String getNet_total() {
+        return net_total;
+    }
+
+    public void setNet_total(String net_total) {
+        this.net_total = net_total;
+    }
+
+    public String getCoupon_off() {
+        return coupon_off;
+    }
+
+    public void setCoupon_off(String coupon_off) {
+        this.coupon_off = coupon_off;
+    }
 
     public String getId() {
         return id;

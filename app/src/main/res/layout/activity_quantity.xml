@@ -51,6 +51,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/itemInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -106,188 +107,195 @@
 
                 </LinearLayout>
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/quantityInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="5dp"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:text="Quantity"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardUseCompatPadding="true">
-
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:text="Quantity"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardUseCompatPadding="true">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="16dp"
-                            android:text="QTY"
-                            android:textColor="@color/colorPrimaryText"
-                            android:textSize="15sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:padding="5dp">
 
-                        <com.travijuu.numberpicker.library.NumberPicker
-                            android:id="@+id/number_picker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                            app:layout_constraintStart_toEndOf="@+id/textView2"
-                            app:layout_constraintTop_toTopOf="@+id/textView2" />
+                            <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="16dp"
+                                android:text="QTY"
+                                android:textColor="@color/colorPrimaryText"
+                                android:textSize="15sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/available"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:text=""
-                            android:visibility="invisible"
-                            app:layout_constraintEnd_toStartOf="@+id/availableNm"
-                            app:layout_constraintTop_toTopOf="@+id/availableNm" />
+                            <com.travijuu.numberpicker.library.NumberPicker
+                                android:id="@+id/number_picker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:visibility="invisible"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                                app:layout_constraintStart_toEndOf="@+id/textView2"
+                                app:layout_constraintTop_toTopOf="@+id/textView2" />
 
-                        <TextView
-                            android:id="@+id/availableNm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:text="available"
-                            android:visibility="invisible"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            <TextView
+                                android:id="@+id/available"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:text=""
+                                android:visibility="invisible"
+                                app:layout_constraintEnd_toStartOf="@+id/availableNm"
+                                app:layout_constraintTop_toTopOf="@+id/availableNm" />
 
-                        <TextView
-                            android:id="@+id/textView5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="60dp"
-                            android:text="@string/price"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/number_picker" />
+                            <TextView
+                                android:id="@+id/availableNm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:text="available"
+                                android:visibility="invisible"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Discount"
-                            app:layout_constraintStart_toStartOf="@+id/textView5"
-                            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                            <TextView
+                                android:id="@+id/textView5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="60dp"
+                                android:text="@string/price"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/number_picker" />
 
-                        <TextView
-                            android:id="@+id/textView7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Total"
-                            app:layout_constraintStart_toStartOf="@+id/textView6"
-                            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                            <TextView
+                                android:id="@+id/textView6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Discount"
+                                app:layout_constraintStart_toStartOf="@+id/textView5"
+                                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-                        <TextView
-                            android:id="@+id/price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="70dp"
-                            android:text="30.00"
-                            app:layout_constraintStart_toEndOf="@+id/textView5"
-                            app:layout_constraintTop_toTopOf="@+id/textView5" />
+                            <TextView
+                                android:id="@+id/textView7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Total"
+                                app:layout_constraintStart_toStartOf="@+id/textView6"
+                                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-                        <TextView
-                            android:id="@+id/discount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="3.00"
-                            app:layout_constraintStart_toStartOf="@+id/price"
-                            app:layout_constraintTop_toBottomOf="@+id/price" />
+                            <TextView
+                                android:id="@+id/price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="70dp"
+                                android:text="30.00"
+                                app:layout_constraintStart_toEndOf="@+id/textView5"
+                                app:layout_constraintTop_toTopOf="@+id/textView5" />
 
-                        <TextView
-                            android:id="@+id/total"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="28.00"
-                            app:layout_constraintStart_toStartOf="@+id/discount"
-                            app:layout_constraintTop_toBottomOf="@+id/discount" />
+                            <TextView
+                                android:id="@+id/discount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="3.00"
+                                app:layout_constraintStart_toStartOf="@+id/price"
+                                app:layout_constraintTop_toBottomOf="@+id/price" />
 
-                        <TextView
-                            android:id="@+id/textView11"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:text="RS."
-                            app:layout_constraintEnd_toStartOf="@+id/total"
-                            app:layout_constraintTop_toTopOf="@+id/total" />
+                            <TextView
+                                android:id="@+id/total"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="28.00"
+                                app:layout_constraintStart_toStartOf="@+id/discount"
+                                app:layout_constraintTop_toBottomOf="@+id/discount" />
 
-                        <EditText
-                            android:id="@+id/quantity1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:ems="5"
-                            android:backgroundTint="@color/colorPrimaryText"
-                            android:inputType="number"
-                            android:textSize="13sp"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                            app:layout_constraintStart_toEndOf="@+id/textView2"
-                            app:layout_constraintTop_toTopOf="@+id/textView2" />
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:text="RS."
+                                app:layout_constraintEnd_toStartOf="@+id/total"
+                                app:layout_constraintTop_toTopOf="@+id/total" />
 
-                        <EditText
-                            android:id="@+id/quantity2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/colorPrimaryText"
-                            android:ems="5"
-                            android:maxLength="3"
-                            android:inputType="number"
-                            android:textSize="13sp"
-                            android:visibility="invisible"
-                            app:layout_constraintStart_toStartOf="@+id/quantity1"
-                            app:layout_constraintTop_toBottomOf="@+id/quantity1" />
+                            <EditText
+                                android:id="@+id/quantity1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:ems="5"
+                                android:backgroundTint="@color/colorPrimaryText"
+                                android:inputType="number"
+                                android:textSize="13sp"
+                                android:visibility="invisible"
+                                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                                app:layout_constraintStart_toEndOf="@+id/textView2"
+                                app:layout_constraintTop_toTopOf="@+id/textView2" />
 
-                        <TextView
-                            android:id="@+id/unit1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/quantity1"
-                            app:layout_constraintStart_toEndOf="@+id/quantity1"
-                            app:layout_constraintTop_toTopOf="@+id/quantity1" />
+                            <EditText
+                                android:id="@+id/quantity2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorPrimaryText"
+                                android:ems="5"
+                                android:maxLength="3"
+                                android:inputType="number"
+                                android:textSize="13sp"
+                                android:visibility="invisible"
+                                app:layout_constraintStart_toStartOf="@+id/quantity1"
+                                app:layout_constraintTop_toBottomOf="@+id/quantity1" />
 
-                        <TextView
-                            android:id="@+id/unit2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/quantity2"
-                            app:layout_constraintStart_toEndOf="@+id/quantity2"
-                            app:layout_constraintTop_toTopOf="@+id/quantity2" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <TextView
+                                android:id="@+id/unit1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/quantity1"
+                                app:layout_constraintStart_toEndOf="@+id/quantity1"
+                                app:layout_constraintTop_toTopOf="@+id/quantity1" />
 
-                </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:id="@+id/unit2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/quantity2"
+                                app:layout_constraintStart_toEndOf="@+id/quantity2"
+                                app:layout_constraintTop_toTopOf="@+id/quantity2" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
 
 
                 <androidx.cardview.widget.CardView
@@ -331,6 +339,7 @@
                                     android:buttonTint="#009688"
                                     android:checked="false"
                                     android:clickable="false"
+                                    android:visibility="gone"
                                     android:text="No Delivery" />
 
                                 <RadioButton
@@ -361,6 +370,71 @@
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:id="@+id/chargeInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:paddingLeft="14dp"
+                            android:paddingRight="14dp"
+                            android:text="Payments"
+                            android:textColor="@color/colorPrimaryDark" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:orientation="horizontal">
+
+                            <RadioGroup
+                                android:id="@+id/chargeRadioGroup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <RadioButton
+                                    android:id="@+id/charge1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="#009688"
+                                    android:checked="true"
+                                    android:text="Cash on delivery" />
+
+                            </RadioGroup>
+                            <com.google.android.material.textfield.TextInputLayout
+
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="170dp"
+                            android:layout_height="wrap_content"
+                                app:boxStrokeColor="#009688"
+                                android:focusedByDefault="false"
+                            android:layout_marginLeft="30dp"
+                            android:hint="Coupon Code">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/inputCoupon"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusedByDefault="false"
+                                    android:textSize="13sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

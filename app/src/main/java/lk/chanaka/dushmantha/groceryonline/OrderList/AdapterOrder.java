@@ -61,30 +61,33 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
         holder.address.setText(orderItems.get(position).getDelivery_address());
         holder.date.setText(orderItems.get(position).getAt());
         holder.total.setText(orderItems.get(position).getTotal_amount());
+        holder.netTotal.setText(orderItems.get(position).getNet_total());
+        holder.couponOff.setText(orderItems.get(position).getCoupon_off());
+        holder.delCharge.setText(orderItems.get(position).getDelivery_charge());
 
         String status = orderItems.get(position).getStatus();
         holder.status.setText(status);
-        switch (status){
+        /*switch (status){
             case "pending":{
-                holder.coverImage.setImageResource(R.drawable.ic_action_pending);
+                //holder.coverImage.setImageResource(R.drawable.ic_action_pending);
                 holder.status.setTextColor(inflater.getContext().getResources().getColor(R.color.pending));
                 break;}
             case "received":{
-                holder.coverImage.setImageResource(R.drawable.ic_action_received);
+                //holder.coverImage.setImageResource(R.drawable.ic_action_received);
                 holder.status.setTextColor(inflater.getContext().getResources().getColor(R.color.received));
                 break;}
             case "completed":{
-                holder.coverImage.setImageResource(R.drawable.ic_action_completed);
+                //holder.coverImage.setImageResource(R.drawable.ic_action_completed);
                 holder.status.setTextColor(inflater.getContext().getResources().getColor(R.color.completed));
                 break;}
             case "rejected":{
-                holder.coverImage.setImageResource(R.drawable.ic_action_rejected);
+                //holder.coverImage.setImageResource(R.drawable.ic_action_rejected);
                 holder.status.setTextColor(inflater.getContext().getResources().getColor(R.color.rejected));
                 break;}
             default: {
-                holder.coverImage.setImageResource(R.drawable.ic_action_image);
+                //holder.coverImage.setImageResource(R.drawable.ic_action_image);
                 break;}
-        }
+        }*/
     }
 
     @Override
@@ -93,7 +96,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
-        TextView orderId, address, date, total, status;
+        TextView orderId, address, date, total, status, delCharge, couponOff, netTotal;
         ImageView coverImage, deletebtn;
 
         public ViewHolder(@NonNull View itemView) {
@@ -104,7 +107,10 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
             date = itemView.findViewById(R.id.date);
             total = itemView.findViewById(R.id.total);
             status = itemView.findViewById(R.id.status);
-            coverImage = itemView.findViewById(R.id.coverImage);
+            delCharge = itemView.findViewById(R.id.delCharge);
+            couponOff = itemView.findViewById(R.id.couponOff);
+            netTotal = itemView.findViewById(R.id.netTotal);
+            //coverImage = itemView.findViewById(R.id.coverImage);
             deletebtn = itemView.findViewById(R.id.deletebtn);
 
             // handle onClick

@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 import com.travijuu.numberpicker.library.Enums.ActionEnum;
 import com.travijuu.numberpicker.library.Interface.ValueChangedListener;
@@ -28,6 +29,7 @@ public class QuantityActivity extends AppCompatActivity {
 
     RadioGroup radioGroup;
     EditText address, qty1, qty2;
+    TextInputEditText coupon;
     JSONObject item;
     TextView itemTitle, itemDec, available, availableNm, priceTV, discountTV, totalTV, unit1, unit2;
     ImageView coverImage;
@@ -36,6 +38,7 @@ public class QuantityActivity extends AppCompatActivity {
     RadioButton myAddress;
     private String id = "";
     private boolean type;
+    private boolean cartOrder;
     SessionManager sessionManager;
 
     @Override
@@ -59,6 +62,7 @@ public class QuantityActivity extends AppCompatActivity {
         unit2 = findViewById(R.id.unit2);
         myAddress = findViewById(R.id.radio2);
         numberPicker = findViewById(R.id.number_picker);
+        coupon = findViewById(R.id.inputCoupon);
 
         SetToolbar();
         setItem();
@@ -99,43 +103,48 @@ public class QuantityActivity extends AppCompatActivity {
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
     }
 
-    private void setItem(){
+    private void setItem() {
 
         String Item = this.getIntent().getStringExtra("ITEM");
         boolean cart = this.getIntent().getBooleanExtra("CART", false);
-        if(cart){
+        if (cart) {
             cartApply();
         }
-        try {
-            item = new JSONObject(Item);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        cartOrder = this.getIntent().getBooleanExtra("CART_ORDER", false);
+        if (cartOrder) {
+            cardOrderApply();
+        } else {
 
-        String txtname = "";
-        String txtdescription = "";
-        String txtprice = "";
-        String txtquantity = "";
-        String txtdiscount = "";
-        String txtquantityType = "";
-        String txtquantityId = "";
-        JSONObject quantityType;
-        String image_url = null;
-        try {
-            id = item.getString("id");
-            txtname = item.getString("name");
-            txtdescription = item.getString("description");
-            txtprice = item.getString("price");
-            txtquantity = item.getString("quantity");
-            quantityType = item.getJSONObject("quantity_type");
-            txtquantityType = quantityType.getString("name");
-            txtquantityId = quantityType.getString("id");
-            txtdiscount = item.getString("discount");
-            image_url = item.getString("image_url");
+            try {
+                item = new JSONObject(Item);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            String txtname = "";
+            String txtdescription = "";
+            String txtprice = "";
+            String txtquantity = "";
+            String txtdiscount = "";
+            String txtquantityType = "";
+            String txtquantityId = "";
+            JSONObject quantityType;
+            String image_url = null;
+            try {
+                id = item.getString("id");
+                txtname = item.getString("name");
+                txtdescription = item.getString("description");
+                txtprice = item.getString("price");
+                txtquantity = item.getString("quantity");
+                quantityType = item.getJSONObject("quantity_type");
+                txtquantityType = quantityType.getString("name");
+                txtquantityId = quantityType.getString("id");
+                txtdiscount = item.getString("discount");
+                image_url = item.getString("image_url");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
 
         /*if((Integer.parseInt(txtquantity))<1){
@@ -152,49 +161,53 @@ public class QuantityActivity extends AppCompatActivity {
         if (!txtdiscount.equals("null")) {
             discountTV.setText(txtdiscount);
             discount = Double.parseDouble(txtdiscount);
-        }
-        else {
+        } else {
             discountTV.setText("0.00");
             discount = 0.00;
         }
         assert image_url != null;
-        if(!image_url.equals("null")){
+        if (!image_url.equals("null")) {
             Picasso.get().load(image_url).into(coverImage);
         }
         price = Double.parseDouble(txtprice);
-        total = price-discount;
+        total = price - discount;
         String t = String.valueOf(total);
         totalTV.setText(t);
 
 
-
-        if(txtquantityType.equals("piece")){
+        if (txtquantityType.equals("piece")) {
             numberPicker.setVisibility(View.VISIBLE);
 
-            if((Integer.parseInt(txtquantity))<1){
+            if ((Integer.parseInt(txtquantity)) < 1) {
                 numberPicker.setActionEnabled(ActionEnum.INCREMENT, false);
                 numberPicker.setActionEnabled(ActionEnum.DECREMENT, false);
                 numberPicker.setValue(0);
-            }else{
+            } else {
                 //numberPicker.setMax(Integer.parseInt(txtquantity)); without check availability
                 numberPicker.setValue(1);
                 numberPicker.setMin(1);
             }
             type = true;
-        }
-        else {
-            QuantityPresenter presenter = new QuantityPresenter( this,QuantityActivity.this);
+        } else {
+            QuantityPresenter presenter = new QuantityPresenter(this, QuantityActivity.this);
             presenter.getUnitbyId(txtquantityId);
             qty1.setVisibility(View.VISIBLE);
             qty2.setVisibility(View.VISIBLE);
             type = false;
         }
     }
+    }
+
+    private void cardOrderApply() {
+        findViewById(R.id.quantityInfo).setVisibility(View.GONE);
+        findViewById(R.id.itemInfo).setVisibility(View.GONE);
+    }
 
     private void cartApply() {
         findViewById(R.id.placeCart).setVisibility(View.VISIBLE);
         findViewById(R.id.placeOrder).setVisibility(View.GONE);
         findViewById(R.id.delInfo).setVisibility(View.GONE);
+        findViewById(R.id.chargeInfo).setVisibility(View.GONE);
     }
 
     @Override
@@ -231,7 +244,7 @@ public class QuantityActivity extends AppCompatActivity {
         if(!type) {
             if(!qty01.isEmpty()||!qty02.isEmpty()){
                 QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
-                post.postOrderbyId(id, qty01, qty02, ads);
+                post.calculationOneTime(id, qty01, qty02, coupon.getText().toString(), ads);
             }
             else{
                 qty1.setError("Please value");
@@ -239,7 +252,11 @@ public class QuantityActivity extends AppCompatActivity {
         }
         else{
             QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
-            post.postOrderbyId(id, qty01, qty02, ads);
+            post.calculationOneTime(id, qty01, qty02, coupon.getText().toString(), ads);
+        }
+        if(cartOrder){
+            QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
+            post.calculationCart(coupon.getText().toString(), ads);
         }
 
     }

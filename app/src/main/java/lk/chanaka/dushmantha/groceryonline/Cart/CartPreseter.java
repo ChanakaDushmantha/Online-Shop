@@ -42,7 +42,7 @@ public class CartPreseter {
         host = ((MyApp) context.getApplicationContext()).getServiceURL();
     }
 
-    public void OrderPost(String ads){
+    public void OrderPost(String coupon, String ads){
         String URL = host+"/addToOrder/"+sessionManager.getShopId();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
@@ -97,6 +97,7 @@ public class CartPreseter {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("delivery_address", ads);
+                params.put("coupon_code", coupon);
                 return params;
             }
         };

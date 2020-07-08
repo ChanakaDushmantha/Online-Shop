@@ -136,27 +136,30 @@ public class OrderItemsActivity extends AppCompatActivity {
 
                 OrderItem orderItem = new OrderItem();
                 orderItem.setId(detailsObject.getString("id"));
-                orderItem.setOrder_id(detailsObject.getString("order_id"));
+                //orderItem.setOrder_id(detailsObject.getString("order_id"));
                 orderItem.setItem_id(detailsObject.getString("item_id"));
                 orderItem.setName(detailsObject.getString("name"));
                 orderItem.setDescription(detailsObject.getString("description"));
                 orderItem.setImage_url(detailsObject.getString("image_url"));
-                orderItem.setPrice(detailsObject.getString("price"));
+                orderItem.setPrice(detailsObject.getString("items_total"));
                 orderItem.setDiscount(detailsObject.getString("discount"));
                 orderItem.setQuantity(detailsObject.getString("quantity"));
                 orderItems.add(orderItem);
-                //System.out.println(detailsObject);
-                /*"id": 15,
-                "order_id": 12,
-                "price": "55.00",
-                "discount": null,
-                "item_id": 2,
-                "quantity": "1",
-                "created_at": "2020-06-26 09:38:00",
-                "updated_at": "2020-06-26 09:38:00",
-                "name": "sunlight",
-                "description": "sunlight 65g",
-                "image_url": "http://10.0.2.2:8000ADGGHGHF456asdfre456789"*/
+                /*"data": {
+                        "cart": [
+                            {
+                                "id": 3,
+                                "price": "55.00",
+                                "discount": null,
+                                "item_id": 2,
+                                "quantity": "1",
+                                "items_total": 55,
+                                "name": "sunlight",
+                                "description": "sunlight 65g",
+                                "image_url": null
+                            }
+                        ]
+    }*/
 
             } catch (JSONException e) {
                 e.printStackTrace();

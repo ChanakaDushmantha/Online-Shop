@@ -60,7 +60,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
     public void onBindViewHolder(@NonNull AdapterCart.ViewHolder holder, int position) {
         holder.itemTitle.setText(cartItems.get(position).getName());
         holder.itemDec.setText(cartItems.get(position).getDescription());
-        holder.price.setText(cartItems.get(position).getPrice());
+        holder.price.setText(cartItems.get(position).getTotal());
         String d = cartItems.get(position).getDiscount();
         if(!d.equals("null")){
             holder.discount.setText(cartItems.get(position).getDiscount());

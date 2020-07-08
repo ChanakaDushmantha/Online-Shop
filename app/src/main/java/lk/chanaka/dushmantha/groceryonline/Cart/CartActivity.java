@@ -31,6 +31,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import lk.chanaka.dushmantha.groceryonline.ItemQuantity.ConfirmCharges;
 import lk.chanaka.dushmantha.groceryonline.ItemQuantity.QuantityActivity;
 import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
@@ -56,6 +58,7 @@ public class CartActivity extends AppCompatActivity {
     SessionManager sessionManager;
     ArrayList<Cart> cartItems;
     private ImageView emptycart;
+    private JSONObject data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,23 +83,6 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    private void placeOrder() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-        DialogFragment dialogFragment = new ConfirmAddress();
-
-        Bundle args = new Bundle();
-        args.putString("address", sessionManager.getAddress());
-
-        dialogFragment.setArguments(args);
-        dialogFragment.show(ft, "dialog");
-    }
-
     private void extractItems() {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
@@ -106,14 +92,15 @@ public class CartActivity extends AppCompatActivity {
                         try{
                             JSONObject jsonObject = new JSONObject(response);
                             String success = jsonObject.getString("success");
-                            JSONArray data = jsonObject.getJSONArray("data");
+                            data = jsonObject.getJSONObject("data");
+                            JSONArray carts = data.getJSONArray("carts");
 
                             if(success.equals("true")){
                                 if(data.length()==0){
                                     emptycart.setVisibility(View.VISIBLE);
                                     Toast.makeText(CartActivity.this, "Cart list Empty!", Toast.LENGTH_LONG).show();
                                 }else{
-                                    setAdaptor(data);
+                                    setAdaptor(carts);
                                     findViewById(R.id.lyCart).setVisibility(View.VISIBLE);
                                 }
                             }
@@ -167,41 +154,45 @@ public class CartActivity extends AppCompatActivity {
 
                 Cart cart = new Cart();
                 cart.setId(detailsObject.getString("id").toString());
-                cart.setItem_id(detailsObject.getString("item_id").toString());
+
                 cart.setQuantity(detailsObject.getString("quantity").toString());
 
                 JSONObject item = detailsObject.getJSONObject("item");
+                cart.setItem_id(item.getString("id").toString());
                 cart.setName(item.getString("name".toString()));
                 cart.setDescription(item.getString("description").toString());
                 cart.setImage_url(item.getString("image_url".toString()));
                 cart.setPrice(item.getString("price").toString());
                 cart.setDiscount(item.getString("discount".toString()));
-                //cart.setTotal(item.getString("total_amount").toString());
+                cart.setTotal(item.getString("total").toString());
                 cartItems.add(cart);
-                /*          "id": 1,
-            "order_id": null,
-            "price": null,
-            "discount": null,
-            "item_id": 2,
-            "user_id": 3,
-            "shop_id": 1,
-            "quantity": "3",
-            "created_at": "2020-06-30 10:27:28",
-            "updated_at": "2020-06-30 10:27:28",
-            "item": {
-                "id": 2,
-                "name": "sunlight",
-                "description": "sunlight 65g",
-                "price": "55.00",
-                "quantity": "10",
-                "discount": null,
-                "category_id": 2,
-                "quantity_type_id": 1,
-                "shop_id": 1,
-                "image_url": "http://10.0.2.2:8000ADGGHGHF456asdfre456789",
-                "created_at": "2020-03-05 00:00:00",
-                "updated_at": "2020-03-05 00:00:00"
-            }*/
+                /*{
+        "delivery_charge": "50.00",
+        "cart_total": 165,
+        "net_total": 215,
+        "carts": [
+            {
+                "id": 6,
+                "quantity": "3",
+                "item": {
+                    "id": 3,
+                    "name": "lux",
+                    "description": "lux 65g",
+                    "price": "55.00",
+                    "quantity": "10",
+                    "discount": null,
+                    "image_url": "http://10.0.2.2:8000ADGGHGHF456asdfre456789",
+                    "total": 165,
+                    "quantity_type": {
+                        "id": 1,
+                        "name": "piece",
+                        "unit1": "",
+                        "unit2": ""
+                    }
+                }
+            }
+        ]
+    }*/
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -231,6 +222,33 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void ok(View view) {
-        placeOrder();
+        Intent i = new Intent(this, QuantityActivity.class);
+        i.putExtra("CART_ORDER", true);
+        startActivity(i);
+    }
+
+    public void details(View view) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        BottomSheetDialogFragment dialogFragment = new ConfirmCharges();
+
+        Bundle args = new Bundle();
+        try {
+            args.putString("Total", data.getString("cart_total"));
+            args.putString("Delivery_Charge", data.getString("delivery_charge"));
+            args.putString("Net_Total", data.getString("net_total"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        args.putString("Coupon_OFF","0.00" );
+        args.putString("Status", "CART");
+
+        dialogFragment.setArguments(args);
+        dialogFragment.show(ft, "dialog");
     }
 }

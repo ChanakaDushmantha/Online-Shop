@@ -74,8 +74,8 @@ public class ConfirmAddress extends DialogFragment implements
                 Activity activity = getActivity();
                 activity.setResult(RESULT_OK, intent);
                 activity.finish();*/
-                CartPreseter cartPreseter = new CartPreseter(inflater.getContext());
-                cartPreseter.OrderPost(ads);
+                /*CartPreseter cartPreseter = new CartPreseter(inflater.getContext());
+                cartPreseter.OrderPost(ads);*/
                 dismiss();
             }
         });

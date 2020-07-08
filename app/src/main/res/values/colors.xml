@@ -13,4 +13,5 @@
     <color name="rejected">#FF0000</color>
     <color name="loginText">#F3F3F3</color>
     <color name="loginHint">#F3F3F3</color>
+    <color name="themeColour">#293D63</color>
 </resources>

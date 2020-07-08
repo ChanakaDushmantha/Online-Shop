@@ -136,8 +136,11 @@ public class OrdersActivity extends AppCompatActivity {
                 orderItem.setId(detailsObject.getString("id").toString());
                 orderItem.setStatus(detailsObject.getString("status").toString());
                 orderItem.setDelivery_address(detailsObject.getString("delivery_address".toString()));
-                orderItem.setTotal_amount(detailsObject.getString("total_amount").toString());
+                orderItem.setTotal_amount(detailsObject.getString("gross_amount").toString());
                 orderItem.setAt(detailsObject.getString("created_at".toString()));
+                orderItem.setDelivery_charge(detailsObject.getString("delivery_charge"));
+                orderItem.setCoupon_off(detailsObject.getString("coupon_off"));
+                orderItem.setNet_total(detailsObject.getString("total_amount"));
                 orderItems.add(orderItem);
 
             } catch (JSONException e) {

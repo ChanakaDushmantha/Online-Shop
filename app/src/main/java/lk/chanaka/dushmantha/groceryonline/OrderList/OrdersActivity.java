@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class OrdersActivity extends AppCompatActivity {
     SessionManager sessionManager;
     ArrayList<OrderItem> orderItems;
     private ImageView emptycart;
+    AdapterOrder adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,7 @@ public class OrdersActivity extends AppCompatActivity {
                             Toast.makeText(OrdersActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        AdapterOrder adapter = new AdapterOrder(OrdersActivity.this,orderItems, host, token);
+                        adapter = new AdapterOrder(OrdersActivity.this,orderItems, host, token);
                         recyclerView.setAdapter(adapter);
 
                     }
@@ -141,6 +143,7 @@ public class OrdersActivity extends AppCompatActivity {
                 orderItem.setDelivery_charge(detailsObject.getString("delivery_charge"));
                 orderItem.setCoupon_off(detailsObject.getString("coupon_off"));
                 orderItem.setNet_total(detailsObject.getString("total_amount"));
+                orderItem.setFeedback(detailsObject.getBoolean("feedback"));
                 orderItems.add(orderItem);
 
             } catch (JSONException e) {
@@ -169,5 +172,4 @@ public class OrdersActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

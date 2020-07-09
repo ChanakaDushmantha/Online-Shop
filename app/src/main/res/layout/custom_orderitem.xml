@@ -207,6 +207,7 @@
         android:background="@drawable/buttton_outline"
         android:text="  click me for feedback  "
         android:textColor="@color/themeColour"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 

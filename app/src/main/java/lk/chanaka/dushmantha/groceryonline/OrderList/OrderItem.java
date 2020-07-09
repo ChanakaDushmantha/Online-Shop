@@ -9,6 +9,15 @@ public class OrderItem {
     private String delivery_charge;
     private String net_total;
     private String coupon_off;
+    private boolean feedback;
+
+    public boolean isFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(boolean feedback) {
+        this.feedback = feedback;
+    }
 
     public String getDelivery_charge() {
         return delivery_charge;

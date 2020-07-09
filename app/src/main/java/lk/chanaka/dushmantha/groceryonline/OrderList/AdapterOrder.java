@@ -2,6 +2,7 @@ package lk.chanaka.dushmantha.groceryonline.OrderList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -76,9 +77,11 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
         holder.netTotal.setText(orderItems.get(position).getNet_total());
         holder.couponOff.setText(orderItems.get(position).getCoupon_off());
         holder.delCharge.setText(orderItems.get(position).getDelivery_charge());
+        holder.status.setText(orderItems.get(position).getStatus());
 
-        String status = orderItems.get(position).getStatus();
-        holder.status.setText(status);
+        if (!orderItems.get(position).isFeedback()) {
+            holder.feedback.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -148,6 +151,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
 
                     dialogFragment.setArguments(args);
                     dialogFragment.show(ft, "dialog");
+                    feedback.setVisibility(View.GONE);
                 }
             });
         }

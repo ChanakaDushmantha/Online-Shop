@@ -1,5 +1,6 @@
 package lk.chanaka.dushmantha.groceryonline.OrderList;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +14,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import lk.chanaka.dushmantha.groceryonline.R;
 
-public class FeedbackDailog  extends BottomSheetDialogFragment implements View.OnClickListener{
+public class FeedbackDailog  extends BottomSheetDialogFragment implements View.OnClickListener {
 
 
     private Button accept;

@@ -81,6 +81,7 @@ public class ProfilePicture extends AppCompatActivity {
         Intent i = getIntent();
         update = i.getBooleanExtra("UPDATE", false);
         if(update){
+            sessionManager.checkLogin();
             extractData();
         }
 

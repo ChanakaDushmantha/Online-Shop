@@ -1,7 +1,9 @@
 package lk.chanaka.dushmantha.groceryonline.OrderList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
@@ -24,6 +30,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lk.chanaka.dushmantha.groceryonline.ItemQuantity.ConfirmCharges;
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.OrderItems.OrderItemsActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 
@@ -40,12 +49,15 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
     private LayoutInflater inflater;
     private java.util.List<OrderItem> orderItems;
     private String host, token;
+    private Context context;
+    View view;
 
     AdapterOrder(Context ctx, List<OrderItem> orderItems, String host, String token){
         this.inflater = LayoutInflater.from(ctx);
         this.orderItems = orderItems;
         this.host = host;
         this.token = token;
+        this.context = ctx;
     }
 
     @NonNull
@@ -75,7 +87,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
-        TextView orderId, address, date, total, status, delCharge, couponOff, netTotal;
+        TextView orderId, address, date, total, status, delCharge, couponOff, netTotal, feedback;
         ImageView coverImage, deletebtn;
 
         public ViewHolder(@NonNull View itemView) {
@@ -91,7 +103,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
             netTotal = itemView.findViewById(R.id.netTotal);
             //coverImage = itemView.findViewById(R.id.coverImage);
             deletebtn = itemView.findViewById(R.id.deletebtn);
-
+            feedback = itemView.findViewById(R.id.feedback);
             // handle onClick
 
             deletebtn.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +129,25 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
                     intent.putExtra("ID", orderId.getText().toString());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     inflater.getContext().startActivity(intent);
+                }
+            });
+            feedback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction ft = ((OrdersActivity)context).getSupportFragmentManager().beginTransaction();
+                    Fragment prev = ((OrdersActivity)context).getSupportFragmentManager().findFragmentByTag("dialog");
+                    if (prev != null) {
+
+                        ft.remove(prev);
+                    }
+                    ft.addToBackStack(null);
+                    BottomSheetDialogFragment dialogFragment = new FeedbackDailog();
+
+                    Bundle args = new Bundle();
+                    args.putString("OrderId", orderId.getText().toString());
+
+                    dialogFragment.setArguments(args);
+                    dialogFragment.show(ft, "dialog");
                 }
             });
         }

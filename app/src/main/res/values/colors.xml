@@ -7,10 +7,6 @@
     <color name="colorPrimaryText">#1e1e1e</color>
     <color name="colorBackground">#F4F7F7</color>
     <color name="shimmerBackground">#B3B2B2</color>
-    <color name="pending">#C9771A</color>
-    <color name="received">#2167C4</color>
-    <color name="completed">#22A81C</color>
-    <color name="rejected">#FF0000</color>
     <color name="loginText">#F3F3F3</color>
     <color name="loginHint">#F3F3F3</color>
     <color name="themeColour">#293D63</color>

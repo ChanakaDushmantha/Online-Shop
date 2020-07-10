@@ -1,6 +1,5 @@
 package lk.chanaka.dushmantha.groceryonline.OrderList;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,7 +37,7 @@ public class FeedbackDailog  extends BottomSheetDialogFragment implements View.O
         viewConfirm = inflater.inflate(R.layout.dailog_feedback, container, false);
         accept= viewConfirm.findViewById(R.id.accept);
         ratingBar= viewConfirm.findViewById(R.id.rating);
-        comment= viewConfirm.findViewById(R.id.comment);
+        comment= viewConfirm.findViewById(R.id.time);
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override

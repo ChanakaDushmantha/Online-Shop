@@ -1,4 +1,4 @@
-package lk.chanaka.dushmantha.groceryonline.User;
+package lk.chanaka.dushmantha.groceryonline.Shop;
 
 public class Shop {
     private String name;

@@ -46,7 +46,7 @@
         android:label="OrdersActivity" />
     <activity
         android:id="@+id/shops"
-        android:name="lk.chanaka.dushmantha.groceryonline.User.ShopActivity"
+        android:name="lk.chanaka.dushmantha.groceryonline.Shop.ShopActivity"
         android:label="Shops" />
     <activity
         android:id="@+id/cartActivity"

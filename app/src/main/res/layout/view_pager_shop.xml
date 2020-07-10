@@ -48,20 +48,32 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="180dp"
-                android:layout_marginBottom="12dp"
-                android:layout_toStartOf="@+id/textView18"
+                android:layout_marginBottom="22dp"
+                android:layout_toStartOf="@+id/rating"
                 android:src="@drawable/ic_star_24dp" />
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="25dp"
                 android:text="4.2(20)"
                 android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/buttton_outline_white"
+                android:text="  People say  "
+                android:textColor="#00BCD4" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

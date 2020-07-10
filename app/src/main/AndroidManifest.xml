@@ -36,7 +36,7 @@
             android:name=".Items.List"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".User.ShopActivity"
+            android:name=".Shop.ShopActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".User.ProfilePicture"

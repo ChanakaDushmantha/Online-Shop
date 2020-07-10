@@ -1,4 +1,4 @@
-package lk.chanaka.dushmantha.groceryonline.User;
+package lk.chanaka.dushmantha.groceryonline.Shop;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -6,13 +6,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -180,6 +176,7 @@ public class ShopActivity extends AppCompatActivity {
                 shophouse.setShopId(detailsObject.getString("id"));
                 shophouse.setName(detailsObject.getString("name"));
                 shophouse.setImage_url(detailsObject.getString("image_url"));
+                shophouse.setRating(detailsObject.getString("feedback"));
                 shophouses.add(shophouse);
 
             } catch (JSONException e) {
@@ -204,5 +201,6 @@ public class ShopActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
     }
 }

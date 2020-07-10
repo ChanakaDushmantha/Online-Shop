@@ -52,7 +52,7 @@ import lk.chanaka.dushmantha.groceryonline.User.ProfilePicture;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.User.Register;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
-import lk.chanaka.dushmantha.groceryonline.User.ShopActivity;
+import lk.chanaka.dushmantha.groceryonline.Shop.ShopActivity;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;

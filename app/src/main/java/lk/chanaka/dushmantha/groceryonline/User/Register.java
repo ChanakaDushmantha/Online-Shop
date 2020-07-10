@@ -84,12 +84,12 @@ public class Register extends AppCompatActivity {
         btn_register = findViewById(R.id.btn_register);
 
         //adding validation to edit texts
-        String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d]).{6,}";
+        //String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d]).{6,}";
         awesomeValidation.addValidation(this, R.id.name, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
         awesomeValidation.addValidation(this, R.id.email, Patterns.EMAIL_ADDRESS, R.string.emailerror);
         awesomeValidation.addValidation(this, R.id.address, RegexTemplate.NOT_EMPTY, R.string.addresserror);
         awesomeValidation.addValidation(this, R.id.mobile, "^[0]{1}[0-9]{9}$", R.string.mobileerror);
-        awesomeValidation.addValidation(this, R.id.password, regexPassword, R.string.passworderror);
+        awesomeValidation.addValidation(this, R.id.password, "[A-Za-z0-9\\.]{6,}", R.string.passworderror);
         awesomeValidation.addValidation(this, R.id.c_password, R.id.password, R.string.err_password_confirmation);
 
         btn_register.setOnClickListener(new View.OnClickListener() {

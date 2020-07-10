@@ -4,7 +4,7 @@
     <string name="emailerror">Enter a valid email</string>
     <string name="addresserror">This field is required</string>
     <string name="mobileerror">Enter a valid mobile</string>
-    <string name="passworderror">The password must contain at least 6 character containing, at least one uppercase letter and one number</string>
+    <string name="passworderror">The password must contain at least 6 character</string>
     <string name="err_password_confirmation">The password must match with password field</string>
 
     <string name="category">Category</string>

@@ -46,15 +46,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.User.ProfilePicture;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.User.Register;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
-import lk.chanaka.dushmantha.groceryonline.User.Shops;
+import lk.chanaka.dushmantha.groceryonline.User.ShopActivity;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if(!sessionManager.isShop()){
-            startActivity(new Intent(MainActivity.this, Shops.class));
+            startActivity(new Intent(MainActivity.this, ShopActivity.class));
             finish();
         }
 

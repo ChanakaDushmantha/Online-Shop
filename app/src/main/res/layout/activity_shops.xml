@@ -9,7 +9,7 @@
     tools:context=".User.LoginActivity">
 
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/imageView"
         android:layout_width="120dp"
         android:layout_height="150dp"
@@ -17,8 +17,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:contentDescription="logo"
-        app:srcCompat="@mipmap/ic_launcher_foreground" />
+        app:srcCompat="@mipmap/ic_launcher_foreground" />-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerHeader"
+        android:foregroundGravity="center"
+        android:overScrollMode="ifContentScrolls"
+        android:clipToPadding="false"
+        android:layout_marginTop="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" /><!--android:layout_below="@id/cardSearch"-->
 
+    <include android:id="@+id/shimmerShop"
+        layout="@layout/view_pager_shop_shimmer" />
+
+<!--
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
         android:layout_height="50dp"
@@ -44,6 +56,7 @@
                 android:textSize="18sp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+-->
 
     <TextView
         android:id="@+id/register"
@@ -57,7 +70,7 @@
         android:textColor="#fff"
         android:textSize="15sp" />
 
-    <ProgressBar
+    <!--<ProgressBar
         android:id="@+id/loading"
         style="?android:attr/progressBarStyle"
         android:layout_width="150dp"
@@ -65,15 +78,15 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="162dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"/>-->
 
-    <ListView
+    <!--<ListView
         android:id="@+id/shoplist"
         android:layout_width="350dp"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_next"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@+id/viewPagerHeader"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp" />-->
 </RelativeLayout>

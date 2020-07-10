@@ -257,7 +257,7 @@ public class ProfilePicture extends AppCompatActivity {
                                                 if(update){
                                                     intent = new Intent(ProfilePicture.this, MainActivity.class);
                                                 }else{
-                                                    intent = new Intent(ProfilePicture.this, Shops.class);
+                                                    intent = new Intent(ProfilePicture.this, ShopActivity.class);
                                                 }
 
                                                 startActivity(intent);
@@ -296,7 +296,7 @@ public class ProfilePicture extends AppCompatActivity {
         if(update){
             intent = new Intent(ProfilePicture.this, MainActivity.class);
         }else{
-            intent = new Intent(ProfilePicture.this, Shops.class);
+            intent = new Intent(ProfilePicture.this, ShopActivity.class);
         }
 
         startActivity(intent);

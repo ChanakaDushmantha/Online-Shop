@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     View shimmerItem;
     NavigationView navigationView;
     ImageView imageView;
+    private ImageView emptycart;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        emptycart = findViewById(R.id.emptycart);
 
         host = ((MyApp) this.getApplication()).getServiceURL();
         sessionManager = new SessionManager(this);
@@ -185,9 +187,15 @@ public class MainActivity extends AppCompatActivity {
 
                             if(success.equals("true")){
                                 //Toast.makeText(List.this, "list Success!", Toast.LENGTH_SHORT).show();
+                                if(data.length()==0){
+                                    shimmerItem.setVisibility(View.GONE);
+                                    emptycart.setVisibility(View.VISIBLE);
+                                    Toast.makeText(MainActivity.this, "Item list Empty!", Toast.LENGTH_LONG).show();
+                                }else{
+                                    setAdaptor(data);
+                                    shimmerItem.setVisibility(View.GONE);
+                                }
 
-                                setAdaptor(data);
-                                shimmerItem.setVisibility(View.GONE);
                             }
                         }
                         catch (JSONException e) {

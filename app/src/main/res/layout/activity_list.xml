@@ -41,6 +41,12 @@
 
         <include android:id="@+id/shimmerItem"
         layout="@layout/custom_item_shimmer" />
+        <ImageView
+            android:id="@+id/emptycart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/emptycart"
+            android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemList2"

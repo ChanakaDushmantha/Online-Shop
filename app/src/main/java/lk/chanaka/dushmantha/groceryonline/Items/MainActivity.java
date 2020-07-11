@@ -101,6 +101,13 @@ public class MainActivity extends AppCompatActivity {
         imageView = navigationView.getHeaderView(0).findViewById(R.id.nav_profilePic);
         setUserDetails();
 
+        if(sessionManager.isLogin()){
+            navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+        }
+        else{
+            navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
+        }
+
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -108,7 +115,13 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+        navigationView.getMenu().findItem(R.id.nav_login).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                sessionManager.checkLogin();
+                return false;
+            }
+        });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

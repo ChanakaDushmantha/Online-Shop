@@ -115,7 +115,7 @@
         android:layout_height="wrap_content"
         android:text="Order Date :"
         app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/address" />
 
     <TextView
         android:id="@+id/textView10"

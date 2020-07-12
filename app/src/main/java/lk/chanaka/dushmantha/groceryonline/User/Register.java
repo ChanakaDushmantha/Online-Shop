@@ -242,7 +242,7 @@ public class Register extends AppCompatActivity {
                         } else if (error instanceof AuthFailureError) {
                             errorMsg = getString(R.string.authFailureError);
                         } else if (error instanceof ServerError) {
-                            errorMsg = getString(R.string.serverError);
+                            errorMsg = "Email is already exists";
                         } else if (error instanceof NetworkError) {
                             errorMsg = getString(R.string.networkError);
                         } else if (error instanceof ParseError) {

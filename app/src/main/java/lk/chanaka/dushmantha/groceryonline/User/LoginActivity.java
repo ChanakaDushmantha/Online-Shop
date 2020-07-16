@@ -24,6 +24,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -54,6 +59,8 @@ public class LoginActivity extends AppCompatActivity {
     SessionManager sessionManager;
     GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 4526;
+    LoginButton facebookLogin;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +104,30 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         googleSignIn();
+        facebookLogin();
+    }
+
+    private void facebookLogin() {
+        facebookLogin = findViewById(R.id.facebook_login_button);
+        callbackManager = CallbackManager.Factory.create();
+        facebookLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                String info = loginResult.getAccessToken().getUserId();
+                String image_url = "https://graph.facebook.com/"+info+"/picture?return_ssl_resources=1";
+                Log.d("Tag",info+"  "+image_url);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
     }
 
     private void googleSignIn(){
@@ -129,6 +160,8 @@ public class LoginActivity extends AppCompatActivity {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
+        }else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 

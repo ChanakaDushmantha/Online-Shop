@@ -35,4 +35,8 @@
 
     <string name="currency">LKR\t</string>
     <string name="server_client_id">879061477649-gt1mntip8lulvpll6iu2q26gl892lo8m.apps.googleusercontent.com</string>
+
+    <string name="facebook_app_id">718910505340015</string>
+    <string name="fb_login_protocol_scheme">fb718910505340015</string>
+
 </resources>

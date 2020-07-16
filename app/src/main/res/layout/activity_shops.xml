@@ -1,62 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/gradient"
     tools:context=".User.LoginActivity">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imageSliderCard"
+        app:cardCornerRadius="6dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/imageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:sliderAnimationDuration="600"
+            app:sliderAutoCycleDirection="back_and_forth"
+            app:sliderAutoCycleEnabled="true"
+            app:sliderIndicatorAnimationDuration="600"
+            app:sliderIndicatorGravity="center_horizontal|bottom"
+            app:sliderIndicatorMargin="15dp"
+            app:sliderIndicatorOrientation="horizontal"
+            app:sliderIndicatorPadding="3dp"
+            app:sliderIndicatorRadius="2dp"
+            app:sliderIndicatorSelectedColor="#5A5A5A"
+            app:sliderIndicatorUnselectedColor="#FFF"
+            app:sliderScrollTimeInSec="1"
+            app:sliderStartAutoCycle="true" />
 
-    <!--<ImageView
-        android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:contentDescription="logo"
-        app:srcCompat="@mipmap/ic_launcher_foreground" />-->
+    </androidx.cardview.widget.CardView>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerHeader"
         android:foregroundGravity="center"
         android:overScrollMode="ifContentScrolls"
         android:clipToPadding="false"
-        android:layout_marginTop="200dp"
         android:layout_width="match_parent"
-        android:layout_height="250dp" /><!--android:layout_below="@id/cardSearch"-->
+        android:layout_below="@id/imageSliderCard"
+        android:layout_height="250dp" /><!---->
 
     <include android:id="@+id/shimmerShop"
         layout="@layout/view_pager_shop_shimmer" />
 
-<!--
-    <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        app:cardBackgroundColor="@color/colorAccent"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="10dp"
-        android:id="@+id/btn_next"
-        android:layout_marginBottom="31dp"
-        android:layout_above="@+id/register"
-        android:layout_centerHorizontal="true">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Next"
-                android:textColor="#fff"
-                android:textSize="18sp" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
--->
 
     <TextView
         android:id="@+id/register"
@@ -70,23 +62,4 @@
         android:textColor="#fff"
         android:textSize="15sp" />
 
-    <!--<ProgressBar
-        android:id="@+id/loading"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="162dp"
-        android:visibility="invisible"/>-->
-
-    <!--<ListView
-        android:id="@+id/shoplist"
-        android:layout_width="350dp"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/btn_next"
-        android:layout_below="@+id/viewPagerHeader"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp" />-->
 </RelativeLayout>

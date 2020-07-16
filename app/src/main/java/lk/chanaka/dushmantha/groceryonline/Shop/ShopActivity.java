@@ -140,7 +140,7 @@ public class ShopActivity extends AppCompatActivity {
 
                             if(success.equals("true")){
                                 setBanners(data);
-                                //findViewById(R.id.shimmerShop).setVisibility(View.GONE);
+                                findViewById(R.id.shimmerBanner).setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"><!--android:layout_below="@id/cardSearch"-->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="1dp">
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="35dp"
+                    android:background="#DFDFDF" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="160dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="15sp"
+                    android:layout_toStartOf="@+id/centerball"
+                    android:background="@drawable/oval_shape" />
+
+                <ImageView
+                    android:id="@+id/centerball"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="15sp"
+                    android:background="@drawable/oval_shape" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="220dp"
+                    android:layout_marginBottom="15sp"
+                    android:layout_toEndOf="@+id/centerball"
+                    android:background="@drawable/oval_shape" />
+            </RelativeLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

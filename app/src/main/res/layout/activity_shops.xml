@@ -34,7 +34,13 @@
             app:sliderScrollTimeInSec="1"
             app:sliderStartAutoCycle="true" />
 
+        <include
+        android:id="@+id/shimmerBanner"
+        layout="@layout/image_slider_banner_shimmer" />
+
     </androidx.cardview.widget.CardView>
+
+
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerHeader"
@@ -43,12 +49,11 @@
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_below="@id/imageSliderCard"
-        android:layout_height="250dp" /><!---->
+        android:layout_height="250dp" />
 
-    <include android:id="@+id/shimmerShop"
+    <include
+        android:id="@+id/shimmerShop"
         layout="@layout/view_pager_shop_shimmer" />
-
-
 
     <TextView
         android:id="@+id/register"
@@ -61,5 +66,16 @@
         android:text="Select which shop you favor to buy"
         android:textColor="#fff"
         android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="24dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorWhite"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

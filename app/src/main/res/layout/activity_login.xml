@@ -92,34 +92,42 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/linearLayout">
 
+
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/twitter" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:layout_marginLeft="15dp"
             app:srcCompat="@drawable/instagram" />
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="30dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             app:srcCompat="@drawable/facebook" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"/>
+
     </LinearLayout>
     <ProgressBar
         android:id="@+id/loading"

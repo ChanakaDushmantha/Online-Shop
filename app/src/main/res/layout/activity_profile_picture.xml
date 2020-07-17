@@ -5,8 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="@drawable/background_shop"
     tools:context=".User.ProfilePicture">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@color/colorWhite"
+        android:textAlignment="center"
+        android:theme="@style/ToolBar"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -31,15 +39,15 @@
         android:src="@drawable/ic_action_camera" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/btn_register"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:layout_above="@+id/skip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
         app:cardBackgroundColor="#2B2B2B"
         app:cardCornerRadius="25dp"
-        app:cardElevation="10dp"
-        android:id="@+id/btn_register"
-        android:layout_marginBottom="31dp"
-        android:layout_above="@+id/skip"
-        android:layout_centerHorizontal="true">
+        app:cardElevation="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="60dp"
         android:onClick="skip"
         android:text="Skip"
         android:textColor="#fff"

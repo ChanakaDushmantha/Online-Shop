@@ -160,30 +160,6 @@ public class List extends AppCompatActivity {
             }
         }
     }
-    /*{
-            "id": 1,
-            "name": "sugar",
-            "description": "white sugar",
-            "price": "100.00",
-            "quantity": "100750",
-            "discount": "13.00",
-            "category_id": 1,
-            "quantity_type_id": 2,
-            "shop_id": 1,
-            "image_url": "http://10.0.2.2:8000/storage/common_media/c07d684946ecde21367ecac04837b362.jpg",
-            "created_at": "2020-03-05 00:00:00",
-            "updated_at": "2020-05-19 18:31:16",
-            "quantity_type": {
-                "id": 2,
-                "name": "loose",
-                "unit1": "Kg",
-                "unit2": "g"
-            }
-        }*/
-
-    public void logout(View view) {
-        sessionManager.logout();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -219,11 +195,6 @@ public class List extends AppCompatActivity {
             return  true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void order(View view) {
-        Intent intent = new Intent(List.this, OrdersActivity.class);
-        startActivity(intent);
     }
 
     public void cart(View view) {

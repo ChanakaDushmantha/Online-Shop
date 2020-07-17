@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -24,9 +25,12 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -116,6 +120,9 @@ public class LoginActivity extends AppCompatActivity {
                 String info = loginResult.getAccessToken().getUserId();
                 String image_url = "https://graph.facebook.com/"+info+"/picture?return_ssl_resources=1";
                 Log.d("Tag",info+"  "+image_url);
+                String accessToken = loginResult.getAccessToken().getToken();
+                System.out.println(accessToken+" token");
+                RequestData();
             }
 
             @Override
@@ -125,9 +132,37 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
-
+                Toast.makeText(LoginActivity.this, "Facebook login error "+error, Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+    public void RequestData(){
+        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+
+                JSONObject json = response.getJSONObject();
+                Log.d("TAG",json.toString());
+                try {
+                    if(json != null){
+                        String name = json.getString("name");
+                        //String email = json.getString("email");
+                        //String link = json.getString("link");
+                        /*details_txt.setText(Html.fromHtml(text));
+                        profile.setProfileId(json.getString("id"));*/
+                        //System.out.println(link);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,link,email,picture");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private void googleSignIn(){
@@ -176,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
                 String personEmail = acct.getEmail();
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
-
+                System.out.println(personId);
                 System.out.println(googleToken);
 
                 sessionManager.createSession(personName, personEmail, "", "");

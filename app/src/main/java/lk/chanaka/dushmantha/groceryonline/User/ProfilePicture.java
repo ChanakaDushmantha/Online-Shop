@@ -2,15 +2,18 @@ package lk.chanaka.dushmantha.groceryonline.User;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -53,6 +56,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.NetworkConnection;
+import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 import lk.chanaka.dushmantha.groceryonline.Shop.ShopActivity;
@@ -72,6 +76,7 @@ public class ProfilePicture extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_picture);
+        SetToolbar();
 
         host = ((MyApp) this.getApplication()).getServiceURL();
         URL = host+"/updateImage";
@@ -83,6 +88,7 @@ public class ProfilePicture extends AppCompatActivity {
         update = i.getBooleanExtra("UPDATE", false);
         if(update){
             sessionManager.checkLogin();
+            findViewById(R.id.skip).setVisibility(View.INVISIBLE);
             extractData();
         }
 
@@ -302,5 +308,27 @@ public class ProfilePicture extends AppCompatActivity {
 
         startActivity(intent);
         finish();
+    }
+    private void SetToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(toolbar);
+        this.getSupportActionBar().setTitle("PROFILE");
+        if(update){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //onBackPressed();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

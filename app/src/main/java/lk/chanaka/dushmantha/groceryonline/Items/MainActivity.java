@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     ImageView imageView;
     private ImageView emptycart;
-    GoogleSignInClient mGoogleSignInClient;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -115,15 +114,11 @@ public class MainActivity extends AppCompatActivity {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
         }
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
 
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                mGoogleSignInClient.signOut();
                 sessionManager.logout();
                 return false;
             }

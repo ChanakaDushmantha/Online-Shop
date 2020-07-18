@@ -31,6 +31,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -114,15 +115,15 @@ public class LoginActivity extends AppCompatActivity {
     private void facebookLogin() {
         facebookLogin = findViewById(R.id.facebook_login_button);
         callbackManager = CallbackManager.Factory.create();
+        facebookLogin.setPermissions("email");
         facebookLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                String info = loginResult.getAccessToken().getUserId();
-                String image_url = "https://graph.facebook.com/"+info+"/picture?return_ssl_resources=1";
-                Log.d("Tag",info+"  "+image_url);
-                String accessToken = loginResult.getAccessToken().getToken();
-                System.out.println(accessToken+" token");
-                RequestData();
+                String userId = loginResult.getAccessToken().getUserId();
+                String facebookToken = loginResult.getAccessToken().getToken();
+
+                //String image_url = "https://graph.facebook.com/"+info+"/picture?return_ssl_resources=1";
+                handleFacebookSignIn(userId, facebookToken);
             }
 
             @Override
@@ -137,20 +138,28 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-    public void RequestData(){
+
+    private void handleFacebookSignIn(String userId,String facebookToken) {
+
+        SocialLoginAPI socialLoginAPI = new SocialLoginAPI(this, this);
+        socialLoginAPI.socialLogin("facebook", userId, facebookToken);
+    }
+
+    /*public void RequestData(){
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
 
                 JSONObject json = response.getJSONObject();
-                Log.d("TAG",json.toString());
+                //Log.d("TAG",json.toString());
+                //Log.d("object",object.toString());
                 try {
                     if(json != null){
                         String name = json.getString("name");
                         //String email = json.getString("email");
                         //String link = json.getString("link");
-                        /*details_txt.setText(Html.fromHtml(text));
-                        profile.setProfileId(json.getString("id"));*/
+                        *//*details_txt.setText(Html.fromHtml(text));
+                        profile.setProfileId(json.getString("id"));*//*
                         //System.out.println(link);
                     }
 
@@ -163,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
         parameters.putString("fields", "id,name,link,email,picture");
         request.setParameters(parameters);
         request.executeAsync();
-    }
+    }*/
 
     private void googleSignIn(){
         SignInButton signInButton = findViewById(R.id.sign_in_button);
@@ -204,20 +213,17 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount acct = completedTask.getResult(ApiException.class);
             if (acct != null) {
-                String personName = acct.getDisplayName();
+                String personId = acct.getId();
                 String googleToken = acct.getIdToken();
+
+                /*String personName = acct.getDisplayName();
                 String personGivenName = acct.getGivenName();
                 String personFamilyName = acct.getFamilyName();
                 String personEmail = acct.getEmail();
-                String personId = acct.getId();
-                Uri personPhoto = acct.getPhotoUrl();
-                System.out.println(personId);
-                System.out.println(googleToken);
+                Uri personPhoto = acct.getPhotoUrl();*/
 
-                sessionManager.createSession(personName, personEmail, "", "");
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                SocialLoginAPI socialLoginAPI = new SocialLoginAPI(this, this);
+                socialLoginAPI.socialLogin("google", personId, googleToken);
             }
             // Signed in successfully, show authenticated UI.
             //updateUI(account);
@@ -225,6 +231,7 @@ public class LoginActivity extends AppCompatActivity {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
+            Toast.makeText(this, "Failed SignIn with Google", Toast.LENGTH_SHORT).show();
             //updateUI(null);
         }
     }

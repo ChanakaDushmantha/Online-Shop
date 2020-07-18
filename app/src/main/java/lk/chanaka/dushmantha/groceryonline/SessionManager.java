@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,6 +21,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,12 +46,13 @@ public class SessionManager {
 
     private static final String PREF_NAME = "LOGIN";
     private static final String LOGIN = "IS_LOGIN";
-    public static final String NAME = "NAME";
-    public static final String EMAIL = "EMAIL";
-    public static final String ADDRESS = "ADDRESS";
-    public static final String TOKEN = "TOKEN";
-    public static final String SHOPID = "SHOPID";
-    public static final String IMAGE = "IMAGE";
+    private static final String NAME = "NAME";
+    private static final String EMAIL = "EMAIL";
+    private static final String ADDRESS = "ADDRESS";
+    private static final String TOKEN = "TOKEN";
+    private static final String SHOPID = "SHOPID";
+    private static final String IMAGE = "IMAGE";
+    private static final String REG_TYPE = "REG_TYPE";
 
     public SessionManager(Context context) {
         this.context = context;
@@ -79,6 +85,18 @@ public class SessionManager {
 
     }
 
+    public void createSession(String name, String email, String address, String token, String image_url, String reg_type){
+
+        editor.putBoolean(LOGIN, true);
+        editor.putString(NAME, name);
+        editor.putString(EMAIL, email);
+        editor.putString(ADDRESS, address);
+        editor.putString(TOKEN, token);
+        editor.putString(IMAGE, image_url);
+        editor.putString(REG_TYPE, reg_type);
+        editor.apply();
+
+    }
     public void addShop(int id){
         String shopId = String.valueOf(id);
         editor.putString(SHOPID, shopId);
@@ -88,6 +106,10 @@ public class SessionManager {
     public void addImage(String image){
         editor.putString(IMAGE, image);
         editor.apply();
+    }
+
+    public String getRegType(){
+        return sharedPreferences.getString(REG_TYPE, null);
     }
 
     public String getImage(){
@@ -149,13 +171,20 @@ public class SessionManager {
     }
 
     public void logout(){
-        editor.clear();
-        editor.commit();
-        Intent i = new Intent(context, LoginActivity.class);
-        context.startActivity(i);
-        Activity activity = (Activity) context;
-        activity.finish();
-        /*String host = ((MyApp) context.getApplicationContext()).getServiceURL();
+        if(getRegType().equals("google")){
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
+            mGoogleSignInClient.signOut();
+            Log.d("OUT", "google signOut");
+        }
+        if(getRegType().equals("facebook")){
+            LoginManager.getInstance().logOut();
+            Log.d("OUT", "facebook signOut");
+        }
+
+        String host = ((MyApp) context.getApplicationContext()).getServiceURL();
         String URL = host+"/logout";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
@@ -172,6 +201,7 @@ public class SessionManager {
                                 context.startActivity(i);
                                 Activity activity = (Activity) context;
                                 activity.finish();
+                                Log.d("OUT", "log out");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -209,7 +239,7 @@ public class SessionManager {
                 }
             };
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(stringRequest);*/
+        requestQueue.add(stringRequest);
     }
 
 }

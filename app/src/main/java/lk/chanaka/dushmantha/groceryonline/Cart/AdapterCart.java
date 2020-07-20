@@ -7,34 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import lk.chanaka.dushmantha.groceryonline.ItemDetails.Item;
-import lk.chanaka.dushmantha.groceryonline.OrderItems.OrderItem;
 import lk.chanaka.dushmantha.groceryonline.R;
 
 public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
@@ -128,7 +109,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
     }
 
     private void cancelOrder(String cartId) {
-        CartPreseter cartPreseter = new CartPreseter(inflater.getContext());
-        cartPreseter.cancelOrder(cartId);
+        CartPresenter cartPresenter = new CartPresenter(inflater.getContext());
+        cartPresenter.cancelOrder(cartId);
     }
 }

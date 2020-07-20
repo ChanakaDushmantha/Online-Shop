@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -59,10 +60,7 @@ public class ShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shops);
 
         sessionManager = new SessionManager(this);
-
         host = ((MyApp) this.getApplication()).getServiceURL();
-
-
         shophouses = new ArrayList<>();
 
         extractShop();
@@ -180,7 +178,9 @@ public class ShopActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
     private void setBanners(JSONArray data) {
+
         List<SliderItem> sliderItemList = new ArrayList<>();
         for (int i = 0; i < data.length(); i++) {
             try {
@@ -196,12 +196,17 @@ public class ShopActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error 3"+e.toString(), Toast.LENGTH_SHORT).show();
             }
         }
+        if(data.length()==0){
+            SliderItem sliderItem = new SliderItem();
+            sliderItem.setImageUrl(Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +R.drawable.sample_image_meal).toString());
+            sliderItem.setDescription(getString(R.string.app_name));
+            sliderItemList.add(sliderItem);
+        }
         adapter.renewItems(sliderItemList);
     }
 
     private void imageSlider(){
         sliderView = findViewById(R.id.imageSlider);
-
 
         adapter = new SliderAdapter(this);
         sliderView.setSliderAdapter(adapter);

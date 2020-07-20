@@ -1,13 +1,14 @@
 package lk.chanaka.dushmantha.groceryonline.User;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -25,16 +26,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -71,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        SetToolbar();
 
         sessionManager = new SessionManager(this);
         host = ((MyApp) this.getApplication()).getServiceURL();
@@ -246,6 +243,7 @@ public class LoginActivity extends AppCompatActivity {
                         String myName = "";
                         String myAddress = "";
                         String image_url = null;
+                        String reg_type = "";
                         try{
                             JSONObject jsonObject = new JSONObject(response);
                              success = jsonObject.getString("success");
@@ -253,6 +251,7 @@ public class LoginActivity extends AppCompatActivity {
                              token = data.getString("token");
                              myName = data.getString("name");
                              myAddress = data.getString("address");
+                             reg_type = data.getString("reg_type");
                             try {
                                 image_url = data.getString("image_url");
                             } catch (JSONException e) {
@@ -260,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             if(success.equals("true")){
                                 Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
-                                sessionManager.createSession(myName, email, myAddress, token, image_url);
+                                sessionManager.createSession(myName, email, myAddress, token, image_url, reg_type);
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -268,7 +267,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(LoginActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                             loading.setVisibility(View.GONE);
                             btn_login.setVisibility(View.VISIBLE);
                         }
@@ -316,8 +315,29 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void registerActivity(View view) {
-        Intent intent = new Intent(this, Register.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    private void SetToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(toolbar);
+        //this.getSupportActionBar().setTitle("LOGIN");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                /*onBackPressed();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);*/
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

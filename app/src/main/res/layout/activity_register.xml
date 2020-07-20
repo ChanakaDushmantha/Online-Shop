@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".User.Register">
+    tools:context=".User.RegisterActivity">
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,11 +19,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_shop">
+            android:background="@drawable/background_shop"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:titleTextColor="@color/colorWhite"
+                android:textAlignment="center"
+                android:theme="@style/ToolBar"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="750dp"
+                android:layout_height="700dp"
                 tools:context=".ProfileActivity">
 
 
@@ -53,6 +62,7 @@
                     android:layout_above="@+id/address"
                     android:layout_alignStart="@+id/address"
                     android:layout_marginTop="24dp"
+                    android:clickable="true"
                     android:background="#11000000"
                     android:drawableLeft="@drawable/ic_action_email"
                     android:ems="10"
@@ -178,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="60dp"
                     android:background="@drawable/buttton_outline_white"
                     android:onClick="loginActivity"
                     android:text="  Login Here  "

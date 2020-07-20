@@ -113,7 +113,7 @@ public class QuantityPresenter {
 
     void postOrderbyId(String ItemId,
                               String quantity1, String quantity2,
-                              String address){
+                              String address, String mobile){
 
 
         String URL = host+"/addOneItemToOrder/"+sessionManager.getShopId();
@@ -172,12 +172,14 @@ public class QuantityPresenter {
                 params.put("quantity1", quantity1);
                 params.put("quantity2", quantity2);
                 params.put("delivery_address", address);
+                params.put("mobile", mobile);
                 return params;
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
+
     void addToCart(String ItemId,
                    String quantity1, String quantity2){
         String URL = host+"/addToCart";
@@ -247,7 +249,7 @@ public class QuantityPresenter {
 
     void calculationOneTime(String ItemId,
                        String quantity1, String quantity2,
-                       String coupon, String address){
+                       String coupon, String address,String mobile){
 
 
         String URL = host+"/calculationOneTime/"+sessionManager.getShopId();
@@ -279,14 +281,12 @@ public class QuantityPresenter {
                                 args.putString("Delivery_Charge", data.getString("delivery_charge"));
                                 args.putString("Coupon_OFF", data.getString("coupon_off"));
                                 args.putString("Net_Total", data.getString("net_total"));
-                                System.out.println(data.getString("items_total"));
-                                System.out.println(data.getString("delivery_charge"));
-                                System.out.println(data.getString("coupon_off"));
-                                System.out.println(data.getString("net_total"));
+
                                 args.putString("ItemId",ItemId);
                                 args.putString("Quantity1", quantity1);
                                 args.putString("Quantity2", quantity2);
                                 args.putString("Address", address);
+                                args.putString("Mobile", mobile);
 
                                 dialogFragment.setArguments(args);
                                 dialogFragment.show(ft, "dialog");
@@ -337,7 +337,8 @@ public class QuantityPresenter {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
     }
-    void calculationCart(String coupon, String address){
+
+    void calculationCart(String coupon, String address, String mobile){
 
 
         String URL = host+"/calculationCart/"+sessionManager.getShopId();
@@ -369,12 +370,10 @@ public class QuantityPresenter {
                                 args.putString("Delivery_Charge", data.getString("delivery_charge"));
                                 args.putString("Coupon_OFF", data.getString("coupon_off"));
                                 args.putString("Net_Total", data.getString("net_total"));
-                                /*System.out.println(data.getString("items_total"));
-                                System.out.println(data.getString("delivery_charge"));
-                                System.out.println(data.getString("coupon_off"));
-                                System.out.println(data.getString("net_total"));*/
+
                                 args.putString("Coupon", coupon);
                                 args.putString("Address", address);
+                                args.putString("Mobile", mobile);
                                 args.putString("Status", "CART_ORDER");
 
                                 dialogFragment.setArguments(args);

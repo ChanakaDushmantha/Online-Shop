@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +54,7 @@ public class SessionManager {
     private static final String SHOPID = "SHOPID";
     private static final String IMAGE = "IMAGE";
     private static final String REG_TYPE = "REG_TYPE";
+    private static final String MOBILE = "MOBILE";
 
     public SessionManager(Context context) {
         this.context = context;
@@ -67,7 +69,7 @@ public class SessionManager {
         editor.putString(EMAIL, email);
         editor.putString(ADDRESS, address);
         editor.putString(TOKEN, token);
-        //editor.putString(SHOPID, "1");
+        editor.putString(MOBILE, "0782425430");
         editor.apply();
 
     }
@@ -80,7 +82,7 @@ public class SessionManager {
         editor.putString(ADDRESS, address);
         editor.putString(TOKEN, token);
         editor.putString(IMAGE, image_url);
-        //editor.putString(SHOPID, "1");
+        editor.putString(MOBILE, "0782425430");
         editor.apply();
 
     }
@@ -94,6 +96,7 @@ public class SessionManager {
         editor.putString(TOKEN, token);
         editor.putString(IMAGE, image_url);
         editor.putString(REG_TYPE, reg_type);
+        editor.putString(MOBILE, "0782425430");
         editor.apply();
 
     }
@@ -101,6 +104,15 @@ public class SessionManager {
         String shopId = String.valueOf(id);
         editor.putString(SHOPID, shopId);
         editor.apply();
+    }
+
+    public void addMobile(String number){
+        editor.putString(MOBILE, number);
+        editor.apply();
+    }
+
+    public String getMobile(){
+        return sharedPreferences.getString(MOBILE, null);
     }
 
     public void addImage(String image){
@@ -199,8 +211,8 @@ public class SessionManager {
                                 editor.commit();
                                 Intent i = new Intent(context, LoginActivity.class);
                                 context.startActivity(i);
-                                Activity activity = (Activity) context;
-                                activity.finish();
+                                /*Activity activity = (Activity) context;
+                                activity.finish();*/
                                 Log.d("OUT", "log out");
                             }
                         } catch (JSONException e) {

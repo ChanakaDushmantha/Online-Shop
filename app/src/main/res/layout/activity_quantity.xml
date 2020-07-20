@@ -379,6 +379,70 @@
                     app:cardUseCompatPadding="true">
 
                     <LinearLayout
+                        android:id="@+id/contactInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:paddingLeft="14dp"
+                            android:paddingRight="14dp"
+                            android:text="Contact Information"
+                            android:textColor="@color/colorPrimaryDark" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:orientation="horizontal">
+
+                            <RadioGroup
+                                android:id="@+id/radioGroupContact"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <RadioButton
+                                    android:id="@+id/radioDefault"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="#009688"
+                                    android:checked="true"
+                                    android:text="@string/dot_loading" />
+
+                                <RadioButton
+                                    android:id="@+id/radioCustom"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="#009688"
+                                    android:text="Custom" />
+
+                                <EditText
+                                    android:id="@+id/mobile"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="35dp"
+                                    android:ems="5"
+                                    android:maxLength="10"
+                                    android:hint="Type your Mobile Number"
+                                    android:inputType="textPostalAddress"
+                                    android:visibility="gone" />
+                            </RadioGroup>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
                         android:id="@+id/chargeInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -100,7 +100,7 @@ public class List extends AppCompatActivity {
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(List.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(List.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         adapter = new Adapter(getApplicationContext(),groceryItems);

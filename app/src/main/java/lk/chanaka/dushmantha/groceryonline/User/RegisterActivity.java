@@ -1,15 +1,17 @@
 package lk.chanaka.dushmantha.groceryonline.User;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.InputType;
 import android.util.Patterns;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,13 +32,6 @@ import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +45,7 @@ import lk.chanaka.dushmantha.groceryonline.NetworkConnection;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private EditText name, email, address, mobile, password;
     private ProgressBar loading;
@@ -80,6 +75,7 @@ public class Register extends AppCompatActivity {
             TextView t = findViewById(R.id.tvSubmit);
             t.setText("Update");
             findViewById(R.id.login).setVisibility(View.INVISIBLE);
+            SetToolbar();
             extractData(i.getStringExtra("TOKEN"));
         }
 
@@ -93,25 +89,45 @@ public class Register extends AppCompatActivity {
         password = findViewById(R.id.password);
         btn_register = findViewById(R.id.btn_register);
 
+        try {
+            if(sessionManager.getRegType().equals("google")||sessionManager.getRegType().equals("facebook")){
+                email.setFocusable(false);
+                email.setEnabled(true);
+                email.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(RegisterActivity.this, "You are using Social Login", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                password.setVisibility(View.INVISIBLE);
+                findViewById(R.id.c_password).setVisibility(View.INVISIBLE);
+            }
+
+            if(sessionManager.getRegType().equals("app")){
+                awesomeValidation.addValidation(this, R.id.password, "[A-Za-z0-9\\.]{6,}", R.string.passworderror);
+                awesomeValidation.addValidation(this, R.id.c_password, R.id.password, R.string.err_password_confirmation);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //adding validation to edit texts
         //String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d]).{6,}";
         awesomeValidation.addValidation(this, R.id.name, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
         awesomeValidation.addValidation(this, R.id.email, Patterns.EMAIL_ADDRESS, R.string.emailerror);
         awesomeValidation.addValidation(this, R.id.address, RegexTemplate.NOT_EMPTY, R.string.addresserror);
         awesomeValidation.addValidation(this, R.id.mobile, "^[0]{1}[0-9]{9}$", R.string.mobileerror);
-        awesomeValidation.addValidation(this, R.id.password, "[A-Za-z0-9\\.]{6,}", R.string.passworderror);
-        awesomeValidation.addValidation(this, R.id.c_password, R.id.password, R.string.err_password_confirmation);
+
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!(new NetworkConnection( Register.this).isNetworkConnected())){
-                    Toast.makeText(Register.this, "Internet Connection Error", Toast.LENGTH_LONG).show();
+                if(!(new NetworkConnection( RegisterActivity.this).isNetworkConnected())){
+                    Toast.makeText(RegisterActivity.this, "Internet Connection Error", Toast.LENGTH_LONG).show();
                 }
                 else if (awesomeValidation.validate()) {
                     Regist();
                 }
-                /*Intent intent = new Intent(Register.this, ProfilePicture.class);
+                /*Intent intent = new Intent(RegisterActivity.this, ProfilePicture.class);
                 startActivity(intent);*/
             }
         });
@@ -137,7 +153,7 @@ public class Register extends AppCompatActivity {
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(Register.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -157,7 +173,7 @@ public class Register extends AppCompatActivity {
                 } else if (error instanceof ParseError) {
                     errorMsg = getString(R.string.parseError);
                 }
-                Toast.makeText(Register.this, errorMsg, Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, errorMsg, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -175,8 +191,13 @@ public class Register extends AppCompatActivity {
         try {
             this.name.setText(data.getString("name"));
             this.email.setText(data.getString("email"));
-            this.address.setText(data.getString("address"));
-            this.mobile.setText(data.getString("contact_no"));
+            if(!data.getString("address").equals("null")){
+                this.address.setText(data.getString("address"));
+            }
+            if(!data.getString("contact_no").equals("null")){
+                this.mobile.setText(data.getString("contact_no"));
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -212,11 +233,11 @@ public class Register extends AppCompatActivity {
                             String success =  jsonObject.getString("success");
 
                             if(success.equals("true")){
-                                Toast.makeText(Register.this, "Register Success!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "RegisterActivity Success!", Toast.LENGTH_SHORT).show();
 
                                 if(update){
                                     sessionManager.createSession(name, email, address, token);
-                                    Intent intent = new Intent(Register.this, MainActivity.class);
+                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                     //intent.putExtra("UPDATE", true);
                                     startActivity(intent);
                                     finish();
@@ -224,8 +245,9 @@ public class Register extends AppCompatActivity {
                                 else{
                                     JSONObject data = jsonObject.getJSONObject("data");
                                     String newtoken = data.getString("token");
-                                    sessionManager.createSession(name, email, address, newtoken);
-                                    Intent intent = new Intent(Register.this, ProfilePicture.class);
+                                    String reg_type = data.getString("reg_type");
+                                    sessionManager.createSession(name, email, address, newtoken, reg_type);
+                                    Intent intent = new Intent(RegisterActivity.this, ProfilePicture.class);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -234,7 +256,7 @@ public class Register extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(Register.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
 
                             loading.setVisibility(View.GONE);
                             btn_register.setVisibility(View.VISIBLE);
@@ -258,7 +280,7 @@ public class Register extends AppCompatActivity {
                         } else if (error instanceof ParseError) {
                             errorMsg = getString(R.string.parseError);
                         }
-                        Toast.makeText(Register.this, errorMsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                         loading.setVisibility(View.GONE);
                         btn_register.setVisibility(View.VISIBLE);
 
@@ -295,5 +317,26 @@ public class Register extends AppCompatActivity {
     public void loginActivity(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private void SetToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(toolbar);
+        this.getSupportActionBar().setTitle("");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                //finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

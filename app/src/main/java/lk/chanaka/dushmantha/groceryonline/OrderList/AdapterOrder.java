@@ -167,7 +167,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(inflater.getContext(), "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(inflater.getContext(), "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {

@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import lk.chanaka.dushmantha.groceryonline.Cart.CartPreseter;
+import lk.chanaka.dushmantha.groceryonline.Cart.CartPresenter;
 import lk.chanaka.dushmantha.groceryonline.R;
 
 public class ConfirmCharges extends BottomSheetDialogFragment implements View.OnClickListener{
@@ -68,8 +68,11 @@ public class ConfirmCharges extends BottomSheetDialogFragment implements View.On
             public void onClick(View v) {
                 String status = getArguments().getString("Status","false");
                 if(status.equals("CART_ORDER")){
-                    CartPreseter cartPreseter = new CartPreseter(inflater.getContext());
-                    cartPreseter.OrderPost(getArguments().getString("Coupon"), getArguments().getString("Address"));
+                    CartPresenter cartPresenter = new CartPresenter(inflater.getContext());
+                    cartPresenter.OrderPost(
+                            getArguments().getString("Coupon"),
+                            getArguments().getString("Address"),
+                            getArguments().getString("Mobile"));
                 }
                 else {
                     QuantityPresenter post = new QuantityPresenter(inflater.getContext());
@@ -77,7 +80,8 @@ public class ConfirmCharges extends BottomSheetDialogFragment implements View.On
                             getArguments().getString("ItemId"),
                             getArguments().getString("Quantity1"),
                             getArguments().getString("Quantity2"),
-                            getArguments().getString("Address"));
+                            getArguments().getString("Address"),
+                            getArguments().getString("Mobile"));
                 }
 
                 dismiss();

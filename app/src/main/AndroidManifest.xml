@@ -61,7 +61,7 @@
             android:name=".User.ProfilePicture"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".User.Register"
+            android:name=".User.RegisterActivity"
             android:parentActivityName=".User.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

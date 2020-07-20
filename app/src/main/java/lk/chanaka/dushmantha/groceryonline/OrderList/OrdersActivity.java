@@ -89,7 +89,7 @@ public class OrdersActivity extends AppCompatActivity {
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(OrdersActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(OrdersActivity.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         adapter = new AdapterOrder(OrdersActivity.this,orderItems, host, token);

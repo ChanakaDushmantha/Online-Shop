@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -26,10 +27,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -52,9 +49,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import lk.chanaka.dushmantha.groceryonline.MyApp;
+import lk.chanaka.dushmantha.groceryonline.User.LoginActivity;
 import lk.chanaka.dushmantha.groceryonline.User.ProfilePicture;
 import lk.chanaka.dushmantha.groceryonline.R;
-import lk.chanaka.dushmantha.groceryonline.User.Register;
+import lk.chanaka.dushmantha.groceryonline.User.RegisterActivity;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 import lk.chanaka.dushmantha.groceryonline.Shop.ShopActivity;
 
@@ -67,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
     lk.chanaka.dushmantha.groceryonline.Items.Adapter adapter;
     View shimmerItem;
     NavigationView navigationView;
-    ImageView imageView;
     private ImageView emptycart;
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -104,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        imageView = navigationView.getHeaderView(0).findViewById(R.id.nav_profilePic);
         setUserDetails();
 
         if(sessionManager.isLogin()){
@@ -127,24 +123,17 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_login).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                sessionManager.checkLogin();
-                return false;
-            }
-        });
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ProfilePicture.class);
-                intent.putExtra("UPDATE", true);
+                //sessionManager.checkLogin();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
+                return false;
             }
         });
 
         navigationView.getMenu().findItem(R.id.nav_user).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item){
-                Intent intent = new Intent(MainActivity.this, Register.class);
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 intent.putExtra("UPDATE", true);
                 intent.putExtra("TOKEN", sessionManager.getToken());
                 startActivity(intent);
@@ -169,16 +158,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUserDetails() {
+        ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.nav_profilePic);
         TextView nav_name = navigationView.getHeaderView(0).findViewById(R.id.nav_name);
-        nav_name.setText(sessionManager.getName());
         TextView nav_email = this.navigationView.getHeaderView(0).findViewById(R.id.nav_email);
+
+        nav_name.setText(sessionManager.getName());
         nav_email.setText(sessionManager.getEmail());
         String image = "";
         image = sessionManager.getImage();
+        Log.d("image", imageView.toString());
 
         if(image!=null){
-            Picasso.get().load(image).into(imageView);
+            if(!image.equals("")){
+                Picasso.get().load(image).into(imageView);
+            }
         }
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProfilePicture.class);
+                intent.putExtra("UPDATE", true);
+                startActivity(intent);
+            }
+        });
     }
 
     private void extractItems() {
@@ -207,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(MainActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         adapter = new Adapter(getApplicationContext(),groceryItems);

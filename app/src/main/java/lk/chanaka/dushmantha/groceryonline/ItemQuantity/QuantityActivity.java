@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -27,8 +28,8 @@ import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 public class QuantityActivity extends AppCompatActivity {
 
-    RadioGroup radioGroup;
-    EditText address, qty1, qty2;
+    RadioGroup radioGroup, radioGroupMobile;
+    EditText address, qty1, qty2, ETMobile;
     TextInputEditText coupon;
     JSONObject item;
     TextView itemTitle, itemDec, available, availableNm, priceTV, discountTV, totalTV, unit1, unit2;
@@ -40,6 +41,8 @@ public class QuantityActivity extends AppCompatActivity {
     private boolean type;
     private boolean cartOrder;
     SessionManager sessionManager;
+    String ads = "";
+    String mobile = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +72,48 @@ public class QuantityActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
-        String ads = sessionManager.getAddress();
-        myAddress.setText(ads);
+        ads = sessionManager.getAddress();
+        if(!ads.equals("null")){
+            myAddress.setText(ads);
+        }else{
+            myAddress.setVisibility(View.GONE);
+            RadioButton custom = findViewById(R.id.radio3);
+            address.setVisibility(View.VISIBLE);
+            custom.setChecked(true);
+        }
+
+        mobile = sessionManager.getMobile();
+        radioGroupMobile = findViewById(R.id.radioGroupContact);
+        RadioButton myMobile = findViewById(R.id.radioDefault);
+        ETMobile = findViewById(R.id.mobile);
+        if(!mobile.equals("null")){
+            myMobile.setText(mobile);
+        }else{
+            myMobile.setVisibility(View.GONE);
+            RadioButton custom = findViewById(R.id.radioCustom);
+            ETMobile.setVisibility(View.VISIBLE);
+            custom.setChecked(true);
+        }
+
+        radioGroupMobile.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton checked = findViewById(group.getCheckedRadioButtonId());
+            String mobileCheckedTxt = checked.getText().toString();
+
+            if(mobileCheckedTxt.equals("Custom")){
+                ETMobile.setVisibility(View.VISIBLE);
+            }
+            else {
+                ETMobile.setVisibility(View.GONE);
+            }
+        });
+
+
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton checked = findViewById(group.getCheckedRadioButtonId());
-            String checkedtxt = checked.getText().toString();
+            String AddressCheckedTxt = checked.getText().toString();
 
-            if(checkedtxt.equals("Custom")){
+            if(AddressCheckedTxt.equals("Custom")){
                 address.setVisibility(View.VISIBLE);
             }
             else {
@@ -207,6 +244,7 @@ public class QuantityActivity extends AppCompatActivity {
         findViewById(R.id.placeCart).setVisibility(View.VISIBLE);
         findViewById(R.id.placeOrder).setVisibility(View.GONE);
         findViewById(R.id.delInfo).setVisibility(View.GONE);
+        findViewById(R.id.contactInfo).setVisibility(View.GONE);
         findViewById(R.id.chargeInfo).setVisibility(View.GONE);
     }
 
@@ -222,41 +260,63 @@ public class QuantityActivity extends AppCompatActivity {
     }
 
     public void placeOrder(View view) {
-        sessionManager.checkLogin();
-        String qty01 = "";
-        String qty02 = "";
-        if(type){
-            qty01 = String.valueOf(numberPicker.getValue());
+        RadioButton checked1 = findViewById(radioGroup.getCheckedRadioButtonId());   //if address is null then need to again initialize.
+        String AddressCheckedTxt = checked1.getText().toString();
+        RadioButton checked2 = findViewById(radioGroupMobile.getCheckedRadioButtonId());
+        String mobileCheckedTxt = checked2.getText().toString();
+
+        if (TextUtils.isEmpty(address.getText())&&AddressCheckedTxt.equals("Custom")) {
+            address.setError("Address is required");
+        }
+        else if ((ETMobile.getText().length()<10)&&mobileCheckedTxt.equals("Custom")) {
+            ETMobile.setError("Enter a valid mobile");
         }
         else {
-            qty01 = qty1.getText().toString();
-            qty02 = qty2.getText().toString();
-        }
+            sessionManager.checkLogin();
+            String qty01 = "";
+            String qty02 = "";
+            if(type){
+                qty01 = String.valueOf(numberPicker.getValue());
+            }
+            else {
+                qty01 = qty1.getText().toString();
+                qty02 = qty2.getText().toString();
+            }
 
-        RadioButton checked = findViewById(radioGroup.getCheckedRadioButtonId());
-        String checkedtxt = checked.getText().toString();
-        String ads;
-        if(checkedtxt.equals("Custom")){
-            ads = address.getText().toString();
-        }else{
-            ads = checkedtxt;
-        }
-        if(!type) {
-            if(!qty01.isEmpty()||!qty02.isEmpty()){
-                QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
-                post.calculationOneTime(id, qty01, qty02, coupon.getText().toString(), ads);
+            /*RadioButton checked = findViewById(radioGroup.getCheckedRadioButtonId());
+            String checkedtxt = checked.getText().toString();*/
+            String ads;
+            if(AddressCheckedTxt.equals("Custom")){
+                ads = address.getText().toString();
+            }else{
+                ads = AddressCheckedTxt;
+            }
+
+            String mobileTxt;
+            if(mobileCheckedTxt.equals("Custom")){
+                mobileTxt = ETMobile.getText().toString();
+            }
+            else {
+                mobileTxt = mobileCheckedTxt;
+            }
+
+            if(!type) {
+                if(!qty01.isEmpty()||!qty02.isEmpty()){
+                    QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
+                    post.calculationOneTime(id, qty01, qty02, coupon.getText().toString(), ads, mobileTxt);
+                }
+                else{
+                    qty1.setError("Please value");
+                }
             }
             else{
-                qty1.setError("Please value");
+                QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
+                post.calculationOneTime(id, qty01, qty02, coupon.getText().toString(), ads, mobileTxt);
             }
-        }
-        else{
-            QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
-            post.calculationOneTime(id, qty01, qty02, coupon.getText().toString(), ads);
-        }
-        if(cartOrder){
-            QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
-            post.calculationCart(coupon.getText().toString(), ads);
+            if(cartOrder){
+                QuantityPresenter post = new QuantityPresenter(this,QuantityActivity.this);
+                post.calculationCart(coupon.getText().toString(), ads, mobileTxt);
+            }
         }
 
     }

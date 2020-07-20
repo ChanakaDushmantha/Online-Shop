@@ -3,6 +3,7 @@ package lk.chanaka.dushmantha.groceryonline.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -116,6 +117,7 @@ public class SocialLoginAPI {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.d("token", token);
         sessionManager.createSession(name, email, address, token, image_url, reg_type);
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);

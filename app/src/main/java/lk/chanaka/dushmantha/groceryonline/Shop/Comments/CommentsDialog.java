@@ -130,7 +130,7 @@ public class CommentsDialog extends BottomSheetDialogFragment implements View.On
                 Comments comment = new Comments();
                 comment.setRating(Float.parseFloat(detailsObject.getString("feedback_rate")));
                 comment.setComment(detailsObject.getString("feedback_comment"));
-                comment.setTime(detailsObject.getString("created_at"));
+                comment.setTime(detailsObject.getString("created_date"));
 
                 JSONObject user = detailsObject.getJSONObject("user");
                 comment.setUserName(user.getString("name"));

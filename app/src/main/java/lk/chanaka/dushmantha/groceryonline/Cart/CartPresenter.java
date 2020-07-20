@@ -28,13 +28,13 @@ import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
-public class CartPreseter {
+public class CartPresenter {
     private String token;
     private Context context;
     private String host;
     SessionManager sessionManager;
 
-    public CartPreseter(Context context) {
+    public CartPresenter(Context context) {
         this.context = context;
         sessionManager = new SessionManager(context);
         sessionManager.checkLogin();
@@ -42,7 +42,7 @@ public class CartPreseter {
         host = ((MyApp) context.getApplicationContext()).getServiceURL();
     }
 
-    public void OrderPost(String coupon, String ads){
+    public void OrderPost(String coupon, String ads, String mobile){
         String URL = host+"/addToOrder/"+sessionManager.getShopId();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
@@ -98,6 +98,7 @@ public class CartPreseter {
                 Map<String, String> params = new HashMap<>();
                 params.put("delivery_address", ads);
                 params.put("coupon_code", coupon);
+                params.put("mobile", mobile);
                 return params;
             }
         };
@@ -122,7 +123,7 @@ public class CartPreseter {
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {

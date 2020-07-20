@@ -107,7 +107,7 @@ public class CartActivity extends AppCompatActivity {
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(CartActivity.this, "Register Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(CartActivity.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         AdapterCart adapter = new AdapterCart(getApplicationContext(),cartItems, host, token);

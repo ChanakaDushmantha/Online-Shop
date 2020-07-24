@@ -18,6 +18,7 @@
             android:title="@string/menu_slideshow" />
     </group>
 
+
     <item android:title="Profile">
         <menu>
             <item
@@ -41,4 +42,12 @@
         </menu>
     </item>
 
+    <item android:title="@string/app_name">
+        <menu>
+            <item
+                android:id="@+id/nav_call"
+                android:icon="@drawable/ic_phone_forwarded_black_24dp"
+                android:title="Call us" />
+        </menu>
+    </item>
 </menu>

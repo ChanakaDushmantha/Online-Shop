@@ -1,6 +1,7 @@
 package lk.chanaka.dushmantha.groceryonline.Items;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -116,6 +117,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 sessionManager.logout();
+                return false;
+            }
+        });
+
+        navigationView.getMenu().findItem(R.id.nav_call).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+getString(R.string.mobile_number)));
+                startActivity(intent);
                 return false;
             }
         });

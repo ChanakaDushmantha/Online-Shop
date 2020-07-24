@@ -106,10 +106,12 @@ public class SocialLoginAPI {
         String reg_type = "";
         String image_url = "";
         String token = "";
+        String contact_no = "";
 
         try {
             name = data.getString("name");
             address = data.getString("address");
+            contact_no = data.getString("contact_no");
             email = data.getString("email");
             reg_type = data.getString("reg_type");
             image_url = data.getString("image_url");
@@ -118,7 +120,7 @@ public class SocialLoginAPI {
             e.printStackTrace();
         }
         Log.d("token", token);
-        sessionManager.createSession(name, email, address, token, image_url, reg_type);
+        sessionManager.createSession(name, email, address, token, image_url, reg_type, contact_no);
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
         activity.finish();

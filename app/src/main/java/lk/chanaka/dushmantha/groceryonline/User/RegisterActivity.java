@@ -236,7 +236,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.makeText(RegisterActivity.this, "RegisterActivity Success!", Toast.LENGTH_SHORT).show();
 
                                 if(update){
-                                    sessionManager.createSession(name, email, address, token);
+                                    sessionManager.createSession(name, email, address, token, mobile);
                                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                     //intent.putExtra("UPDATE", true);
                                     startActivity(intent);
@@ -246,7 +246,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     JSONObject data = jsonObject.getJSONObject("data");
                                     String newtoken = data.getString("token");
                                     String reg_type = data.getString("reg_type");
-                                    sessionManager.createSession(name, email, address, newtoken, reg_type);
+                                    String mobile = data.getString("contact_no");
+                                    sessionManager.createSession(name, email, address, newtoken, null, reg_type, mobile);
                                     Intent intent = new Intent(RegisterActivity.this, ProfilePicture.class);
                                     startActivity(intent);
                                     finish();

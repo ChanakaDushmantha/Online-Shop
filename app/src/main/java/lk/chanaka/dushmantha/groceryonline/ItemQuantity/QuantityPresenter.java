@@ -113,7 +113,7 @@ public class QuantityPresenter {
 
     void postOrderbyId(String ItemId,
                               String quantity1, String quantity2,
-                              String address, String mobile){
+                              String address, String mobile, String coupon_code){
 
 
         String URL = host+"/addOneItemToOrder/"+sessionManager.getShopId();
@@ -128,6 +128,7 @@ public class QuantityPresenter {
 
                             if(success.equals("true")){
                                 Toast.makeText(context, "Order Success!", Toast.LENGTH_SHORT).show();
+                                sessionManager.addDetails(address, mobile);
 
                                 Intent intent = new Intent(context, OrdersActivity.class);
                                 context.startActivity(intent);
@@ -172,7 +173,8 @@ public class QuantityPresenter {
                 params.put("quantity1", quantity1);
                 params.put("quantity2", quantity2);
                 params.put("delivery_address", address);
-                params.put("mobile", mobile);
+                params.put("contact_no", mobile);
+                params.put("coupon_code", coupon_code);
                 return params;
             }
         };
@@ -287,6 +289,7 @@ public class QuantityPresenter {
                                 args.putString("Quantity2", quantity2);
                                 args.putString("Address", address);
                                 args.putString("Mobile", mobile);
+                                args.putString("Coupon", coupon);
 
                                 dialogFragment.setArguments(args);
                                 dialogFragment.show(ft, "dialog");

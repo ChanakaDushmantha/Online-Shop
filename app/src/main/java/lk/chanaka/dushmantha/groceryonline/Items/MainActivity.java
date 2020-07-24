@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                                 if(data.length()==0){
                                     shimmerItem.setVisibility(View.GONE);
                                     emptycart.setVisibility(View.VISIBLE);
-                                    Toast.makeText(MainActivity.this, "Item list Empty!", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(MainActivity.this, "Item list Empty!", Toast.LENGTH_LONG).show();
                                 }else{
                                     setAdaptor(data);
                                     shimmerItem.setVisibility(View.GONE);

@@ -54,8 +54,8 @@ public class CartPresenter {
                             String success =  jsonObject.getString("success");
 
                             if(success.equals("true")){
-                                Toast.makeText(context, "Add to Cart Successfully!", Toast.LENGTH_SHORT).show();
-
+                                Toast.makeText(context, "Ordered Successfully!", Toast.LENGTH_SHORT).show();
+                                sessionManager.addDetails(ads, mobile);
                                 Intent intent = new Intent(context, OrdersActivity.class);
                                 context.startActivity(intent);
                             }
@@ -98,7 +98,7 @@ public class CartPresenter {
                 Map<String, String> params = new HashMap<>();
                 params.put("delivery_address", ads);
                 params.put("coupon_code", coupon);
-                params.put("mobile", mobile);
+                params.put("contact_no", mobile);
                 return params;
             }
         };

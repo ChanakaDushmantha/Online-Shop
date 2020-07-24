@@ -81,7 +81,8 @@ public class ConfirmCharges extends BottomSheetDialogFragment implements View.On
                             getArguments().getString("Quantity1"),
                             getArguments().getString("Quantity2"),
                             getArguments().getString("Address"),
-                            getArguments().getString("Mobile"));
+                            getArguments().getString("Mobile"),
+                            getArguments().getString("Coupon"));
                 }
 
                 dismiss();

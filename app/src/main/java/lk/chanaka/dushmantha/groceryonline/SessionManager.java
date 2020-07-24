@@ -62,32 +62,21 @@ public class SessionManager {
         editor = sharedPreferences.edit();
     }
 
-    public void createSession(String name, String email, String address, String token){
+    public void createSession(String name, String email, String address, String token, String mobile){
 
         editor.putBoolean(LOGIN, true);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
         editor.putString(ADDRESS, address);
         editor.putString(TOKEN, token);
-        editor.putString(MOBILE, "0782425430");
+        editor.putString(MOBILE, mobile);
         editor.apply();
 
     }
 
-    public void createSession(String name, String email, String address, String token, String image_url){
 
-        editor.putBoolean(LOGIN, true);
-        editor.putString(NAME, name);
-        editor.putString(EMAIL, email);
-        editor.putString(ADDRESS, address);
-        editor.putString(TOKEN, token);
-        editor.putString(IMAGE, image_url);
-        editor.putString(MOBILE, "0782425430");
-        editor.apply();
 
-    }
-
-    public void createSession(String name, String email, String address, String token, String image_url, String reg_type){
+    public void createSession(String name, String email, String address, String token, String image_url, String reg_type, String mobile){
 
         editor.putBoolean(LOGIN, true);
         editor.putString(NAME, name);
@@ -96,7 +85,7 @@ public class SessionManager {
         editor.putString(TOKEN, token);
         editor.putString(IMAGE, image_url);
         editor.putString(REG_TYPE, reg_type);
-        editor.putString(MOBILE, "0782425430");
+        editor.putString(MOBILE, mobile);
         editor.apply();
 
     }
@@ -106,13 +95,25 @@ public class SessionManager {
         editor.apply();
     }
 
+    public void addDetails(String address, String mobile){
+
+        if(getAddress().equals("null")){
+            editor.putString(ADDRESS, address);
+        }
+        if(getMobile().equals("null")){
+            editor.putString(MOBILE, mobile);
+        }
+        editor.apply();
+
+    }
+
     public void addMobile(String number){
         editor.putString(MOBILE, number);
         editor.apply();
     }
 
     public String getMobile(){
-        return sharedPreferences.getString(MOBILE, null);
+        return sharedPreferences.getString(MOBILE, "null");
     }
 
     public void addImage(String image){
@@ -121,7 +122,7 @@ public class SessionManager {
     }
 
     public String getRegType(){
-        return sharedPreferences.getString(REG_TYPE, null);
+        return sharedPreferences.getString(REG_TYPE, "null");
     }
 
     public String getImage(){
@@ -135,17 +136,17 @@ public class SessionManager {
     }
 
     public String getAddress(){
-        String ads = sharedPreferences.getString(ADDRESS, null);
+        String ads = sharedPreferences.getString(ADDRESS, "null");
         return ads;
     }
 
     public String getName(){
-        String ads = sharedPreferences.getString(NAME, null);
+        String ads = sharedPreferences.getString(NAME, "Guest User");
         return ads;
     }
 
     public String getEmail(){
-        String ads = sharedPreferences.getString(EMAIL, null);
+        String ads = sharedPreferences.getString(EMAIL, "guestuser@user.com");
         return ads;
     }
     public boolean isShop(){

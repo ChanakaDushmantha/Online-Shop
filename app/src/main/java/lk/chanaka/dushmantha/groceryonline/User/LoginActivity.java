@@ -244,6 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                         String myAddress = "";
                         String image_url = null;
                         String reg_type = "";
+                        String mobile = "";
                         try{
                             JSONObject jsonObject = new JSONObject(response);
                              success = jsonObject.getString("success");
@@ -252,6 +253,7 @@ public class LoginActivity extends AppCompatActivity {
                              myName = data.getString("name");
                              myAddress = data.getString("address");
                              reg_type = data.getString("reg_type");
+                             mobile = data.getString("contact_no");
                             try {
                                 image_url = data.getString("image_url");
                             } catch (JSONException e) {
@@ -259,7 +261,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             if(success.equals("true")){
                                 Toast.makeText(LoginActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
-                                sessionManager.createSession(myName, email, myAddress, token, image_url, reg_type);
+                                sessionManager.createSession(myName, email, myAddress, token, image_url, reg_type, mobile);
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();

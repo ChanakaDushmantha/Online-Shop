@@ -209,8 +209,10 @@ public class ProfilePicture extends AppCompatActivity {
     private void setData(JSONObject data) {
         try {
             String image = data.getString("image_url");
-            if(!image.equals("null")){
-                Picasso.get().load(image).into(civProfile);
+            if (!image.isEmpty()) {
+                if(!image.equals("null")){
+                    Picasso.get().load(image).into(civProfile);
+                }
             }
 
         } catch (JSONException e) {

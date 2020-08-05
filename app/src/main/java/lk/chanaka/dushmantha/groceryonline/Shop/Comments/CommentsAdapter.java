@@ -40,8 +40,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         holder.ratingBar.setRating(comments.get(position).getRating());
         holder.comment.setText(comments.get(position).getComment());
         String image = comments.get(position).getImage_url();
-        if (!image.equals("null")) {
-            Picasso.get().load(image).into(holder.coverImage);
+        System.out.println(image+" image");
+        if (!image.isEmpty()) {
+            if (!image.equals("null")) {
+                Picasso.get().load(image).into(holder.coverImage);
+            }
         }
     }
 

@@ -69,7 +69,7 @@
         android:layout_marginBottom="70dp"
         android:background="@drawable/buttton_outline_white"
         android:onClick="forgotActivity"
-        android:text="  forget  "
+        android:text="  forgot  "
         android:textColor="@color/colorWhite"
         android:textSize="15sp" />
 

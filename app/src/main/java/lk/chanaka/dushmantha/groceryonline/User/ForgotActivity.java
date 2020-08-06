@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -37,29 +38,24 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 public class ForgotActivity extends AppCompatActivity {
-    private SessionManager sessionManager;
     private AwesomeValidation awesomeValidation;
     private EditText email, password;
-    private CardView reset;
-    private ProgressBar loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot);
         SetToolbar();
-        sessionManager = new SessionManager(this);
 
-        loading = findViewById(R.id.loading);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
-        reset = findViewById(R.id.reset);
 
         setValidation();
     }
@@ -81,8 +77,12 @@ public class ForgotActivity extends AppCompatActivity {
         String host = ((MyApp) this.getApplication()).getServiceURL();
         String URL = host+"/passwordReset";
         if(awesomeValidation.validate()){
-            loading.setVisibility(View.VISIBLE);
-            reset.setVisibility(View.INVISIBLE);
+
+            SweetAlertDialog pDialog = new SweetAlertDialog(ForgotActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Loading ...");
+            pDialog.setCancelable(false);
+            pDialog.show();
 
             final String email = this.email.getText().toString().trim();
             final String password = this.password.getText().toString().trim();
@@ -91,22 +91,31 @@ public class ForgotActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            pDialog.dismissWithAnimation();
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 String success =  jsonObject.getString("success");
 
                                 if(success.equals("true")){
-                                        String message =  jsonObject.getString("message");
-                                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                    String message =  jsonObject.getString("message");
+                                    SweetAlertDialog cDialog = new SweetAlertDialog(ForgotActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                    cDialog.setCancelable(false);
+                                    cDialog.setTitleText("Verification!")
+                                            .setContentText(message)
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            })
+                                            .show();
                                 }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                loading.setVisibility(View.GONE);
-                                reset.setVisibility(View.VISIBLE);
                             }
                         }
                     },
@@ -128,8 +137,7 @@ public class ForgotActivity extends AppCompatActivity {
                                 errorMsg = getString(R.string.parseError);
                             }
                             Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
-                            loading.setVisibility(View.GONE);
-                            reset.setVisibility(View.VISIBLE);
+                            pDialog.dismissWithAnimation();
 
                         }
                     })

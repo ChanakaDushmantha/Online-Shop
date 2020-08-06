@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +43,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.NetworkConnection;
@@ -218,8 +220,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void Regist(){
-        loading.setVisibility(View.VISIBLE);
-        btn_register.setVisibility(View.INVISIBLE);
+        /*loading.setVisibility(View.VISIBLE);
+        btn_register.setVisibility(View.INVISIBLE);*/
+        SweetAlertDialog pDialog = new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading ...");
+        pDialog.setCancelable(false);
+        pDialog.show();
 
         final String name = this.name.getText().toString().trim();
         final String email = this.email.getText().toString().trim();
@@ -244,17 +251,30 @@ public class RegisterActivity extends AppCompatActivity {
                                     finish();
                                 }
                                 else{
+                                    pDialog.dismissWithAnimation();
                                     /*JSONObject data = jsonObject.getJSONObject("data");
                                     String newtoken = data.getString("token");
                                     String reg_type = data.getString("reg_type");
                                     String mobile = data.getString("contact_no");
                                     sessionManager.createSession(name, email, address, newtoken, null, reg_type, mobile);*/
                                     String message =  jsonObject.getString("message");
-                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                                    System.out.println(message);
+
+                                    //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                    SweetAlertDialog cDialog = new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                    cDialog.setCancelable(false);
+                                    cDialog.setTitleText("Verification!")
+                                            .setContentText(message)
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            })
+                                            .show();
+
                                 }
                                 /*"success": true,
                                     "message": "Register Success, Please check your email to verify Your account",
@@ -266,8 +286,9 @@ public class RegisterActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Toast.makeText(RegisterActivity.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
 
-                            loading.setVisibility(View.GONE);
-                            btn_register.setVisibility(View.VISIBLE);
+                            /*loading.setVisibility(View.GONE);
+                            btn_register.setVisibility(View.VISIBLE);*/
+                            pDialog.dismissWithAnimation();
                         }
                     }
                 },
@@ -289,8 +310,9 @@ public class RegisterActivity extends AppCompatActivity {
                             errorMsg = getString(R.string.parseError);
                         }
                         Toast.makeText(RegisterActivity.this, errorMsg, Toast.LENGTH_LONG).show();
-                        loading.setVisibility(View.GONE);
-                        btn_register.setVisibility(View.VISIBLE);
+                        /*loading.setVisibility(View.GONE);
+                        btn_register.setVisibility(View.VISIBLE);*/
+                        pDialog.dismissWithAnimation();
 
                     }
                 })

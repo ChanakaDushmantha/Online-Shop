@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
@@ -54,10 +54,24 @@
         android:textColor="@color/loginText"
         android:textColorHint="@color/loginHint"
         android:inputType="textPassword"
-        android:layout_marginBottom="130dp"
-        android:layout_alignBottom="@+id/btn_login"
+        android:layout_marginBottom="100dp"
+        android:layout_above="@+id/btn_login"
         android:layout_alignLeft="@+id/email"
         android:layout_alignStart="@+id/email" />
+
+    <TextView
+        android:id="@+id/forgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_login"
+        android:layout_alignEnd="@+id/password"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/buttton_outline_white"
+        android:onClick="forgotActivity"
+        android:text="  forget  "
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btn_login"

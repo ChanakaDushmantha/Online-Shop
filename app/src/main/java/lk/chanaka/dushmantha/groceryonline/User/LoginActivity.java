@@ -287,7 +287,17 @@ public class LoginActivity extends AppCompatActivity {
                             errorMsg = getString(R.string.timeoutError);
                         } else if (error instanceof AuthFailureError) {
                             //Error indicating that there was an Authentication Failure while performing the request
-                            errorMsg = getString(R.string.authFailureErrorLogin);
+                            //errorMsg = getString(R.string.authFailureErrorLogin);
+                            try{
+                                String mBody = new String(error.networkResponse.data);
+                                JSONObject response = new JSONObject(mBody);
+                                errorMsg = response.getString("message");
+
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                            //Log.d("msg", msg);
+
                         } else if (error instanceof ServerError) {
                             //Indicates that the server responded with a error response
                             errorMsg = getString(R.string.serverError);
@@ -342,37 +352,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    public void forgotActivity(View view) {
+        Intent intent = new Intent(LoginActivity.this, ForgotActivity.class);
+        startActivity(intent);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

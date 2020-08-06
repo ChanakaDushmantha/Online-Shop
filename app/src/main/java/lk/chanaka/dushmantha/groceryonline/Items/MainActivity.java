@@ -177,11 +177,13 @@ public class MainActivity extends AppCompatActivity {
         nav_email.setText(sessionManager.getEmail());
         String image = "";
         image = sessionManager.getImage();
-        Log.d("image", imageView.toString());
+        //Log.d("image", image);
 
         if(image!=null){
             if(!image.equals("")){
-                Picasso.get().load(image).into(imageView);
+                if (!image.equals("null")) {
+                    Picasso.get().load(image).into(imageView);
+                }
             }
         }
 

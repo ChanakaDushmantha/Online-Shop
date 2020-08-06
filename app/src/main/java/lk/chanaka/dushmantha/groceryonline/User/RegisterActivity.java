@@ -7,10 +7,9 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.text.InputType;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -33,9 +34,11 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -233,25 +236,29 @@ public class RegisterActivity extends AppCompatActivity {
                             String success =  jsonObject.getString("success");
 
                             if(success.equals("true")){
-                                Toast.makeText(RegisterActivity.this, "RegisterActivity Success!", Toast.LENGTH_SHORT).show();
 
                                 if(update){
                                     sessionManager.createSession(name, email, address, token, mobile);
                                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                    //intent.putExtra("UPDATE", true);
                                     startActivity(intent);
                                     finish();
                                 }
                                 else{
-                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    /*JSONObject data = jsonObject.getJSONObject("data");
                                     String newtoken = data.getString("token");
                                     String reg_type = data.getString("reg_type");
                                     String mobile = data.getString("contact_no");
-                                    sessionManager.createSession(name, email, address, newtoken, null, reg_type, mobile);
-                                    Intent intent = new Intent(RegisterActivity.this, ProfilePicture.class);
+                                    sessionManager.createSession(name, email, address, newtoken, null, reg_type, mobile);*/
+                                    String message =  jsonObject.getString("message");
+                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                     finish();
+                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                    System.out.println(message);
                                 }
+                                /*"success": true,
+                                    "message": "Register Success, Please check your email to verify Your account",
+                                    "data": null*/
 
 
                             }
@@ -286,7 +293,16 @@ public class RegisterActivity extends AppCompatActivity {
                         btn_register.setVisibility(View.VISIBLE);
 
                     }
-                }) {
+                })
+        {
+            /*@Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                int mStatusCode = response.statusCode;
+                Log.d("status", String.valueOf(mStatusCode));
+                System.out.println("status");
+                return super.parseNetworkResponse(response);
+            }*/
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -307,6 +323,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(  //5s need, without this TimeOut Error
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }

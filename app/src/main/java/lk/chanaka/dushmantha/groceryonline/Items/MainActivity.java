@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         shimmerItem = findViewById(R.id.shimmerItem);
 
         groceryItems = new ArrayList<>();
-        extractItems();
+        //extractItems();
 
     }
 
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }*/
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return true;
-    }
+    }*/
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -328,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
@@ -336,6 +336,6 @@ public class MainActivity extends AppCompatActivity {
             return  true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 }

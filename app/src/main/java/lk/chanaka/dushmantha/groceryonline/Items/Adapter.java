@@ -21,7 +21,7 @@ import java.util.List;
 import lk.chanaka.dushmantha.groceryonline.ItemDetails.Item;
 import lk.chanaka.dushmantha.groceryonline.R;
 
-class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filterable {
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filterable {
     LayoutInflater inflater;
     java.util.List<GroceryItem> groceryItems;
     private List<GroceryItem> getGroceryItemListFiltered;

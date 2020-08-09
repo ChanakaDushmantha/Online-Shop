@@ -56,9 +56,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ItemDetails.Item" />
         <activity
-            android:name=".Items.List"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".Shop.ShopActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

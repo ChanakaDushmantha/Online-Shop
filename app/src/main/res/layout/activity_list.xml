@@ -8,45 +8,15 @@
     android:weightSum="9"
     android:background="@drawable/gradient"
     android:layout_height="match_parent"
-    tools:context=".Items.List">
-
-    <!--<LinearLayout
-        android:layout_weight="0.85"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:theme="@style/ToolBar"
-            android:layout_height="?attr/actionBarSize">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Grocery Online"
-                android:textStyle="bold"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                />
-        </androidx.appcompat.widget.Toolbar>
-    </LinearLayout>-->
-
+    tools:context=".Items.MainActivity">
 
     <LinearLayout
         android:layout_weight="9"
         android:layout_width="match_parent"
         android:padding="10dp"
         android:background="@drawable/list_bg"
-        android:layout_height="0dp">
-
-        <include android:id="@+id/shimmerItem"
-        layout="@layout/custom_item_shimmer" />
-        <ImageView
-            android:id="@+id/emptycart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/emptycart"
-            android:visibility="gone"/>
+        android:layout_height="0dp"
+        android:orientation="horizontal">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemList2"
@@ -55,35 +25,5 @@
             android:layout_marginTop="3dp"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    <!--<LinearLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:padding="10dp"
-        android:layout_height="0dp">
-
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="order"
-            android:layout_weight="0"
-            android:text="order" />
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:onClick="logout"
-            android:text="logout" />
-        <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:onClick="cart"
-        android:text="Cart" />
-    </LinearLayout>-->
 
 </LinearLayout>

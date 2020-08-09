@@ -45,7 +45,7 @@
             android:id="@+id/emptycart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/emptycart"
+            app:srcCompat="@drawable/empty_cart"
             android:visibility="gone"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/OrderList"

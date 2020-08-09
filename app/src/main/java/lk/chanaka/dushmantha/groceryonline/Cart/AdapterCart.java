@@ -21,13 +21,11 @@ import lk.chanaka.dushmantha.groceryonline.R;
 public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
     private LayoutInflater inflater;
     private List<Cart> cartItems;
-    private String host, token;
+    //private String host, token;
 
-    AdapterCart(Context ctx, List<Cart> cartItems, String host, String token){
+    AdapterCart(Context ctx, List<Cart> cartItems){
         this.inflater = LayoutInflater.from(ctx);
         this.cartItems = cartItems;
-        this.host = host;
-        this.token = token;
     }
 
     @NonNull

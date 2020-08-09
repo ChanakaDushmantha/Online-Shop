@@ -4,25 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -35,17 +19,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -58,15 +35,8 @@ import lk.chanaka.dushmantha.groceryonline.SessionManager;
 import lk.chanaka.dushmantha.groceryonline.Shop.ShopActivity;
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    java.util.List<GroceryItem> groceryItems;
-    private static String URL;
-    private String host;
     private SessionManager sessionManager;
-    lk.chanaka.dushmantha.groceryonline.Items.Adapter adapter;
-    View shimmerItem;
     NavigationView navigationView;
-    private ImageView emptycart;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -76,9 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        emptycart = findViewById(R.id.emptycart);
 
-        host = ((MyApp) this.getApplication()).getServiceURL();
         sessionManager = new SessionManager(this);
 
         /*FloatingActionButton fab = findViewById(R.id.fab);
@@ -94,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
+                R.id.nav_home, R.id.nav_cart, R.id.nav_slideshow,
                 R.id.nav_tools, R.id.nav_user, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
@@ -156,16 +124,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, ShopActivity.class));
             finish();
         }
-
-        String shopid = sessionManager.getShopId();
-        URL = host+"/getAllItem/"+shopid;
-
-        recyclerView = findViewById(R.id.itemList2);
-        shimmerItem = findViewById(R.id.shimmerItem);
-
-        groceryItems = new ArrayList<>();
-        //extractItems();
-
     }
 
     private void setUserDetails() {
@@ -197,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void extractItems() {
+    /*private void extractItems() {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
@@ -249,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Toast.makeText(MainActivity.this, errorMsg, Toast.LENGTH_LONG).show();
             }
-        }) /*{
+        }) *//*{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -257,12 +215,12 @@ public class MainActivity extends AppCompatActivity {
                 //System.out.println(token);
                 return params;
             }
-        }*/;
+        }*//*;
 
         queue.add(stringRequest);
 
-    }
-    private void setAdaptor(JSONArray data){
+    }*/
+    /*private void setAdaptor(JSONArray data){
 
         for (int i = 0; i < data.length(); i++) {
             try {
@@ -282,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error 3"+e.toString(), Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
     /*public void logout(View view) {
         sessionManager.logout();
     }

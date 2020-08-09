@@ -47,7 +47,7 @@ import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 
 public class CartActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
+    /*RecyclerView recyclerView;
     private String host, token, URL;
     SessionManager sessionManager;
     ArrayList<Cart> cartItems;
@@ -104,7 +104,7 @@ public class CartActivity extends AppCompatActivity {
                             Toast.makeText(CartActivity.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
                         }
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        AdapterCart adapter = new AdapterCart(getApplicationContext(),cartItems, host, token);
+                        AdapterCart adapter = new AdapterCart(getApplicationContext(),cartItems);
                         recyclerView.setAdapter(adapter);
 
                     }
@@ -160,7 +160,7 @@ public class CartActivity extends AppCompatActivity {
                 cart.setDiscount(item.getString("discount".toString()));
                 cart.setTotal(item.getString("total").toString());
                 cartItems.add(cart);
-                /*{
+                {
         "delivery_charge": "50.00",
         "cart_total": 165,
         "net_total": 215,
@@ -186,7 +186,7 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         ]
-    }*/
+    }
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -244,5 +244,5 @@ public class CartActivity extends AppCompatActivity {
 
         dialogFragment.setArguments(args);
         dialogFragment.show(ft, "dialog");
-    }
+    }*/
 }

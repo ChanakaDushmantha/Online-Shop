@@ -11,11 +11,11 @@
         <item
             android:id="@+id/ordersActivity"
             android:icon="@drawable/ic_autorenew_black_24dp"
-            android:title="@string/menu_gallery" />
+            android:title="@string/menu_orders" />
         <item
-            android:id="@+id/cartActivity"
+            android:id="@+id/nav_cart"
             android:icon="@drawable/ic_shopping_cart_black_24dp"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/menu_cart" />
     </group>
 
 
@@ -48,10 +48,6 @@
                 android:id="@+id/nav_call"
                 android:icon="@drawable/ic_phone_forwarded_black_24dp"
                 android:title="Call us" />
-            <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_phone_forwarded_black_24dp"
-            android:title="Call us" />
         </menu>
     </item>
 </menu>

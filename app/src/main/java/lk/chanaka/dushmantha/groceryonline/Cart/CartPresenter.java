@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lk.chanaka.dushmantha.groceryonline.Items.ItemsView;
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
-import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
@@ -58,67 +58,69 @@ public class CartPresenter {
     }
 
     public void extractItems() {
-        String shopid = sessionManager.getShopId();
-        String URL = host+"/getAllCartItems/"+shopid;
-        RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try{
-                            JSONObject jsonObject = new JSONObject(response);
-                            String success = jsonObject.getString("success");
-                            JSONObject data = jsonObject.getJSONObject("data");
-                            JSONArray carts = data.getJSONArray("carts");
+        if (sessionManager.isLogin()) {
+            String shopid = sessionManager.getShopId();
+            String URL = host+"/getAllCartItems/"+shopid;
+            RequestQueue queue = Volley.newRequestQueue(context);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try{
+                                JSONObject jsonObject = new JSONObject(response);
+                                String success = jsonObject.getString("success");
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                JSONArray carts = data.getJSONArray("carts");
 
-                            if(success.equals("true")){
-                                if(carts.length()==0){
-                                    view.showEmpty();
-                                    Toast.makeText(context, "Cart list Empty!", Toast.LENGTH_LONG).show();
-                                }else{
-                                    view.setAdaptor(carts);
-                                    view.parseData(data);
+                                if(success.equals("true")){
+                                    if(carts.length()==0){
+                                        view.showEmpty();
+                                        //Toast.makeText(context, "Cart list Empty!", Toast.LENGTH_LONG).show();
+                                    }else{
+                                        view.setAdaptor(carts);
+                                        view.parseData(data);
+                                    }
                                 }
                             }
-                        }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        /*recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        AdapterCart adapter = new AdapterCart(getApplicationContext(),cartItems, host, token);
-                        recyclerView.setAdapter(adapter);*/
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            /*recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            AdapterCart adapter = new AdapterCart(getApplicationContext(),cartItems, host, token);
+                            recyclerView.setAdapter(adapter);*/
 
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    String errorMsg = "Error";
+                    if (error instanceof NoConnectionError) {
+                        errorMsg = context.getString(R.string.noConnectionError);
+                    } else if (error instanceof TimeoutError) {
+                        errorMsg = context.getString(R.string.timeoutError);
+                    } else if (error instanceof AuthFailureError) {
+                        errorMsg = context.getString(R.string.authFailureError);
+                    } else if (error instanceof ServerError) {
+                        errorMsg = context.getString(R.string.serverError);
+                    } else if (error instanceof NetworkError) {
+                        errorMsg = context.getString(R.string.networkError);
+                    } else if (error instanceof ParseError) {
+                        errorMsg = context.getString(R.string.parseError);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String errorMsg = "Error";
-                if (error instanceof NoConnectionError) {
-                    errorMsg = context.getString(R.string.noConnectionError);
-                } else if (error instanceof TimeoutError) {
-                    errorMsg = context.getString(R.string.timeoutError);
-                } else if (error instanceof AuthFailureError) {
-                    errorMsg = context.getString(R.string.authFailureError);
-                } else if (error instanceof ServerError) {
-                    errorMsg = context.getString(R.string.serverError);
-                } else if (error instanceof NetworkError) {
-                    errorMsg = context.getString(R.string.networkError);
-                } else if (error instanceof ParseError) {
-                    errorMsg = context.getString(R.string.parseError);
+                    Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("Authorization", "Bearer " + token);
-                //System.out.println(token);
-                return params;
-            }
-        };
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Authorization", "Bearer " + token);
+                    //System.out.println(token);
+                    return params;
+                }
+            };
 
-        queue.add(stringRequest);
+            queue.add(stringRequest);
+        }
 
     }
 
@@ -136,7 +138,7 @@ public class CartPresenter {
                             if(success.equals("true")){
                                 Toast.makeText(context, "Ordered Successfully!", Toast.LENGTH_SHORT).show();
                                 sessionManager.addDetails(ads, mobile);
-                                Intent intent = new Intent(context, OrdersActivity.class);
+                                Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
                             }
                         } catch (JSONException e) {

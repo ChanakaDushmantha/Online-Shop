@@ -1,5 +1,6 @@
 package lk.chanaka.dushmantha.groceryonline.OrderList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.OrderItems.OrderItemsActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 
@@ -43,16 +45,14 @@ import lk.chanaka.dushmantha.groceryonline.R;
 public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> {
     private LayoutInflater inflater;
     private java.util.List<OrderItem> orderItems;
-    private String host, token;
+    private Activity activity;
     private Context context;
-    View view;
 
-    AdapterOrder(Context ctx, List<OrderItem> orderItems, String host, String token){
+    AdapterOrder(Context ctx, Activity activity, List<OrderItem> orderItems){
         this.inflater = LayoutInflater.from(ctx);
         this.orderItems = orderItems;
-        this.host = host;
-        this.token = token;
         this.context = ctx;
+        this.activity = activity;
     }
 
     @NonNull
@@ -108,7 +108,9 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
                 public void onClick(View v) {
                     orderItems.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
-                    cancelOrder(orderId.getText().toString());
+                    //cancelOrder(orderId.getText().toString());
+                    OrderListPesenter orderListPesenter = new OrderListPesenter(inflater.getContext());
+                    orderListPesenter.cancelOrder(orderId.getText().toString());
                     /*int position = getAdapterPosition();
                     String id = groceryItems.get(position).getId();
 
@@ -131,8 +133,8 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
             feedback.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction ft = ((OrdersActivity)context).getSupportFragmentManager().beginTransaction();
-                    Fragment prev = ((OrdersActivity)context).getSupportFragmentManager().findFragmentByTag("dialog");
+                    FragmentTransaction ft = ((MainActivity)activity).getSupportFragmentManager().beginTransaction();
+                    Fragment prev = ((MainActivity)activity).getSupportFragmentManager().findFragmentByTag("dialog");
                     if (prev != null) {
 
                         ft.remove(prev);
@@ -149,57 +151,6 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.ViewHolder> 
                 }
             });
         }
-    }
-
-    private void cancelOrder(String orderId) {
-        RequestQueue queue = Volley.newRequestQueue(inflater.getContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, host+"/cancelOrder/"+orderId,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try{
-                            JSONObject jsonObject = new JSONObject(response);
-                            String success = jsonObject.getString("success");
-
-                            if(success.equals("true")){
-                                Toast.makeText(inflater.getContext(), "Order cancel successfully", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(inflater.getContext(), "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String errorMsg = "Error";
-                if (error instanceof NoConnectionError) {
-                    errorMsg = inflater.getContext().getString(R.string.noConnectionError);
-                } else if (error instanceof TimeoutError) {
-                    errorMsg = inflater.getContext().getString(R.string.timeoutError);
-                } else if (error instanceof AuthFailureError) {
-                    errorMsg = inflater.getContext().getString(R.string.authFailureError);
-                } else if (error instanceof ServerError) {
-                    errorMsg = inflater.getContext().getString(R.string.serverError);
-                } else if (error instanceof NetworkError) {
-                    errorMsg = inflater.getContext().getString(R.string.networkError);
-                } else if (error instanceof ParseError) {
-                    errorMsg = inflater.getContext().getString(R.string.parseError);
-                }
-                Toast.makeText(inflater.getContext(), errorMsg, Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("Authorization", "Bearer " + token);
-                //System.out.println(token);
-                return params;
-            }
-        };
-
-        queue.add(stringRequest);
     }
 
 }

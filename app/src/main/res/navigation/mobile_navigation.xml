@@ -9,7 +9,11 @@
         android:id="@+id/nav_home"
         android:name="lk.chanaka.dushmantha.groceryonline.Items.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_order_list"
+            app:destination="@id/nav_order_list" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_cart"
@@ -18,10 +22,10 @@
         tools:layout="@layout/fragment_cart" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="lk.chanaka.dushmantha.groceryonline.Items.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_cart"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_order_list"
+        android:name="lk.chanaka.dushmantha.groceryonline.OrderList.OrdersFragment"
+        android:label="@string/menu_orders"
+        tools:layout="@layout/fragment_orders" />
 
     <fragment
         android:id="@+id/nav_tools"
@@ -37,19 +41,11 @@
 
     <fragment
         android:id="@+id/nav_send"
-        android:name="lk.chanaka.dushmantha.groceryonline.Items.ui.send.SendFragment"
+        android:name="lk.chanaka.dushmantha.groceryonline.OrderList.OrdersFragment"
         android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
-    <activity
-        android:id="@+id/ordersActivity"
-        android:name="lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity"
-        android:label="OrdersActivity" />
+        tools:layout="@layout/fragment_orders" />
     <activity
         android:id="@+id/shops"
         android:name="lk.chanaka.dushmantha.groceryonline.Shop.ShopActivity"
         android:label="Shops" />
-    <activity
-        android:id="@+id/cartActivity"
-        android:name="lk.chanaka.dushmantha.groceryonline.Cart.CartActivity"
-        android:label="CartActivity" />
 </navigation>

@@ -342,9 +342,9 @@ public class LoginActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                /*onBackPressed();
+                //onBackPressed();
                 Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);*/
+                startActivity(intent);
                 finish();
                 return true;
             default:

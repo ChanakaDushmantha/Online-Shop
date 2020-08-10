@@ -50,7 +50,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OrderList.OrdersActivity" />
         <activity
             android:name=".ItemQuantity.QuantityActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -74,7 +73,6 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".OrderItems.OrderItemsActivity" />
-        <activity android:name=".Cart.CartActivity" />
     </application>
 
 </manifest>

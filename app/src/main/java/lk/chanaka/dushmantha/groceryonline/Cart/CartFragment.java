@@ -100,7 +100,7 @@ public class CartFragment extends Fragment implements CartView {
     @Override
     public void showEmpty() {
         emptyCart.setVisibility(View.VISIBLE);
-        linearLayout.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.GONE);
     }
 
     @Override

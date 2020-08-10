@@ -56,7 +56,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.NetworkConnection;
-import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 import lk.chanaka.dushmantha.groceryonline.Shop.ShopActivity;
@@ -153,57 +152,59 @@ public class ProfilePicture extends AppCompatActivity {
     }
 
     private void extractData() {
-        String URLuserProofile = host + "/userProfile";
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLuserProofile,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try{
-                            JSONObject jsonObject = new JSONObject(response);
-                            String success = jsonObject.getString("success");
-                            JSONObject data = jsonObject.getJSONObject("data");
+        if (sessionManager.isLogin()) {
+            String URLuserProofile = host + "/userProfile";
+            RequestQueue queue = Volley.newRequestQueue(this);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, URLuserProofile,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try{
+                                JSONObject jsonObject = new JSONObject(response);
+                                String success = jsonObject.getString("success");
+                                JSONObject data = jsonObject.getJSONObject("data");
 
-                            if(success.equals("true")){
-                                setData(data);
+                                if(success.equals("true")){
+                                    setData(data);
+                                }
                             }
-                        }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(ProfilePicture.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
-                        }
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(ProfilePicture.this, "RegisterActivity Error 1 ! "+e.toString(), Toast.LENGTH_LONG).show();
+                            }
 
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    String errorMsg = "Error";
+                    if (error instanceof NoConnectionError) {
+                        errorMsg = getString(R.string.noConnectionError);
+                    } else if (error instanceof TimeoutError) {
+                        errorMsg = getString(R.string.timeoutError);
+                    } else if (error instanceof AuthFailureError) {
+                        errorMsg = getString(R.string.authFailureError);
+                    } else if (error instanceof ServerError) {
+                        errorMsg = getString(R.string.serverError);
+                    } else if (error instanceof NetworkError) {
+                        errorMsg = getString(R.string.networkError);
+                    } else if (error instanceof ParseError) {
+                        errorMsg = getString(R.string.parseError);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String errorMsg = "Error";
-                if (error instanceof NoConnectionError) {
-                    errorMsg = getString(R.string.noConnectionError);
-                } else if (error instanceof TimeoutError) {
-                    errorMsg = getString(R.string.timeoutError);
-                } else if (error instanceof AuthFailureError) {
-                    errorMsg = getString(R.string.authFailureError);
-                } else if (error instanceof ServerError) {
-                    errorMsg = getString(R.string.serverError);
-                } else if (error instanceof NetworkError) {
-                    errorMsg = getString(R.string.networkError);
-                } else if (error instanceof ParseError) {
-                    errorMsg = getString(R.string.parseError);
+                    Toast.makeText(ProfilePicture.this, errorMsg, Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(ProfilePicture.this, errorMsg, Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("Authorization", "Bearer " + token);
-                //System.out.println(token);
-                return params;
-            }
-        };
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Authorization", "Bearer " + token);
+                    //System.out.println(token);
+                    return params;
+                }
+            };
 
-        queue.add(stringRequest);
+            queue.add(stringRequest);
+        }
     }
 
     private void setData(JSONObject data) {

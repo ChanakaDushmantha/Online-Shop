@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 import com.travijuu.numberpicker.library.Enums.ActionEnum;
@@ -71,7 +72,7 @@ public class QuantityActivity extends AppCompatActivity {
         setItem();
 
         sessionManager = new SessionManager(this);
-        sessionManager.checkLogin();
+
         ads = sessionManager.getAddress();
         if(!ads.equals("null")){
             myAddress.setText(ads);
@@ -139,6 +140,7 @@ public class QuantityActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
     }
+
 
     private void setItem() {
 

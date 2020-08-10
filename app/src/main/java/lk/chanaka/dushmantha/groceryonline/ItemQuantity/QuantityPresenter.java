@@ -1,6 +1,7 @@
 package lk.chanaka.dushmantha.groceryonline.ItemQuantity;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -30,8 +32,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
-import lk.chanaka.dushmantha.groceryonline.OrderList.OrdersActivity;
 import lk.chanaka.dushmantha.groceryonline.R;
 import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
@@ -130,7 +132,7 @@ public class QuantityPresenter {
                                 Toast.makeText(context, "Order Success!", Toast.LENGTH_SHORT).show();
                                 sessionManager.addDetails(address, mobile);
 
-                                Intent intent = new Intent(context, OrdersActivity.class);
+                                Intent intent = new Intent(context, MainActivity.class);
                                 context.startActivity(intent);
                             }
                         } catch (JSONException e) {
@@ -198,9 +200,9 @@ public class QuantityPresenter {
                                 Toast.makeText(context, "Add to Cart Successfully!", Toast.LENGTH_SHORT).show();
 
                                 /*Intent intent = new Intent(context, OrdersActivity.class);
-                                context.startActivity(intent);
+                                context.startActivity(intent);*/
                                 Activity activity = (Activity) context;
-                                activity.finish();*/
+                                activity.finish();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 
@@ -25,6 +26,7 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +36,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
+import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.Shop.ShopActivity;
 import lk.chanaka.dushmantha.groceryonline.User.LoginActivity;
 
@@ -167,6 +170,22 @@ public class SessionManager {
         }
     }
 
+    public boolean checkLoginSnack(View view){
+
+        if (!this.isLogin()){
+            Snackbar.make(view,"Please login with your account", Snackbar.LENGTH_LONG)
+                    .setAction("DISMISS", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                        }
+                    })
+                    .show();
+            return false;
+        }else {
+            return true;
+        }
+    }
+
     public String getToken(){
         String token = sharedPreferences.getString(TOKEN, null);
         return token;
@@ -210,11 +229,11 @@ public class SessionManager {
                             if(success.equals("true")){
                                 editor.clear();
                                 editor.commit();
-                                Intent i = new Intent(context, LoginActivity.class);
+                                Intent i = new Intent(context, MainActivity.class);
                                 context.startActivity(i);
-                                /*Activity activity = (Activity) context;
-                                activity.finish();*/
-                                Log.d("OUT", "log out");
+                                Activity activity = (Activity) context;
+                                activity.finish();
+                                //Log.d("OUT", "log out");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -108,6 +108,19 @@ public class RegisterActivity extends AppCompatActivity {
                 findViewById(R.id.c_password).setVisibility(View.INVISIBLE);
             }
 
+            if(sessionManager.getRegType().equals("mobile")){
+                mobile.setFocusable(false);
+                mobile.setEnabled(true);
+                mobile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(RegisterActivity.this, "You are using Mobile Number Login", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                password.setVisibility(View.INVISIBLE);
+                findViewById(R.id.c_password).setVisibility(View.INVISIBLE);
+            }
+
             if(sessionManager.getRegType().equals("app")){
                 awesomeValidation.addValidation(this, R.id.password, "[A-Za-z0-9\\.]{6,}", R.string.passworderror);
                 awesomeValidation.addValidation(this, R.id.c_password, R.id.password, R.string.err_password_confirmation);

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -105,8 +106,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        otpLogin();
         googleSignIn();
         facebookLogin();
+    }
+
+    private void otpLogin() {
+        Button btnOtp = findViewById(R.id.btnOtp);
+        btnOtp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), OtpActivity.class));
+                //finish();
+            }
+        });
     }
 
     private void facebookLogin() {

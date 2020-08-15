@@ -133,6 +133,10 @@ public class MainActivity extends AppCompatActivity {
 
         nav_name.setText(sessionManager.getName());
         nav_email.setText(sessionManager.getEmail());
+        if(sessionManager.getRegType().equals("otp")){
+            nav_email.setText(sessionManager.getMobile());
+        }
+
         String image = "";
         image = sessionManager.getImage();
         //Log.d("image", image);

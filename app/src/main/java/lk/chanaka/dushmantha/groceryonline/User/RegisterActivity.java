@@ -108,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
                 findViewById(R.id.c_password).setVisibility(View.INVISIBLE);
             }
 
-            if(sessionManager.getRegType().equals("mobile")){
+            if(sessionManager.getRegType().equals("otp")){
                 mobile.setFocusable(false);
                 mobile.setEnabled(true);
                 mobile.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
                 password.setVisibility(View.INVISIBLE);
+                email.setVisibility(View.INVISIBLE);
                 findViewById(R.id.c_password).setVisibility(View.INVISIBLE);
             }
 
@@ -208,7 +209,10 @@ public class RegisterActivity extends AppCompatActivity {
     private void setData(JSONObject data) {
         try {
             this.name.setText(data.getString("name"));
-            this.email.setText(data.getString("email"));
+
+            if(!data.getString("email").equals("null")){
+                this.email.setText(data.getString("email"));
+            }
             if(!data.getString("address").equals("null")){
                 this.address.setText(data.getString("address"));
             }
@@ -258,6 +262,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if(success.equals("true")){
 
                                 if(update){
+                                    pDialog.dismissWithAnimation();
                                     sessionManager.createSession(name, email, address, token, mobile);
                                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                     startActivity(intent);

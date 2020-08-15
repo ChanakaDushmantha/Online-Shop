@@ -38,6 +38,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.chanaka.dushmantha.groceryonline.Items.MainActivity;
 import lk.chanaka.dushmantha.groceryonline.MyApp;
 import lk.chanaka.dushmantha.groceryonline.R;
+import lk.chanaka.dushmantha.groceryonline.SessionManager;
 
 public class OtpVerifyActivity extends AppCompatActivity {
     private EditText otp1, otp2, otp3, otp4;
@@ -146,11 +147,47 @@ public class OtpVerifyActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            /*"success": true,
+                                "message": "Verification Success",
+                                "data": {
+                                    "name": "Vihanga Gimhan",
+                                    "contact_no": "0710390283",
+                                    "reg_type": "otp",
+                                    "image_url": null,
+                                    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUz"*/
+                            SessionManager sessionManager = new SessionManager(getApplicationContext());
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 String success = jsonObject.getString("success");
+                                JSONObject data = jsonObject.getJSONObject("data");
+                                String name = data.getString("name");
+                                String contact_no = data.getString("contact_no");
+                                String reg_type = data.getString("reg_type");
+                                String image_url = data.getString("image_url");
+                                String token = data.getString("token");
+
+                                sessionManager.createSession(name, null, null, token, image_url, reg_type, contact_no);
 
                                 if (success.equals("true")) {
+                                    pDialog.dismissWithAnimation();
+
+                                    String message = jsonObject.getString("message");
+                                    SweetAlertDialog cDialog = new SweetAlertDialog(OtpVerifyActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                    cDialog.setCancelable(false);
+                                    cDialog.setTitleText("Verification!")
+                                            .setContentText(message)
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            })
+                                            .show();
+                                }
+                                else{
                                     pDialog.dismissWithAnimation();
 
                                     String message = jsonObject.getString("message");
@@ -162,7 +199,7 @@ public class OtpVerifyActivity extends AppCompatActivity {
                                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                                 @Override
                                                 public void onClick(SweetAlertDialog sDialog) {
-                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                    Intent intent = new Intent(getApplicationContext(), OtpActivity.class);
                                                     startActivity(intent);
                                                     finish();
                                                 }

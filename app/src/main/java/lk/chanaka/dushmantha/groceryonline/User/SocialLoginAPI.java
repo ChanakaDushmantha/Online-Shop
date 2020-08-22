@@ -90,8 +90,8 @@ public class SocialLoginAPI {
                 params.put("provider", String.valueOf(provider));
                 params.put("provider_user_id", provider_user_id);
                 params.put("provider_token", provider_token);
-                /*System.out.println(String.valueOf(feedback_rate));
-                System.out.println(feedback_comment);*/
+                //System.out.println(provider_user_id);
+                //System.out.println(provider_token);
                 return params;
             }
         };
@@ -119,7 +119,7 @@ public class SocialLoginAPI {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("token", token);
+        //Log.d("token", token);
         sessionManager.createSession(name, email, address, token, image_url, reg_type, contact_no);
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);

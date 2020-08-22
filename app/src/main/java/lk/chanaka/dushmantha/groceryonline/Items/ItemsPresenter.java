@@ -1,6 +1,7 @@
 package lk.chanaka.dushmantha.groceryonline.Items;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class ItemsPresenter {
                             JSONObject jsonObject = new JSONObject(response);
                             String success = jsonObject.getString("success");
                             JSONArray data = jsonObject.getJSONArray("data");
+                            //Log.d("txt", data.toString());
 
                             if(success.equals("true")){
                                 //Toast.makeText(List.this, "list Success!", Toast.LENGTH_SHORT).show();
